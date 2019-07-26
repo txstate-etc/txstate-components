@@ -1,0 +1,11 @@
+version: '3'
+services:
+  txstate-storybook:
+    container_name: txstate-storybook
+    build:
+      context: .
+    ports: 
+      - 9009:9009
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./.storybook:/usr/src/app/.storybook
