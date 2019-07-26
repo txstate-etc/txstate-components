@@ -1,9 +1,9 @@
 {
   "name": "txstate-react",
   "version": "0.2.0",
-  "homepage": "https://ajthyng.github.io/txstate-react/",
+  "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
-    "url": "https://github.com/ajthyng/txstate-react"
+    "url": "https://github.com/txstate-etc/txstate-components"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

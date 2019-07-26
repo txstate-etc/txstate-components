@@ -46,3 +46,4 @@ Build A New Version
 2. You can either publish the new version, or use it locally:
     * To use locally, run `npm pack` and install the `.tgz` file it generates as a dependency in your project.
     * To publish the package, learn how to publish a package and then write these instructions.
+3. When making a commit to the master branch, travis CI will automatically build the library and deploy it to https://txstate-etc.github.io/txstate-components/
