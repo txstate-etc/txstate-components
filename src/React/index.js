@@ -1,5 +1,0 @@
-export { Button } from './Button'
-export { Theme } from './Theme'
-export { Stack } from './Stack'
-export { List } from './List'
-export { Text } from './Text'
