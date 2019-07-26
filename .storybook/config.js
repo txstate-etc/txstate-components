@@ -1,7 +1,7 @@
 import { configure, addDecorator } from '@storybook/react'
 import { withA11y } from '@storybook/addon-a11y'
 import { ThemeProvider } from 'styled-components'
-import { defaultTheme } from '../src/React'
+import { Theme } from '../src/React'
 import React from 'react'
 
 function loadStories() {
