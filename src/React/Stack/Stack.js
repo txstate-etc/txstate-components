@@ -24,8 +24,8 @@ export const Stack = props => {
     className
   } = props
 
-  const children = React.Children.map(props.children, child => {
-    return <div style={{ margin: spacing / 2 || 0 }}>{child}</div>
+  const children = React.Children.map(props.children, (child, index) => {
+    return <div key={index} style={{ margin: spacing / 2 || 0 }}>{child}</div>
   })
 
   return React.createElement(
