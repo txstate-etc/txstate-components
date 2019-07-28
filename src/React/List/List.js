@@ -1,5 +1,10 @@
 import React, { useReducer, useEffect } from 'react'
 import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList'
+import { setIconOptions } from 'office-ui-fabric-react/lib/Styling'
+
+setIconOptions({
+  disableWarnings: true
+})
 
 function listReducer (state, action) {
   switch (action.type) {
@@ -39,9 +44,12 @@ export const List = props => {
     loading: true
   })
 
-  useEffect(() => {
-    getData(dataSource, dispatch)
-  }, [getData, dataSource])
+  useEffect(
+    () => {
+      getData(dataSource, dispatch)
+    },
+    [getData, dataSource]
+  )
 
   return (
     <ShimmeredDetailsList

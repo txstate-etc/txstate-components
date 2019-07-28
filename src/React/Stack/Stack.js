@@ -25,7 +25,11 @@ export const Stack = props => {
   } = props
 
   const children = React.Children.map(props.children, (child, index) => {
-    return <div key={index} style={{ margin: spacing / 2 || 0 }}>{child}</div>
+    return (
+      <div key={index} style={{ margin: spacing / 2 || 0 }}>
+        {child}
+      </div>
+    )
   })
 
   return React.createElement(
@@ -49,7 +53,14 @@ export const Stack = props => {
 }
 
 Stack.propTypes = {
-  verticalAlign: PropTypes.oneOf(['start', 'center', 'end', 'even', 'between']),
+  verticalAlign: PropTypes.oneOf([
+    'start',
+    'center',
+    'end',
+    'even',
+    'between',
+    'around'
+  ]),
   horizontalAlign: PropTypes.oneOf([
     'start',
     'center',

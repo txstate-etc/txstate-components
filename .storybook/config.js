@@ -1,13 +1,17 @@
-import { configure, addDecorator } from '@storybook/react'
+import { configure, addDecorator, addParameters } from '@storybook/react'
 import { withA11y } from '@storybook/addon-a11y'
-import { ThemeProvider } from 'styled-components'
-import { Theme } from '../src/React'
-import React from 'react'
+import { withConsole } from '@storybook/addon-console'
+import '@storybook/addon-console'
 
-function loadStories() {
-  require('../src/stories');
+function loadStories () {
+  require('../src/stories')
 }
 
 addDecorator(withA11y)
+addDecorator((storyFn, context) => withConsole()(storyFn)(context))
 
-configure(loadStories, module);
+addParameters({
+  options: { panelPosition: 'right' }
+})
+
+configure(loadStories, module)
