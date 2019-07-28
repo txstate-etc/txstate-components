@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Theme } from '../Theme'
+import PropTypes from 'prop-types'
 
-const slideRight = keyframes`
+const slideRight = (thumb, track) => keyframes`
   0% {
     transform: translateX(0);
   }
 
   60% {
-    transform: translateX(25px) scaleX(2.0) scaleY(0.8);
+    /* Translate X by 25% of thumb diameter to simulate stretching */
+    transform: translateX(${0.25 * thumb}px) scaleX(1.5) scaleY(0.8);
   }
 
   100% {
-    transform: translateX(100px) scaleX(1.0) scaleY(1.0);
+    /* Translate by the track length - thumb diameter  */
+    transform: translateX(${track - thumb}px) scaleX(1.0) scaleY(1.0);
   }
 `
-const slideLeft = keyframes`
+const slideLeft = (thumb, track) => keyframes`
   0% {
-    transform: translateX(100px);
+    transform: translateX(${track - thumb}px);
   }
 
   60% {
-    transform: translateX(75px) scaleX(2.0) scaleY(0.8);
+    transform: translateX(${track - 1.25 * thumb}px) scaleX(1.5) scaleY(0.8);
   }
 
   100% {
@@ -29,10 +32,13 @@ const slideLeft = keyframes`
   }
 `
 
-const Thumb = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+const Thumb = styled.div.attrs(({ size }) => ({
+  thumb: SIZES[size].thumbWidth || 25,
+  track: SIZES[size].trackWidth || 65
+}))`
+  width: ${({ thumb }) => thumb}px;
+  height: ${({ thumb }) => thumb}px;
+  border-radius: ${({ thumb }) => thumb / 2}px;
   background-color: ${({ on }) => (on ? Theme.maroon : Theme.charcoal)};
   transition: background-color 300ms ease-in-out;
 
@@ -41,23 +47,23 @@ const Thumb = styled.div`
   }
 
   &.slide-right {
-    animation: ${slideRight} 300ms ease-in-out;
+    animation: ${({ thumb, track }) => slideRight(thumb, track)} 300ms ease-in-out;
     animation-fill-mode: forwards;
   }
 
   &.slide-left {
-    animation: ${slideLeft} 300ms ease-in-out;
+    animation: ${({ thumb, track }) => slideLeft(thumb, track)} 300ms ease-in-out;
     animation-fill-mode: reverse;
   }
 `
 
 const Track = styled.div`
-  padding: 4px;
-  border-radius: 50px;
+  padding: 2px;
+  border-radius: ${({ size }) => (SIZES[size].thumbWidth + 8) / 2 || 15}px;
   border: solid 2px ${({ on }) => (on ? Theme.maroon : Theme.charcoal)};
   box-shadow: ${({ on }) =>
     on ? `0px 0px 5px 2px ${Theme.maroon}80` : 'none'};
-  width: 150px;
+  width: ${({ size }) => SIZES[size].trackWidth || 65}px;
   background-color: ${Theme.white};
 
   &.disabled {
@@ -67,32 +73,76 @@ const Track = styled.div`
   transition: border 300ms ease-in-out, box-shadow 300ms ease-in-out;
 `
 
+const SIZES = {
+  large: {
+    trackWidth: 65,
+    thumbWidth: 25
+  },
+  small: {
+    trackWidth: 45,
+    thumbWidth: 15
+  }
+}
+
+const switchReducer = (state, action) => {
+  switch (action.type) {
+    case 'on':
+      if (action.disabled) return state
+      return {
+        ...state,
+        on: true,
+        className: 'slide-right'
+      }
+    case 'off':
+      if (action.disabled) return state
+      return {
+        ...state,
+        on: false,
+        className: 'slide-left'
+      }
+    default:
+      return state
+  }
+}
+
 export const Switch = props => {
-  const { disabled, onValueChange } = props
-  const [on, setOn] = useState(null)
-  const [className, setClassName] = useState('')
+  const { disabled, onValueChange, size, on } = props
+  const [state, dispatch] = useReducer(switchReducer, {
+    on,
+    className: ''
+  })
 
   const _handleClick = () => {
     if (disabled) return
-    const nextOn = !on
-    setOn(nextOn)
+    const nextOn = !state.on
+    dispatch({ type: nextOn ? 'on' : 'off', disabled })
   }
 
   useEffect(() => {
-    if (on === null) return
-    setClassName(on ? 'slide-right' : 'slide-left')
-    onValueChange(on)
-  }, [on])
+    onValueChange(state.on)
+  }, [state.on])
+
+  useEffect(() => {
+
+  }, [size])
 
   return (
     <div onClick={_handleClick}>
-      <Track className={disabled && 'disabled'} on={on}>
-        <Thumb className={disabled ? 'disabled' : className} on={on} />
+      <Track size={size} className={disabled ? 'disabled' : state.className} on={state.on}>
+        <Thumb size={size} className={disabled ? 'disabled' : state.className} on={state.on} />
       </Track>
     </div>
   )
 }
 
 Switch.defaultProps = {
-  onClick: () => null
+  size: 'small',
+  on: false,
+  onValueChange: () => null
+}
+
+Switch.propTypes = {
+  size: PropTypes.oneOf(['small', 'large']),
+  on: PropTypes.bool,
+  onValueChange: PropTypes.func
 }
