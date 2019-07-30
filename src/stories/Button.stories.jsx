@@ -28,3 +28,50 @@ storiesOf('Button', module)
       </Container>
     )
   })
+  .add('style override', () => {
+    const GoldButton = styled(Button)`  
+      &.button-container {
+        background-color: ${Theme.gold};
+      }
+    
+      & > .button-label {
+        color: white;
+      }
+    `
+
+    const GoldOutlineButton = styled(Button)`
+      &.button-container {
+        border-color: ${Theme.gold}
+      }
+
+      & > .button-label {
+        color: ${Theme.gold}
+      }
+    `
+
+    const GoldChangeOnHover = styled(Button)`
+      &.button-container { 
+        background-color: ${Theme.gold};
+
+        :hover {
+          background-color: white;
+
+          .button-label {
+            color: ${Theme.gold};
+          }
+        }
+      }
+
+      &.button-label {
+        color: ${Theme.white};
+      }
+    `
+
+    return (
+      <Stack spacing={16} horizontal>
+        <GoldButton variant='primary' ariaLabel='Golden Button' label='Styled Primary' onClick={action('click')} />
+        <GoldOutlineButton variant='outline' onClick={action('click')} ariaLabel='Golden Outlined Button' label='Styled Outline' />
+        <GoldChangeOnHover variant='outline' onClick={action('click')} ariaLabel='Golden Outlined Button' label='Styled Outline' />
+      </Stack>
+    )
+  })

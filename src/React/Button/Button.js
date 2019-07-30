@@ -1,9 +1,19 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Color from 'color'
 import PropTypes from 'prop-types'
 import { Text } from '../Text'
 import { Theme } from '../Theme'
+
+const outline = css`
+  border: 1px solid ${Theme.maroon};
+  background-color: ${Theme.white};
+  padding: calc(1rem - 1px) 2rem;
+
+  &:hover {
+    box-shadow: inset 0 -2px 0 0 ${Theme.maroon};
+  }
+`
 
 const ButtonBase = styled.div`
   width: fit-content;
@@ -11,99 +21,56 @@ const ButtonBase = styled.div`
   border-radius: 2px;
   cursor: pointer;
   transition: all 200ms ease;
+  
+  &.primary {
+    background-color: ${Theme.maroon};
+  }
+
+  &.outline {
+    ${outline}
+  }
+
+  &.transparent {
+    ${outline}
+    background-color: transparent;
+  }
 
   &:hover {
     transform: translate(0px, -3px);
   }
 `
 
-const ButtonPrimaryContainer = styled(ButtonBase)`
-  background-color: ${({ backgroundColor }) => backgroundColor};
-`
-
-const ButtonOutlineContainer = styled(ButtonBase)`
-  border: 1px solid ${({ borderColor }) => borderColor};
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  padding: 1rem 2rem;
-
-  &:hover {
-    box-shadow: inset 0 -2px 0 0 ${({ borderColor }) => borderColor};
-    border: 1px solid ${({ borderColor }) => borderColor};
-  }
-`
-
-const ButtonTransparentOutlineContainer = styled(ButtonOutlineContainer)`
-  background-color: transparent;
-`
-
-const ButtonVariants = {
-  primary: ButtonPrimaryContainer,
-  outline: ButtonOutlineContainer,
-  transparent: ButtonTransparentOutlineContainer
-}
-
 const ButtonLabel = styled(Text)`
   user-select: none;
-  color: ${({ textColor }) => textColor};
+  color: ${Theme.white};
+  transition: all 200ms ease;
+
+  &.outline, &.transparent {
+    color: ${Theme.maroon}
+  }
 
   ${ButtonBase}:hover {
     color: ${({ hoverTextColor }) => hoverTextColor};
   }
 `
 
-const buttonStyles = {
-  primary: {
-    button: {
-      backgroundColor: Theme.maroon,
-      hoverColor: Color(Theme.maroon).lighten(0.2).string()
-    },
-    label: {
-      textColor: Theme.white,
-      hoverTextColor: Theme.white
-    }
-  },
-  outline: {
-    button: {
-      backgroundColor: Theme.white,
-      borderColor: Theme.maroon
-    },
-    label: {
-      textColor: Theme.maroon,
-      hoverTextColor: Theme.maroon
-    }
-  },
-  transparent: {
-    button: {
-      backgroundColor: Theme.transparent,
-      borderColor: Theme.maroon
-    },
-    label: {
-      textColor: Theme.maroon,
-      hoverTextColor: Theme.maroon
-    }
-  }
-}
-
 export const Button = props => {
-  const { label, variant, onClick, ariaLabel } = props
-  const ButtonContainer = ButtonVariants[variant]
-
-  const style = buttonStyles[variant]
+  const { label, variant, onClick, ariaLabel, className } = props
 
   return (
-    <ButtonContainer
+    <ButtonBase
       role='button'
       aria-label={ariaLabel}
       onClick={onClick}
-      {...style.button}
+      className={[className, variant, 'button-container']}
     >
       <ButtonLabel
+        className={[className, variant, 'button-label']}
         variant={variant}
-        {...style.label}
       >
         {label}
       </ButtonLabel>
-    </ButtonContainer>
+    </ButtonBase>
   )
 }
 
