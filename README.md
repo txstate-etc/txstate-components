@@ -5,6 +5,8 @@ Local Development Server
 Run this command:
 > `docker-compose up --build`
 
+The server will be live on `localhost:9009`
+
 
 Adding A Component (React)
 ---

@@ -19,7 +19,9 @@ storiesOf('Form', module)
               if (value.length >= 5) return 'Your name must be less than 5 characters.'
             }}
           />
-          <TextInput name='age' label='Age: ' />
+          <TextInput name='age' label='Age: ' onGetErrorMessage={(e, value) => {
+            if (value > 32) return 'Too Old'
+          }} />
         </Stack>
       </Form>
     )
