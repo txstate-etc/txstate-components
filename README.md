@@ -17,7 +17,7 @@ Adding A Component (React)
 1. Make your component available to import from the library by adding and entry to `src/index.js`
     * `export { MyComponent } from './MyComponent'`
 1. When you're _really_ done with the component, create some type defs in `src/React/index.d.ts`
-    * This lets people using your component see what props are available, and get auto completion on enum type props. For an example, check the variant prop of Button..
+    * This lets people using your component see what props are available, and get auto completion on enum type props. For an example, check the variant prop of Button.
 
 Using Storybook to Develop
 ---
