@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect, useReducer } from 'react'
+import React, { useRef, useImperativeHandle, useCallback, useEffect, useReducer } from 'react'
 import { useEvent } from '../../hooks'
 import { Subject } from '../../utils'
 import set from 'lodash.set'
@@ -18,7 +18,7 @@ import uuid from 'uuid/v4'
  * - Generic Add More component
  */
 
-export const Context = React.createContext({})
+export const FormContext = React.createContext({})
 
 const immutableReducer = (state, action) => {
   let localState = null
@@ -36,7 +36,7 @@ const immutableReducer = (state, action) => {
   }
 }
 
-export const Form = props => {
+export const Form = React.forwardRef((props, ref) => {
   const {
     children,
     onSubmit,
@@ -53,13 +53,22 @@ export const Form = props => {
     Subject.next(inputEvent, value)
   }, [formDispatch])
 
-  const handleChildError = useCallback(({ path, error }) => {
+  const handleChildError = useCallback(({ type, path, error }) => {
     if (!path) return
-    errorDispatch({ type: 'set', path, payload: error })
+
+    errorDispatch({ type, path, payload: error })
   })
 
   useEvent(`${formEvent.current}-data`, handleChildData)
   useEvent(`${formEvent.current}-error`, handleChildError)
+
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      if (onSubmit && typeof onSubmit === 'function') {
+        onSubmit({ form, errors })
+      }
+    }
+  }))
 
   useEffect(() => {
     if (validate && typeof validate === 'function') {
@@ -68,10 +77,10 @@ export const Form = props => {
   }, [form])
 
   return (
-    <Context.Provider value={formEvent.current}>
+    <FormContext.Provider value={formEvent.current}>
       {children}
-    </Context.Provider>
+    </FormContext.Provider>
   )
-}
+})
 
 Form.defaultProps = { name: 'five' }
