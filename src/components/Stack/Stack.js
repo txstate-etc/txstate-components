@@ -21,6 +21,7 @@ export const Stack = props => {
     horizontal,
     verticalAlign,
     horizontalAlign,
+    style,
     className
   } = props
 
@@ -35,7 +36,6 @@ export const Stack = props => {
   return React.createElement(
     renderAs,
     {
-      className,
       style: {
         display: 'flex',
         padding: spacing / 2 || 0,
@@ -45,8 +45,10 @@ export const Stack = props => {
           : convertAlignment(horizontalAlign),
         justifyContent: horizontal
           ? convertAlignment(horizontalAlign)
-          : convertAlignment(verticalAlign)
-      }
+          : convertAlignment(verticalAlign),
+        ...style
+      },
+      className
     },
     children
   )

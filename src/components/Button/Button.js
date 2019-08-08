@@ -1,6 +1,5 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import Color from 'color'
 import PropTypes from 'prop-types'
 import { Text } from '../Text'
 import { Theme } from '../Theme'

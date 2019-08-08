@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { List } from '../React'
+import { List } from '../components'
 import axios from 'axios'
 
 const getData = async () => {

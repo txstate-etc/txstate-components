@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Stack, Button, Theme } from '../React'
+import { Stack, Button, Theme } from '../components'
 import styled from 'styled-components'
 
 const Box = styled.div`

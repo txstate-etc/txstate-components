@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Stack, Button, Theme } from '../React'
+import { Stack, Button, Theme } from '../components'
 import styled from 'styled-components'
 
 const Container = styled(Stack)`
@@ -16,8 +16,9 @@ storiesOf('Button', module)
     return (
       <Container
         horizontal
-        horizontalAlign='center'
+        horizontalAlign='start'
         spacing={8}
+        style={{ display: 'inline-block' }}
       >
         <Button
           label='Transparent'
@@ -41,7 +42,11 @@ storiesOf('Button', module)
 
     const GoldOutlineButton = styled(Button)`
       &.button-container {
-        border-color: ${Theme.gold}
+        border-color: ${Theme.gold};
+
+        :hover {
+          box-shadow: inset 0 -2px 0 0 ${Theme.gold};
+        }
       }
 
       & > .button-label {
@@ -55,6 +60,7 @@ storiesOf('Button', module)
 
         :hover {
           background-color: white;
+          box-shadow: inset 0 -2px 0 0 ${Theme.gold};
 
           .button-label {
             color: ${Theme.gold};
@@ -71,7 +77,7 @@ storiesOf('Button', module)
       <Stack spacing={16} horizontal>
         <GoldButton variant='primary' ariaLabel='Golden Button' label='Styled Primary' onClick={action('click')} />
         <GoldOutlineButton variant='outline' onClick={action('click')} ariaLabel='Golden Outlined Button' label='Styled Outline' />
-        <GoldChangeOnHover variant='outline' onClick={action('click')} ariaLabel='Golden Outlined Button' label='Styled Outline' />
+        <GoldChangeOnHover variant='outline' onClick={action('click')} ariaLabel='Golden Outlined Button' label='Very Styled Primary' />
       </Stack>
     )
   })

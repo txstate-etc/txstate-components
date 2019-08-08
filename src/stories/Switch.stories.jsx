@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Switch, Stack } from '../React'
+import { Switch, Stack } from '../components'
 import styled from 'styled-components'
 
 const FullStack = styled(Stack)`

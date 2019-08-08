@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Link } from '../React'
+import { Link } from '../components'
 
 storiesOf('Link', module).add('primary', () => (
   <Link
