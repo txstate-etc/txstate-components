@@ -24,12 +24,20 @@ const CenterStack = props => {
 storiesOf('Switch', module)
   .add('small', () => (
     <CenterStack>
-      <Switch size='small' onValueChange={(on) => console.log(`Switch is: ${on ? 'on' : 'off'}`)} />
+      <Switch
+        label='Small Switch'
+        size='small'
+        onValueChange={(on) => console.log(`Small switch is: ${on ? 'on' : 'off'}`)}
+      />
     </CenterStack>
   ))
   .add('large', () => (
     <CenterStack>
-      <Switch size='large' onValueChange={(on) => console.log(`Switch is: ${on ? 'on' : 'off'}`)} />
+      <Switch
+        size='large'
+        onValueChange={(on) => console.log(`Large switch is: ${on ? 'on' : 'off'}`)}
+        label='Large Switch'
+      />
     </CenterStack>
   ))
   .add('disabled', () => {

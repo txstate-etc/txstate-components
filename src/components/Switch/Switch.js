@@ -106,7 +106,7 @@ const switchReducer = (state, action) => {
 }
 
 export const Switch = props => {
-  const { disabled, onValueChange, size, on } = props
+  const { disabled, label, onValueChange, size, on } = props
   const [state, dispatch] = useReducer(switchReducer, {
     on,
     className: ''
@@ -127,7 +127,8 @@ export const Switch = props => {
   }, [size])
 
   return (
-    <div onClick={_handleClick}>
+    <div onClick={_handleClick} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {label ? <label style={{ marginRight: 12 }}>{label}</label> : null}
       <Track size={size} className={disabled ? 'disabled' : state.className} on={state.on}>
         <Thumb size={size} className={disabled ? 'disabled' : state.className} on={state.on} />
       </Track>
