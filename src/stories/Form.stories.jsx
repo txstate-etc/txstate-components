@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button, RadioGroup, RadioButton, TextInput, Checkbox } from '../components'
+import { Form, Stack, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
 
 storiesOf('Form', module)
   .add('basic', () => {
@@ -58,6 +58,20 @@ storiesOf('Form', module)
             <RadioButton id='charlie' label='Charlie' />
             <RadioButton id='delta' label='Delta' />
           </RadioGroup>
+          <Dropdown
+            initialSelectedKey='cof'
+            label='Pick your favorite ice cream:'
+            options={[
+              { key: 'choco', text: 'Chocolate' },
+              { key: 'van', text: 'Vanilla' },
+              { key: 'straw', text: 'Strawberry' },
+              { key: 'lemon', text: 'Lemon' },
+              { key: 'cheese', text: 'Cheesecake' },
+              { key: 'cof', text: 'Coffee' },
+              { key: 'pecan', text: 'Pecan' }
+            ]}
+            path='icecream'
+          />
           <Button variant='primary' ariaLabel='Submit Form' label='Submit' onClick={() => {
             form.submit && form.submit()
           }} />

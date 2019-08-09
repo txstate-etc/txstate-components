@@ -3,11 +3,12 @@ import { FormContext } from '../components/Form'
 import { useEvent } from './useEvent'
 import uuid from 'uuid/v4'
 import debounce from 'lodash.debounce'
+import get from 'lodash.get'
 
-export const useFormInput = ({ path, extractor, onGetErrorMessage }) => {
+export const useFormInput = ({ path, extractor, onGetErrorMessage, initialValue }) => {
   const formEvent = useContext(FormContext)
   const _id = useRef(uuid())
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(initialValue || '')
   const [error, setError] = useState('')
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
@@ -43,13 +44,14 @@ export const useFormInput = ({ path, extractor, onGetErrorMessage }) => {
     setInputEvent(`${formEvent}_${_id.current}`)
   }, [formEvent])
 
-  const notifyFormValueChange = useCallback(e => {
-    let value = e
+  const notifyFormValueChange = useCallback((...args) => {
+    const event = get(args, '[0]')
+    let value = get(args, '[1]')
     if (extractor && typeof extractor === 'function') {
-      value = extractor(e)
+      value = extractor(...args)
     }
     getErrorMessage.cancel()
-    getErrorMessage(e, value)
+    getErrorMessage(event, value)
     handleChange({ value, path, inputEvent })
   }, [handleChange, getErrorMessage, extractor])
 
