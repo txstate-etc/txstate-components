@@ -44,14 +44,20 @@ export const useFormInput = ({ path, extractor, onGetErrorMessage }) => {
   }, [formEvent])
 
   const notifyFormValueChange = useCallback(e => {
-    const value = extractor(e)
+    let value = e
+    if (extractor && typeof extractor === 'function') {
+      value = extractor(e)
+    }
     getErrorMessage.cancel()
     getErrorMessage(e, value)
     handleChange({ value, path, inputEvent })
   }, [handleChange, getErrorMessage, extractor])
 
   const handleOnBlur = useCallback(e => {
-    const value = extractor(e)
+    let value = e
+    if (extractor && typeof extractor === 'function') {
+      value = extractor(e)
+    }
     getErrorMessage.cancel()
     getErrorMessage(e, value)
   }, [getErrorMessage, extractor])

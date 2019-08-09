@@ -40,9 +40,11 @@ export const Form = React.forwardRef((props, ref) => {
   const {
     children,
     onSubmit,
-    validate
+    onChange,
+    validate,
+    id
   } = props
-  const formEvent = useRef(uuid())
+  const formEvent = useRef(id || uuid())
 
   const [form, formDispatch] = useReducer(immutableReducer, {})
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
@@ -63,18 +65,25 @@ export const Form = React.forwardRef((props, ref) => {
   useEvent(`${formEvent.current}-error`, handleChildError)
 
   useImperativeHandle(ref, () => ({
-    submit: () => {
+    submit: async () => {
       if (onSubmit && typeof onSubmit === 'function') {
-        onSubmit({ form, errors })
+        let isValid = true
+        if (validate && typeof validate === 'function') {
+          isValid = await validate(form)
+        }
+
+        if (isValid) {
+          onSubmit({ form, errors })
+        }
       }
     }
   }))
 
   useEffect(() => {
-    if (validate && typeof validate === 'function') {
-      validate(form)
+    if (onChange && typeof onChange === 'function') {
+      onChange({ form, errors })
     }
-  }, [form])
+  }, [form, errors, onChange])
 
   return (
     <FormContext.Provider value={formEvent.current}>

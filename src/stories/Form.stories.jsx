@@ -1,14 +1,14 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button, TextInput } from '../components'
+import { Form, Stack, Button, RadioGroup, RadioButton, TextInput, Checkbox } from '../components'
 
 storiesOf('Form', module)
   .add('basic', () => {
     let form = null
 
     const onSubmit = ({ form, errors }) => {
-      console.log(form)
-      console.log(errors)
+      console.log('Form: ', form)
+      console.log('Errors: ', errors)
     }
 
     return (
@@ -34,6 +34,30 @@ storiesOf('Form', module)
               if (value > 32) return 'Too Old'
             }}
           />
+          <Stack spacing={16} style={{ margin: -16 }} >
+            <Checkbox
+              label='Option 1'
+              name='optionOne'
+            />
+            <Checkbox
+              label='Option 2'
+              name='optionTwo'
+            />
+            <Checkbox
+              name='optionThree'
+              label='Option 3'
+            />
+          </Stack>
+          <RadioGroup
+            path='alphabet'
+            id='alphabet'
+            label='Select an option'
+          >
+            <RadioButton id='alpha' label='Alpha' />
+            <RadioButton id='bravo' label='Bravo' />
+            <RadioButton id='charlie' label='Charlie' />
+            <RadioButton id='delta' label='Delta' />
+          </RadioGroup>
           <Button variant='primary' ariaLabel='Submit Form' label='Submit' onClick={() => {
             form.submit && form.submit()
           }} />
