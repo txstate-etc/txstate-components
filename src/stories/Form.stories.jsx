@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
+import { Form, Stack, Switch, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
 
 storiesOf('Form', module)
   .add('basic', () => {
