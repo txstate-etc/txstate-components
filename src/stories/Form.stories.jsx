@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Switch, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
+import { Form, Stack, Toggle, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
 
 storiesOf('Form', module)
   .add('basic', () => {
@@ -72,6 +72,9 @@ storiesOf('Form', module)
             ]}
             path='icecream'
           />
+          <Toggle size='small' label='Sprinkles' path='sprinkles' />
+          <Toggle size='small' label='Caramel' path='caramel' />
+          <Toggle size='small' label='Hot Fudge' path='fudge' />
           <Button variant='primary' ariaLabel='Submit Form' label='Submit' onClick={() => {
             form.submit && form.submit()
           }} />
