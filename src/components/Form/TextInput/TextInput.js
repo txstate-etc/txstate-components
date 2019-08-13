@@ -18,7 +18,7 @@ const Label = styled.label`
 `
 
 export const TextInput = props => {
-  const { name, label, onGetErrorMessage } = props
+  const { name, label, onGetErrorMessage, path } = props
 
   const {
     value,
@@ -26,7 +26,7 @@ export const TextInput = props => {
     onBlur,
     onChange
   } = useFormInput({
-    path: name,
+    path,
     onGetErrorMessage,
     extractor: (e) => e.target.value
   })

@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Toggle, Button, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
+import { Form, Stack, Toggle, Button, DynamicSection, RadioGroup, Dropdown, RadioButton, TextInput, Checkbox } from '../components'
 
 storiesOf('Form', module)
   .add('basic', () => {
@@ -21,14 +21,17 @@ storiesOf('Form', module)
         <Stack spacing={16}>
           <TextInput
             name='name'
+            path='name'
             label='Name: '
-            onGetErrorMessage={(e, value) => {
+            onGetErrorMessage={async (e, value) => {
+              await new Promise(resolve => setTimeout(() => resolve(), 2000))
               if (value.length <= 0) return 'Enter your name in the text box.'
               if (value.length >= 5) return 'Your name must be less than 5 characters.'
             }}
           />
           <TextInput
             name='age'
+            path='age'
             label='Age: '
             onGetErrorMessage={(e, value) => {
               if (value > 32) return 'Too Old'
@@ -78,6 +81,55 @@ storiesOf('Form', module)
           <Button variant='primary' ariaLabel='Submit Form' label='Submit' onClick={() => {
             form.submit && form.submit()
           }} />
+        </Stack>
+      </Form>
+    )
+  })
+  .add('dynamic', () => {
+    let form = {}
+
+    const Section = props => {
+      const { handleDelete, id } = props
+      return (
+        <>
+          <div onClick={() => handleDelete(id)} style={{ userSelect: 'none', cursor: 'pointer', position: 'relative' }}>
+            <span>Delete</span>
+          </div>
+          <Stack style={{ marginBottom: 12, border: 'solid black 1px', padding: 12 }}>
+            <TextInput
+              label='First Name'
+              path={`${id}.name.first`}
+              name='firstname'
+              onGetErrorMessage={(e, value) => {
+                if (value.length <= 0) return 'Enter your name in the text box.'
+                if (value.length >= 5) return 'Your name must be less than 5 characters.'
+              }}
+            />
+            <TextInput label='Last Name' path={`${id}.name.last`} name='lastname' />
+          </Stack>
+        </>
+      )
+    }
+
+    const onSubmit = ({ form, errors }) => {
+      console.log('Form: ', form)
+      console.log('Errors: ', errors)
+    }
+
+    return (
+      <Form
+        ref={component => {
+          form = component
+        }}
+        onSubmit={onSubmit}
+      >
+        <Stack spacing={16}>
+          <DynamicSection
+            path='friends'
+            Section={Section}
+            addLabel='Add Friend'
+          />
+          <Button label='Submit Friends' onClick={() => form.submit()} ariaLabel='Submit form' />
         </Stack>
       </Form>
     )

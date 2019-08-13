@@ -12,6 +12,7 @@ const FieldSet = styled.fieldset`
   padding: 0;
 `
 
+// TODO: Use ChoiceGroup instead of this manual stuff
 export const RadioGroup = props => {
   const { children, label, stackProps, path, id } = props
 
