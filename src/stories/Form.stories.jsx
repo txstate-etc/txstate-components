@@ -55,12 +55,13 @@ storiesOf('Form', module)
             path='alphabet'
             id='alphabet'
             label='Select an option'
-          >
-            <RadioButton id='alpha' label='Alpha' />
-            <RadioButton id='bravo' label='Bravo' />
-            <RadioButton id='charlie' label='Charlie' />
-            <RadioButton id='delta' label='Delta' />
-          </RadioGroup>
+            options={[
+              { key: 'alpha', text: 'Alpha' },
+              { key: 'bravo', text: 'Bravo' },
+              { key: 'charlie', text: 'Charlie' },
+              { key: 'delta', text: 'Delta' }
+            ]}
+          />
           <Dropdown
             initialSelectedKey='cof'
             label='Pick your favorite ice cream:'

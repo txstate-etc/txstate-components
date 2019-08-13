@@ -1,1 +1,1 @@
-export * from './Choicegroup'
+export * from './ChoiceGroup'

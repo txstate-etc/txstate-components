@@ -1,27 +1,41 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup'
+import { ChoiceGroup as OfficeChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup'
 import { Label } from 'office-ui-fabric-react/lib/Label'
+import shortid from 'shortid'
 
-export const Choicegroup = props => {
-  const { label, options, ariaLabel } = props
+export const ChoiceGroup = props => {
+  const {
+    label,
+    options,
+    ariaLabel,
+    required,
+    onChange,
+    selectedKey,
+    styles,
+    id
+  } = props
+
+  const _id = useRef(id || shortid.generate())
 
   return (
     <>
-      <Label id='radioElement' htmlFor='choicegroup'>{label}</Label>
-      <ChoiceGroup
-        id='choicegroup'
+      <Label htmlFor={id}>{label}</Label>
+      <OfficeChoiceGroup
+        styles={{ ...styles }}
+        id={_id}
         role='radiogroup'
         ariaLabel={ariaLabel}
-        ariaLabelledBy='radioElement'
-        defaultSelectedKey='A'
+        ariaLabelledBy={_id}
+        onChange={onChange}
+        selectedKey={selectedKey}
         options={options}
-        required
+        required={required}
       />
     </>
   )
 }
 
-Choicegroup.propTypes = {
+ChoiceGroup.propTypes = {
   ariaLabel: PropTypes.string.isRequired
 }
