@@ -24,3 +24,5 @@ export const Portal = observer(props => {
 
   return ReactDOM.createPortal(children, store.modalElement)
 })
+
+Portal.displayName = 'Portal'
