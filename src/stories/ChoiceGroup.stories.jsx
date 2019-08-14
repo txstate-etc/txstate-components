@@ -1,10 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Choicegroup } from '../components'
+import { ChoiceGroup } from '../components'
 
 storiesOf('Choicegroup', module)
   .add('basic', () => {
-    return <Choicegroup
+    return <ChoiceGroup
       ariaLabel='Choicegroup1'
       label='Select One: '
       required='true'

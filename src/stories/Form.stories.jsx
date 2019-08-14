@@ -17,7 +17,7 @@ storiesOf('Form', module)
     let form = null
 
     const onSubmit = ({ form, errors }) => {
-      console.log('Form: ', form)
+      console.log(`Form: ${JSON.stringify(form, null, 2)}`)
       console.log('Errors: ', errors)
     }
 
