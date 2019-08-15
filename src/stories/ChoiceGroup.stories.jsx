@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { ChoiceGroup } from '../components'
 
-storiesOf('Choicegroup', module)
+storiesOf('ChoiceGroup', module)
   .add('basic', () => {
     return <ChoiceGroup
       ariaLabel='Choicegroup1'

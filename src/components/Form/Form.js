@@ -49,9 +49,13 @@ export const Form = React.forwardRef((props, ref) => {
   const [form, formDispatch] = useReducer(immutableReducer, {})
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
 
-  const handleChildData = useCallback(({ path, value, inputEvent }) => {
+  const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
-    formDispatch({ type: 'set', path, payload: value })
+    let transformedValue = value
+    if (transformer && typeof transformer === 'function') {
+      transformedValue = transformer(value)
+    }
+    formDispatch({ type: 'set', path, payload: transformedValue })
     Subject.next(inputEvent, value)
   }, [formDispatch])
 

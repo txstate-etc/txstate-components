@@ -9,6 +9,7 @@ import {
   RadioGroup,
   Dropdown,
   TextInput,
+  RichText,
   Checkbox
 } from '../components'
 
@@ -89,6 +90,9 @@ storiesOf('Form', module)
           <Toggle size='small' label='Sprinkles' path='sprinkles' />
           <Toggle size='small' label='Caramel' path='caramel' />
           <Toggle size='small' label='Hot Fudge' path='fudge' />
+          <RichText
+            path='richtext'
+          />
           <Button variant='primary' ariaLabel='Submit Form' label='Submit' onClick={() => {
             form.submit && form.submit()
           }} />
