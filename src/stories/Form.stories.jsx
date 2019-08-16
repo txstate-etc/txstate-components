@@ -10,6 +10,7 @@ import {
   Dropdown,
   TextInput,
   RichText,
+  TextArea,
   Checkbox
 } from '../components'
 
@@ -18,7 +19,7 @@ storiesOf('Form', module)
     let form = null
 
     const onSubmit = ({ form, errors }) => {
-      console.log(`Form: ${JSON.stringify(form, null, 2)}`)
+      console.log(`Form: `, form)
       console.log('Errors: ', errors)
     }
 
@@ -50,6 +51,11 @@ storiesOf('Form', module)
               }}
             />
           </Stack.Item>
+          <TextArea
+            name='Description'
+            path='description'
+            label='Description:'
+          />
           <Stack spacing={16} >
             <Checkbox
               label='Option 1'

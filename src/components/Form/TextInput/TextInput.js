@@ -3,7 +3,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import { useFormInput } from '../../../hooks'
 
 export const TextInput = props => {
-  const { name, label, onGetErrorMessage, path } = props
+  const { name, label, multiline, onGetErrorMessage, path } = props
 
   const {
     value,
@@ -18,6 +18,8 @@ export const TextInput = props => {
 
   return (
     <TextField
+      multiline={multiline}
+      autoAdjustHeight={multiline}
       label={label}
       type='text'
       onBlur={onBlur}
@@ -28,4 +30,8 @@ export const TextInput = props => {
       onChange={onChange}
     />
   )
+}
+
+TextInput.defaultProps = {
+  multiline: false
 }
