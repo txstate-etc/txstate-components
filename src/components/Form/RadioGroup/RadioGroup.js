@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ChoiceGroup } from '../../ChoiceGroup'
 import { useFormInput } from '../../../hooks'
 
@@ -14,10 +14,6 @@ export const RadioGroup = props => {
     initialValue,
     extractor: (event, value) => value
   })
-
-  useEffect(() => {
-
-  }, [value])
 
   return (
     <ChoiceGroup

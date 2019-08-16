@@ -30,25 +30,27 @@ storiesOf('Form', module)
         onSubmit={onSubmit}
       >
         <Stack spacing={16}>
-          <TextInput
-            name='name'
-            path='name'
-            label='Name: '
-            onGetErrorMessage={async (e, value) => {
-              await new Promise(resolve => setTimeout(() => resolve(), 2000))
-              if (value.length <= 0) return 'Enter your name in the text box.'
-              if (value.length >= 5) return 'Your name must be less than 5 characters.'
-            }}
-          />
-          <TextInput
-            name='age'
-            path='age'
-            label='Age: '
-            onGetErrorMessage={(e, value) => {
-              if (value > 32) return 'Too Old'
-            }}
-          />
-          <Stack spacing={16} style={{ margin: -16 }} >
+          <Stack.Item>
+            <TextInput
+              name='name'
+              path='name'
+              label='Name: '
+              onGetErrorMessage={async (e, value) => {
+                await new Promise(resolve => setTimeout(() => resolve(), 500))
+                if (value.length <= 0) return 'Enter your name in the text box.'
+                if (value.length >= 5) return 'Your name must be less than 5 characters.'
+              }}
+            />
+            <TextInput
+              name='age'
+              path='age'
+              label='Age: '
+              onGetErrorMessage={(e, value) => {
+                if (value > 32) return 'Too Old'
+              }}
+            />
+          </Stack.Item>
+          <Stack spacing={16} >
             <Checkbox
               label='Option 1'
               name='optionOne'
@@ -62,17 +64,19 @@ storiesOf('Form', module)
               label='Option 3'
             />
           </Stack>
-          <RadioGroup
-            path='alphabet'
-            id='alphabet'
-            label='Select an option'
-            options={[
-              { key: 'alpha', text: 'Alpha' },
-              { key: 'bravo', text: 'Bravo' },
-              { key: 'charlie', text: 'Charlie' },
-              { key: 'delta', text: 'Delta' }
-            ]}
-          />
+          <Stack.Item>
+            <RadioGroup
+              path='alphabet'
+              id='alphabet'
+              label='Select an option'
+              options={[
+                { key: 'alpha', text: 'Alpha' },
+                { key: 'bravo', text: 'Bravo' },
+                { key: 'charlie', text: 'Charlie' },
+                { key: 'delta', text: 'Delta' }
+              ]}
+            />
+          </Stack.Item>
           <Dropdown
             initialSelectedKey='cof'
             label='Pick your favorite ice cream:'

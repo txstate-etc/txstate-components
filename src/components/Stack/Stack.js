@@ -35,6 +35,8 @@ export const Stack = props => {
   )
 }
 
+Stack.Item = OfficeStack.Item
+
 Stack.propTypes = {
   verticalAlign: PropTypes.oneOf([
     'start',

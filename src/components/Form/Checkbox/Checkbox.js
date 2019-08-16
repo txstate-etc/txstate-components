@@ -1,13 +1,7 @@
 import React, { useRef } from 'react'
 import { useFormInput } from '../../../hooks'
-import styled from 'styled-components'
+import { Checkbox as OfficeCheckbox } from 'office-ui-fabric-react/lib/Checkbox'
 import uuid from 'uuid/v4'
-
-const Label = styled.label`
-  user-select: none;
-`
-const ChecboxInput = styled.input.attrs(() => ({ type: 'checkbox' }))``
-const Clickable = styled.div``
 
 export const Checkbox = props => {
   const { name, label, ariaLabel } = props
@@ -21,10 +15,5 @@ export const Checkbox = props => {
     extractor: e => e.target.checked
   })
 
-  return (
-    <Clickable>
-      <Label htmlFor={_id.current}>{label}</Label>
-      <ChecboxInput id={_id.current} aria-label={ariaLabel} name={name} checked={value} onChange={onChange} />
-    </Clickable>
-  )
+  return <OfficeCheckbox id={_id.current} label={label} aria-label={ariaLabel} name={name} checked={value} onChange={onChange} />
 }

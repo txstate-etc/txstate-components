@@ -55,7 +55,7 @@ const fakeAPI = (type) => async () => {
       'Item Seven',
       'Item Eight'
     ]
-    const total = Math.floor(Math.random() * possibleData.length)
+    const total = Math.ceil(Math.random() * (possibleData.length - 1))
     setTimeout(() => {
       type === 'resolve' ? resolve(possibleData.slice(0, total)) : reject(new Error('Request failed with status code 503'))
     }, 500)
