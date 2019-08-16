@@ -1,64 +1,79 @@
 import React from 'react'
 import styled from 'styled-components'
+import './Layout.css'
 
-const Wrapper = styled.div.attrs(props => ({
-  sideSize: props.sidebarSize || 200
-}))`
+const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: ${({ sideSize }) => sideSize}px 1fr;
-  grid-template-rows: 64px 1fr 44px;
-  grid-template-areas:
-    'header header'
-    'sidebar content'
-    'footer footer';
   background-color: #ffffff;
-`
 
-const HeaderContainer = styled.header`
-  grid-area: header;
-  background-color: blue;
+  &.txst-wrapper {
+    grid-template-columns: ${({ sidebarSize }) => sidebarSize}px 1fr;
+    grid-template-rows: 64px 1fr 44px;
+    grid-template-areas: 'header header' 'sidebar content' 'footer footer';
+  }
+
+  &.txst-wrapper-no-sidebar {
+    grid-template-columns: 1fr;
+    grid-template-rows: 64px 1fr 44px;
+    grid-template-areas: 'header' 'content' 'footer';
+  }
+
+  &.txst-wrapper-no-footer {
+    grid-template-columns: ${({ sidebarSize }) => sidebarSize}px 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas: 'header header' 'sidebar content';
+  }
 `
 
 const Header = props => {
   const { children, className } = props
-  return <HeaderContainer className={className}>{children}</HeaderContainer>
+  return (
+    <header className={`txst-header-container ${className}`}>{children}</header>
+  )
 }
-
-const SidebarContainer = styled.section`
-  grid-area: sidebar;
-`
 
 const Sidebar = props => {
   const { children, className } = props
-  return <SidebarContainer className={className}>{children}</SidebarContainer>
+  return <div className={`txst-sidebar-container ${className}`}>{children}</div>
 }
-
-const ContentContainer = styled.section`
-  grid-area: content;
-  overflow: auto;
-`
 
 const Content = props => {
   const { children, className } = props
-  return <ContentContainer className={className}>{children}</ContentContainer>
+  return (
+    <main className={`txst-content-container ${className}`}>{children}</main>
+  )
 }
-
-const FooterContainer = styled.footer`
-  grid-area: footer;
-`
 
 const Footer = props => {
   const { children, className } = props
-  return <FooterContainer className={className}>{children}</FooterContainer>
+  return (
+    <footer className={`txst-footer-container ${className}`}>{children}</footer>
+  )
 }
 
 export const Layout = props => {
-  const { children, sidebarSize, className } = props
+  const { children, hasFooter, sidebarSize, className } = props
+  let wrapperClassNames = ['txst-wrapper-no-sidebar']
+  if (sidebarSize > 0) {
+    wrapperClassNames = ['txst-wrapper']
+  }
+
+  if (!hasFooter) {
+    wrapperClassNames.push('txst-wrapper-no-footer')
+  }
+
   return (
-    <Wrapper sidebarSize={sidebarSize} className={className}>
+    <Wrapper
+      className={`${className} ${wrapperClassNames.join(' ')}`}
+      sidebarSize={sidebarSize}
+    >
       {children}
     </Wrapper>
   )
+}
+
+Layout.defaultProps = {
+  hasFooter: true
 }
 
 Layout.Header = Header

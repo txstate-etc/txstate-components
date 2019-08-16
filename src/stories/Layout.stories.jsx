@@ -41,30 +41,112 @@ const OverflowingContent = styled.div`
   background-color: #808080;
 `
 
-storiesOf('Layout', module).add('basic', () => {
-  const words = []
-  for (let i = 0; i < 1000; i++) {
-    words.push(
-      <span>
-        Really long content
-        <br />
-      </span>
+storiesOf('Layout', module)
+  .add('basic', () => {
+    const words = []
+    for (let i = 0; i < 1000; i++) {
+      words.push(
+        <span>
+          Really long content
+          <br />
+        </span>
+      )
+    }
+    return (
+      <GrayLayout sidebarSize={200}>
+        <GrayHeader>
+          <span>Header</span>
+        </GrayHeader>
+        <GraySidebar>
+          <span>Sidebar</span>
+        </GraySidebar>
+        <GrayContent>
+          <OverflowingContent>{words}</OverflowingContent>
+        </GrayContent>
+        <GrayFooter>
+          <span>Footer</span>
+        </GrayFooter>
+      </GrayLayout>
     )
-  }
-  return (
-    <GrayLayout>
-      <GrayHeader>
-        <span>Header</span>
-      </GrayHeader>
-      <GraySidebar>
-        <span>Sidebar</span>
-      </GraySidebar>
-      <GrayContent>
-        <OverflowingContent>{words}</OverflowingContent>
-      </GrayContent>
-      <GrayFooter>
-        <span>Footer</span>
-      </GrayFooter>
-    </GrayLayout>
-  )
-})
+  })
+  .add('no sidebar', () => {
+    const words = []
+    for (let i = 0; i < 1000; i++) {
+      words.push(
+        <span>
+          Really long content
+          <br />
+        </span>
+      )
+    }
+    return (
+      <GrayLayout sidebarSize={0}>
+        <GrayHeader>
+          <span>Header</span>
+        </GrayHeader>
+        <GraySidebar>
+          <span>Sidebar</span>
+        </GraySidebar>
+        <GrayContent>
+          <OverflowingContent>{words}</OverflowingContent>
+        </GrayContent>
+        <GrayFooter>
+          <span>Footer</span>
+        </GrayFooter>
+      </GrayLayout>
+    )
+  })
+  .add('no footer', () => {
+    const words = []
+    for (let i = 0; i < 1000; i++) {
+      words.push(
+        <span>
+          Really long content
+          <br />
+        </span>
+      )
+    }
+    return (
+      <GrayLayout sidebarSize={200} hasFooter={false}>
+        <GrayHeader>
+          <span>Header</span>
+        </GrayHeader>
+        <GraySidebar>
+          <span>Sidebar</span>
+        </GraySidebar>
+        <GrayContent>
+          <OverflowingContent>{words}</OverflowingContent>
+        </GrayContent>
+        <GrayFooter>
+          <span>Footer</span>
+        </GrayFooter>
+      </GrayLayout>
+    )
+  })
+  .add('no footer or sidebar', () => {
+    const words = []
+    for (let i = 0; i < 1000; i++) {
+      words.push(
+        <span>
+          Really long content
+          <br />
+        </span>
+      )
+    }
+    return (
+      <GrayLayout sidebarSize={0} hasFooter={false}>
+        <GrayHeader>
+          <span>Header</span>
+        </GrayHeader>
+        <GraySidebar>
+          <span>Sidebar</span>
+        </GraySidebar>
+        <GrayContent>
+          <OverflowingContent>{words}</OverflowingContent>
+        </GrayContent>
+        <GrayFooter>
+          <span>Footer</span>
+        </GrayFooter>
+      </GrayLayout>
+    )
+  })
