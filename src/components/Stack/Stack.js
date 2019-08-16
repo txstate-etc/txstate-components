@@ -1,18 +1,6 @@
 import React from 'react'
+import { Stack as OfficeStack } from 'office-ui-fabric-react/lib/Stack'
 import PropTypes from 'prop-types'
-
-const alignmentMap = {
-  start: 'flex-start',
-  center: 'center',
-  end: 'flex-end',
-  between: 'space-between',
-  even: 'space-evenly',
-  around: 'space-around'
-}
-
-const convertAlignment = provided => {
-  return alignmentMap[provided] || 'flex-start'
-}
 
 export const Stack = props => {
   const {
@@ -22,35 +10,28 @@ export const Stack = props => {
     verticalAlign,
     horizontalAlign,
     style,
-    className
+    wrap,
+    className,
+    children
   } = props
 
-  const children = React.Children.map(props.children, (child, index) => {
-    return (
-      <div key={index} style={{ margin: spacing / 2 || 0 }}>
-        {child}
-      </div>
-    )
-  })
-
-  return React.createElement(
-    renderAs,
-    {
-      style: {
-        display: 'flex',
-        padding: spacing / 2 || 0,
-        flexDirection: horizontal ? 'row' : 'column',
-        alignItems: horizontal
-          ? convertAlignment(verticalAlign)
-          : convertAlignment(horizontalAlign),
-        justifyContent: horizontal
-          ? convertAlignment(horizontalAlign)
-          : convertAlignment(verticalAlign),
-        ...style
-      },
-      className
-    },
-    children
+  return (
+    <OfficeStack
+      className={className}
+      wrap={wrap}
+      horizontal={horizontal}
+      horizontalAlign={horizontalAlign}
+      verticalAlign={verticalAlign}
+      tokens={{
+        childrenGap: spacing
+      }}
+      styles={{
+        root: { ...style }
+      }}
+      as={renderAs}
+    >
+      {children}
+    </OfficeStack>
   )
 }
 
@@ -59,17 +40,21 @@ Stack.propTypes = {
     'start',
     'center',
     'end',
-    'even',
-    'between',
-    'around'
+    'space-evenly',
+    'space-between',
+    'space-around',
+    'stretch',
+    'baseline'
   ]),
   horizontalAlign: PropTypes.oneOf([
     'start',
     'center',
     'end',
-    'even',
-    'between',
-    'around'
+    'space-evenly',
+    'space-between',
+    'space-around',
+    'stretch',
+    'baseline'
   ]),
   horizontal: PropTypes.bool,
   spacing: PropTypes.number,
