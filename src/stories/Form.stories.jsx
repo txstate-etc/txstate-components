@@ -10,6 +10,8 @@ import {
   Dropdown,
   TextInput,
   RichText,
+  Label,
+  DatePicker,
   TextArea,
   Checkbox
 } from '../components'
@@ -49,6 +51,15 @@ storiesOf('Form', module)
               onGetErrorMessage={(e, value) => {
                 if (value > 32) return 'Too Old'
               }}
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <Label>Birthday</Label>
+            <DatePicker
+              variant='inline'
+              emptyLabel='select your birthday'
+              initialValue={null}
+              path='birthday'
             />
           </Stack.Item>
           <TextArea

@@ -1,15 +1,15 @@
 import React from 'react'
 import {
   MuiPickersUtilsProvider,
-  DatePicker as MuiDatePicker
+  DateTimePicker as MuiDateTimePicker
 } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 
-export const DatePicker = props => {
+export const BaseDateTimePicker = props => {
   const { value, onChange, variant, maxDate, minDate } = props
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
-      <MuiDatePicker
+      <MuiDateTimePicker
         maxDate={maxDate}
         minDate={minDate}
         variant={variant}
@@ -20,6 +20,6 @@ export const DatePicker = props => {
   )
 }
 
-DatePicker.defaultProps = {
+BaseDateTimePicker.defaultProps = {
   variant: 'dialog'
 }

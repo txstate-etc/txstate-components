@@ -8,7 +8,10 @@ import get from 'lodash.get'
 export const useFormInput = ({ path, extractor, transformer, onGetErrorMessage, initialValue }) => {
   const formEvent = useContext(FormContext)
   const _id = useRef(uuid())
-  const [value, setValue] = useState(initialValue || '')
+  const [value, setValue] = useState(() => {
+    if (initialValue || initialValue === null) return initialValue
+    return ''
+  })
   const [error, setError] = useState('')
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 

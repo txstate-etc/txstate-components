@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DatePicker, Label, TimePicker, DateTimePicker, Stack } from '../components'
+import { BaseDatePicker, Label, BaseTimePicker, BaseDateTimePicker, Stack } from '../components'
 import { storiesOf } from '@storybook/react'
 import dayjs from 'dayjs'
 
@@ -13,15 +13,15 @@ const BasicDate = props => {
     <Stack spacing={12}>
       <Stack.Item>
         <Label>Inline</Label>
-        <DatePicker value={date} onChange={setDate} variant='inline' />
+        <BaseDatePicker value={date} onChange={setDate} variant='inline' />
       </Stack.Item>
       <Stack.Item>
         <Label>Static</Label>
-        <DatePicker value={date} onChange={setDate} variant='static' />
+        <BaseDatePicker value={date} onChange={setDate} variant='static' />
       </Stack.Item>
       <Stack.Item>
         <Label>Dialog</Label>
-        <DatePicker value={date} onChange={setDate} />
+        <BaseDatePicker value={date} onChange={setDate} />
       </Stack.Item>
     </Stack>
   )
@@ -37,15 +37,15 @@ const BasicDateTime = props => {
     <Stack spacing={12}>
       <Stack.Item>
         <Label>Inline</Label>
-        <DateTimePicker value={date} onChange={setDate} variant='inline' />
+        <BaseDateTimePicker value={date} onChange={setDate} variant='inline' />
       </Stack.Item>
       <Stack.Item>
         <Label>Static</Label>
-        <DateTimePicker value={date} onChange={setDate} variant='static' />
+        <BaseDateTimePicker value={date} onChange={setDate} variant='static' />
       </Stack.Item>
       <Stack.Item>
         <Label>Dialog</Label>
-        <DateTimePicker value={date} onChange={setDate} />
+        <BaseDateTimePicker value={date} onChange={setDate} />
       </Stack.Item>
     </Stack>
   )
@@ -61,15 +61,15 @@ const BasicTime = props => {
     <Stack spacing={12}>
       <Stack.Item>
         <Label>Inline</Label>
-        <TimePicker value={date} onChange={setDate} variant='inline' />
+        <BaseTimePicker value={date} onChange={setDate} variant='inline' />
       </Stack.Item>
       <Stack.Item>
         <Label>Static</Label>
-        <TimePicker value={date} onChange={setDate} variant='static' />
+        <BaseTimePicker value={date} onChange={setDate} variant='static' />
       </Stack.Item>
       <Stack.Item>
         <Label>Dialog</Label>
-        <TimePicker value={date} onChange={setDate} />
+        <BaseTimePicker value={date} onChange={setDate} />
       </Stack.Item>
     </Stack>
   )

@@ -1,15 +1,15 @@
 import React from 'react'
 import {
   MuiPickersUtilsProvider,
-  TimePicker as MuiTimePicker
+  TimePicker
 } from '@material-ui/pickers'
 import DayjsUtils from '@date-io/dayjs'
 
-export const TimePicker = props => {
+export const BaseTimePicker = props => {
   const { value, onChange, variant } = props
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
-      <MuiTimePicker
+      <TimePicker
         variant={variant}
         value={value}
         onChange={onChange}
@@ -18,6 +18,6 @@ export const TimePicker = props => {
   )
 }
 
-TimePicker.defaultProps = {
+BaseTimePicker.defaultProps = {
   variant: 'dialog'
 }
