@@ -41,6 +41,23 @@ export const DynamicSection = props => {
     path,
     extractor: () => {
       return state.current
+    },
+    transformer: (state) => {
+      Object.keys(state.form).forEach(key => {
+        state.form[key].__errors = state.errors[key] || {}
+      }, {})
+
+      Object.keys(state.errors).forEach(key => {
+        if (state.form[key]) {
+          state.form[key].__errors = state.errors[key]
+        } else {
+          state.form[key] = {
+            __errors: state.errors[key]
+          }
+        }
+      })
+
+      return Object.values(state.form)
     }
   })
 
@@ -55,7 +72,6 @@ export const DynamicSection = props => {
           handleRefUpdate(state, form, errors)
           onChange(null, state.current)
         }}
-        id={55}
       >
         {sections.map(item => React.cloneElement(item, { handleDelete }))}
       </Form>
