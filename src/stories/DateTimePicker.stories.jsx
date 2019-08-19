@@ -6,9 +6,6 @@ import dayjs from 'dayjs'
 const BasicDate = props => {
   const [date, setDate] = useState(dayjs().startOf('day'))
 
-  React.useEffect(() => {
-    console.log(date.format())
-  }, [date])
   return (
     <Stack spacing={12}>
       <Stack.Item>
@@ -30,9 +27,6 @@ const BasicDate = props => {
 const BasicDateTime = props => {
   const [date, setDate] = useState(dayjs().startOf('day'))
 
-  React.useEffect(() => {
-    console.log(date.format())
-  }, [date])
   return (
     <Stack spacing={12}>
       <Stack.Item>
@@ -54,9 +48,6 @@ const BasicDateTime = props => {
 const BasicTime = props => {
   const [date, setDate] = useState(dayjs().startOf('day'))
 
-  React.useEffect(() => {
-    console.log(date.format())
-  }, [date])
   return (
     <Stack spacing={12}>
       <Stack.Item>

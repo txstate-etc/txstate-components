@@ -3,20 +3,23 @@ import { storiesOf } from '@storybook/react'
 import {
   Form,
   Stack,
-  Toggle,
   Button,
+  Label
+} from '../components'
+
+import {
+  Toggle,
   DynamicSection,
   RadioGroup,
   Dropdown,
   TextInput,
   RichText,
-  Label,
   DatePicker,
   TimePicker,
   DateTimePicker,
   TextArea,
   Checkbox
-} from '../components'
+} from '../components/Form/Inputs'
 
 storiesOf('Form', module)
   .add('basic', () => {
