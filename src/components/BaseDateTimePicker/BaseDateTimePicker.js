@@ -6,10 +6,11 @@ import {
 import DayjsUtils from '@date-io/dayjs'
 
 export const BaseDateTimePicker = props => {
-  const { value, onChange, variant, maxDate, minDate } = props
+  const { value, onChange, variant, maxDate, minDate, emptyLabel } = props
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
       <MuiDateTimePicker
+        emptyLabel={emptyLabel}
         maxDate={maxDate}
         minDate={minDate}
         variant={variant}

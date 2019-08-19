@@ -11,6 +11,11 @@ export const DatePicker = props => {
   })
 
   return (
-    <BaseDatePicker value={value} onChange={onChange} variant={variant} emptyLabel={emptyLabel} />
+    <BaseDatePicker
+      value={value}
+      onChange={onChange}
+      variant={variant}
+      emptyLabel={emptyLabel}
+    />
   )
 }

@@ -12,6 +12,8 @@ import {
   RichText,
   Label,
   DatePicker,
+  TimePicker,
+  DateTimePicker,
   TextArea,
   Checkbox
 } from '../components'
@@ -60,6 +62,24 @@ storiesOf('Form', module)
               emptyLabel='select your birthday'
               initialValue={null}
               path='birthday'
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <Label>Party</Label>
+            <DateTimePicker
+              variant='inline'
+              emptyLabel='select party time'
+              initialValue={null}
+              path='party'
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <Label>Ending Time</Label>
+            <TimePicker
+              variant='inline'
+              emptyLabel='select party end time'
+              initialValue={null}
+              path='partyend'
             />
           </Stack.Item>
           <TextArea

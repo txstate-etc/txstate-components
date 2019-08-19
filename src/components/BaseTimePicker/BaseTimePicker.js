@@ -6,10 +6,11 @@ import {
 import DayjsUtils from '@date-io/dayjs'
 
 export const BaseTimePicker = props => {
-  const { value, onChange, variant } = props
+  const { value, onChange, variant, emptyLabel } = props
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
       <TimePicker
+        emptyLabel={emptyLabel}
         variant={variant}
         value={value}
         onChange={onChange}
