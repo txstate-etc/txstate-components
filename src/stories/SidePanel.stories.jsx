@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Button, Stack, Form, Text, TextInput, SidePanel, usePanel } from '../components'
+import { Button, Stack, Form, Text, SidePanel, usePanel } from '../components'
+import { TextInput } from '../components/Form/Inputs'
 
 const EmptyPanels = props => {
   const {
