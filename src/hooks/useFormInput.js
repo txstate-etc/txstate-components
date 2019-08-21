@@ -17,12 +17,20 @@ export const useFormInput = ({ path, extractor, transformer, onGetErrorMessage, 
 
   const handleChange = useCallback(useEvent(`${formEvent}-data`), [])
   const handleError = useCallback(useEvent(`${formEvent}-error`), [])
+
   const handleFormReady = useCallback((initialState) => {
     const initialValue = get(initialState, path)
     if (initialValue) {
       setValue(initialValue)
     }
   }, [setValue])
+
+  const handleValidation = useCallback(result => {
+    const errorMessage = get(result, path)
+    if (errorMessage) {
+      setError(errorMessage)
+    }
+  }, [setError])
 
   const getErrorMessage = useCallback(debounce(async (e, value) => {
     let error = ''
@@ -36,6 +44,7 @@ export const useFormInput = ({ path, extractor, transformer, onGetErrorMessage, 
   }, 300), [onGetErrorMessage, setError])
 
   useEvent(`${formEvent}-form-ready`, handleFormReady)
+  useEvent(`${formEvent}-validate-result`, handleValidation)
 
   useEffect(() => {
     if (error.length > 0) {

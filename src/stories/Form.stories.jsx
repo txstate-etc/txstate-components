@@ -20,8 +20,17 @@ const FormExample = props => {
             last: 'thyng'
           }
         }}
-        onSubmit={({ form, errors }) => {
-          console.log(form, errors)
+        onSubmit={async ({ form, errors }) => {
+          const validationErrors = {
+            errors: {
+              name: {
+                first: 'First name is wrong'
+              },
+              icecream: 'No way.'
+            }
+          }
+
+          return new Promise((resolve, reject) => setTimeout(() => reject(validationErrors), 1000))
         }}
       >
         <FormInputs>

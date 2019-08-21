@@ -4,6 +4,7 @@ import { Subject } from '../../utils'
 import set from 'lodash.set'
 import unset from 'lodash.unset'
 import clone from 'lodash.clone'
+import get from 'lodash.get'
 import uuid from 'uuid/v4'
 
 export const FormContext = React.createContext({})
@@ -29,7 +30,6 @@ export const Form = React.forwardRef((props, ref) => {
     children,
     onSubmit,
     onChange,
-    validate,
     initialValues,
     id
   } = props
@@ -54,6 +54,8 @@ export const Form = React.forwardRef((props, ref) => {
     errorDispatch({ type, path, payload: error })
   })
 
+  const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
+
   useEvent(`${formEvent.current}-data`, handleChildData)
   useEvent(`${formEvent.current}-error`, handleChildError)
 
@@ -66,13 +68,15 @@ export const Form = React.forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     submit: async () => {
       if (onSubmit && typeof onSubmit === 'function') {
-        let isValid = true
-        if (validate && typeof validate === 'function') {
-          isValid = await validate(form)
-        }
-
-        if (isValid) {
-          onSubmit({ form, errors })
+        try {
+          const results = await onSubmit({ form, errors })
+          const errorResults = get(results, 'errors')
+          if (errorResults) {
+            broadcastValidateResults(errorResults)
+          }
+        } catch (results) {
+          const errors = get(results, 'errors')
+          broadcastValidateResults(errors)
         }
       }
     }
