@@ -1,6 +1,6 @@
 {
   "name": "txstate-react",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
     "url": "https://github.com/txstate-etc/txstate-components"
@@ -40,7 +40,7 @@
     "/lib"
   ],
   "scripts": {
-    "build": "rm -rf lib/ && npx babel src/components/ -d lib --copy-files",
+    "build": "rm -rf lib/ && npx babel src/ -d lib --copy-files",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },

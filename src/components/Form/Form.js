@@ -6,18 +6,6 @@ import unset from 'lodash.unset'
 import clone from 'lodash.clone'
 import uuid from 'uuid/v4'
 
-/**
- * - lodash set for setting fields
- * - No validation on first load
- * - onBlur should be validated on that element
- * - onSubmit on all elements
- * - onChange - validate currently changing element
- *
- * - enter can submit
- * - Accessibility: invisible labels (aria-label)
- * - Generic Add More component
- */
-
 export const FormContext = React.createContext({})
 
 const immutableReducer = (state, action) => {
@@ -42,11 +30,13 @@ export const Form = React.forwardRef((props, ref) => {
     onSubmit,
     onChange,
     validate,
+    initialValues,
     id
   } = props
   const formEvent = useRef(id || uuid())
+  const _initialState = useRef(initialValues || {})
 
-  const [form, formDispatch] = useReducer(immutableReducer, {})
+  const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
 
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
@@ -61,12 +51,17 @@ export const Form = React.forwardRef((props, ref) => {
 
   const handleChildError = useCallback(({ type, path, error }) => {
     if (!path) return
-
     errorDispatch({ type, path, payload: error })
   })
 
   useEvent(`${formEvent.current}-data`, handleChildData)
   useEvent(`${formEvent.current}-error`, handleChildError)
+
+  const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
+
+  useEffect(() => {
+    notifyChildrenReady(_initialState.current)
+  }, [notifyChildrenReady])
 
   useImperativeHandle(ref, () => ({
     submit: async () => {

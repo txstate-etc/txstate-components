@@ -43,7 +43,7 @@ BaseTimePicker.defaultProps = {
 }
 
 BaseTimePicker.propTypes = {
-  variant: PropTypes.oneOf(['dialog' | 'inline' | 'static']),
+  variant: PropTypes.oneOf(['dialog', 'inline', 'static']),
   emptyLabel: PropTypes.string,
   format: PropTypes.string,
   value: PropTypes.instanceOf(dayjs),

@@ -40,15 +40,15 @@ export const BaseDatePicker = props => {
 
 BaseDatePicker.defaultProps = {
   variant: 'dialog',
-  minDate: '1900-01-01',
-  maxDate: '2100-01-01',
+  minDate: new Date('1900-01-01'),
+  maxDate: new Date('2100-01-01'),
   format: 'MM/DD/YYYY',
   mask: '__/__/____',
   placeholder: '10/31/2019'
 }
 
 BaseDatePicker.propTypes = {
-  variant: PropTypes.oneOf(['dialog' | 'inline' | 'static']),
+  variant: PropTypes.oneOf(['dialog', 'inline', 'static']),
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   emptyLabel: PropTypes.string,

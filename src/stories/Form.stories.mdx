@@ -1,0 +1,13 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Form } from '../components' 
+import { TextInput } from '../components/Form/Inputs' 
+
+<Meta title="Form|TextInput" components={Form} />
+
+<Preview>
+  <Story name='text input'>
+    <Form>
+      <TextInput path='name' label='Name' name='name' />
+    </Form>
+  </Story>
+</Preview>

@@ -4,7 +4,8 @@ import { BaseDatePicker } from '../../BaseDatePicker'
 
 export const DatePicker = props => {
   const { path, initialValue, format, emptyLabel, variant } = props
-  const { value, onChange } = useFormInput({ path,
+  const { value, onChange } = useFormInput({
+    path,
     initialValue,
     extractor: date => date,
     transformer: date => date.format(format)
