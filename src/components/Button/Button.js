@@ -61,10 +61,10 @@ export const Button = props => {
       role='button'
       aria-label={ariaLabel}
       onClick={onClick}
-      className={[className, variant, 'button-container']}
+      className={[variant, className, 'button-container']}
     >
       <ButtonLabel
-        className={[className, variant, 'button-label']}
+        className={[variant, className, 'button-label']}
         variant={variant}
       >
         {label}
@@ -79,8 +79,8 @@ Button.defaultProps = {
 }
 
 Button.propTypes = {
-  variant: PropTypes.oneOf(['primary', 'outline', 'transparent']),
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  ariaLabel: PropTypes.string.isRequired
+  ariaLabel: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(['primary', 'outline', 'transparent']),
+  onClick: PropTypes.func
 }

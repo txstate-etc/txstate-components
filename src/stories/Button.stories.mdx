@@ -1,0 +1,63 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import  { Button, toast } from '../components' 
+import { action } from '@storybook/addon-actions'
+import './Button.css'
+
+<Meta title="Components|Button" component={Button} />
+
+# Button
+
+Normally you would put a description here, so: this is a Button.
+
+## Props
+<Props of={Button} />
+
+## Variants
+
+<Preview>
+  <Story name="primary button">
+    <Button label='Primary' ariaLabel='Primary' />
+  </Story>
+  <Story name="outline button">
+    <Button label='Outline' variant='outline' ariaLabel='Outline' />
+  </Story>
+  <Story name="transparent button">
+    <Button label='Transparent' variant='transparent' ariaLabel='Transparent' />
+  </Story>
+</Preview>
+
+### Interaction
+
+Passing an onClick handler to the buttons will let you receive mouse clicks. The event is not a native browser event. 
+It's a <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticEvent</a> from React.
+
+<Preview>
+  <Story name="onClick">
+    <Button label='Click Me!' ariaLabel='primary button' onClick={() => toast.makeText({ message: "We'll cover this component later" })} />
+  </Story>
+</Preview>
+
+### Styling
+
+You can customize the styling of a button by passing in a `className`. 
+The button component has two unused class names applied to the container and the label. 
+These are `button-container` and `button-label`.
+
+```css
+.tomato-primary.button-container {
+  background-color: tomato;
+}
+
+.white-label.button-label {
+  background-color: white;
+  color: tomato;
+  font-weight: bold;
+  padding: 4px;
+}
+```
+
+<Preview>
+  <Story name="styled">
+    <Button label='Styled' ariaLabel='styled button' className='white-label tomato-primary' />
+  </Story>
+</Preview>

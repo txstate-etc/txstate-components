@@ -1,0 +1,10 @@
+.tomato-primary.button-container {
+  background-color: tomato;
+}
+
+.white-label.button-label {
+  background-color: white;
+  color: tomato;
+  font-weight: bold;
+  padding: 4px;
+}

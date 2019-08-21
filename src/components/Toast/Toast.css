@@ -4,7 +4,7 @@
   border-radius: 5px;
   background-color: #333;
   display: inline-block;
-  position: absolute;
+  position: fixed;
   opacity: 0;
   transition: opacity 800ms linear;
   animation: 800ms fadeIn;

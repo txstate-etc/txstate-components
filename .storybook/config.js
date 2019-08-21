@@ -1,11 +1,7 @@
 import { configure, addDecorator, addParameters } from '@storybook/react'
 import { withA11y } from '@storybook/addon-a11y'
-import { withConsole } from '@storybook/addon-console'
-import { setConsoleOptions } from '@storybook/addon-console'
+import { withConsole, setConsoleOptions } from '@storybook/addon-console'
 
-function loadStories () {
-  require('../src/stories')
-}
 
 const panelExclude = setConsoleOptions({}).panelExclude
 setConsoleOptions({
@@ -19,4 +15,4 @@ addParameters({
   options: { panelPosition: 'right' }
 })
 
-configure(loadStories, module)
+configure(require.context('../src/stories', true, /\.stories\.(js|jsx|ts|tsx|mdx)$/), module)
