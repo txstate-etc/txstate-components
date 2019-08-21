@@ -20,18 +20,6 @@ const FormExample = props => {
             last: 'thyng'
           }
         }}
-        onSubmit={async ({ form, errors }) => {
-          const validationErrors = {
-            errors: {
-              name: {
-                first: 'First name is wrong'
-              },
-              icecream: 'No way.'
-            }
-          }
-
-          return new Promise((resolve, reject) => setTimeout(() => reject(validationErrors), 1000))
-        }}
       >
         <FormInputs>
           <TextInput label='First Name' path='name.first' />

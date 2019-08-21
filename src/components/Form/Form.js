@@ -5,6 +5,7 @@ import set from 'lodash.set'
 import unset from 'lodash.unset'
 import clone from 'lodash.clone'
 import get from 'lodash.get'
+import debounce from 'lodash.debounce'
 import uuid from 'uuid/v4'
 
 export const FormContext = React.createContext({})
@@ -30,11 +31,13 @@ export const Form = React.forwardRef((props, ref) => {
     children,
     onSubmit,
     onChange,
+    validate,
     initialValues,
     id
   } = props
   const formEvent = useRef(id || uuid())
   const _initialState = useRef(initialValues || {})
+  const firstValidationSkipped = useRef(false)
 
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
@@ -55,6 +58,9 @@ export const Form = React.forwardRef((props, ref) => {
   })
 
   const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
+
+  useCallback(() => {
+  }, [])
 
   useEvent(`${formEvent.current}-data`, handleChildData)
   useEvent(`${formEvent.current}-error`, handleChildError)
@@ -82,11 +88,32 @@ export const Form = React.forwardRef((props, ref) => {
     }
   }))
 
-  useEffect(() => {
+  const validateOnChange = useCallback(debounce(async (form) => {
+    try {
+      const results = await validate(form)
+      const errors = get(results, 'errors')
+      if (errors) {
+        broadcastValidateResults(errors)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }, 300), [])
+
+  useEffect(function handleOnChange () {
     if (onChange && typeof onChange === 'function') {
       onChange({ form, errors })
     }
-  }, [form, errors, onChange])
+  }, [form, errors, validateOnChange, onChange])
+
+  useEffect(function onChangeValidate () {
+    if (!firstValidationSkipped.current) {
+      firstValidationSkipped.current = true
+      return
+    }
+    validateOnChange.cancel()
+    validateOnChange(form)
+  }, [validateOnChange, form])
 
   return (
     <FormContext.Provider value={formEvent.current}>
