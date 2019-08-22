@@ -21,6 +21,8 @@ const immutableReducer = (state, action) => {
       localState = clone(state)
       unset(localState, action.path)
       return localState
+    case 'validation':
+      return action.payload
     default:
       return state
   }
@@ -92,26 +94,27 @@ export const Form = React.forwardRef((props, ref) => {
     try {
       const results = await validate(form)
       const errors = get(results, 'errors')
+      errorDispatch({ type: 'validation', payload: errors })
       if (errors) {
         broadcastValidateResults(errors)
       }
     } catch (err) {
       console.log(err)
     }
-  }, 300), [])
+  }, 300), [validate, broadcastValidateResults])
 
-  useEffect(function handleOnChange () {
+  useEffect(() => {
     if (onChange && typeof onChange === 'function') {
-      onChange({ form, errors })
+      onChange({ form })
     }
-  }, [form, errors, validateOnChange, onChange])
+  }, [form, validateOnChange, onChange])
 
-  useEffect(function onChangeValidate () {
+  useEffect(() => {
+    validateOnChange.cancel()
     if (!firstValidationSkipped.current) {
       firstValidationSkipped.current = true
       return
     }
-    validateOnChange.cancel()
     validateOnChange(form)
   }, [validateOnChange, form])
 

@@ -8,7 +8,6 @@ export const TextInput = props => {
   const {
     value,
     error,
-    onBlur,
     onChange
   } = useFormInput({
     path,
@@ -23,7 +22,6 @@ export const TextInput = props => {
       autoAdjustHeight={multiline}
       label={label}
       type='text'
-      onBlur={onBlur}
       id={name}
       name={name}
       value={value}

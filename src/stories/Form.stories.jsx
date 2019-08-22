@@ -14,11 +14,21 @@ const FormExample = props => {
     <Stack spacing={12}>
       <Form
         ref={form}
-        initialValues={{
-          name: {
-            first: 'andrew',
-            last: 'thyng'
+        validate={async (form) => {
+          const errors = {}
+          if (form.icecream.key === 'sherbert') {
+            errors.icecream = 'Get out of here with your sherbert'
           }
+          if (form.name.first !== 'andrew') {
+            errors.name = {
+              first: 'Doesn\'t ring a bell'
+            }
+          }
+          console.log(errors)
+          return { errors }
+        }}
+        initialValues={{
+          icecream: { key: 'butter pecan' }
         }}
       >
         <FormInputs>
@@ -37,7 +47,6 @@ const FormExample = props => {
               { key: 'coffee', text: 'Coffee' },
               { key: 'sherbert', text: 'Sherbert' }
             ]}
-            initialSelectedKey='strawberry'
           />
         </FormInputs>
       </Form>
