@@ -1,9 +1,10 @@
 import React from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import { useFormInput } from '../../../hooks'
+import PropTypes from 'prop-types'
 
 export const TextInput = props => {
-  const { name, label, multiline, onGetErrorMessage, path, className, placeholder } = props
+  const { name, label, type, multiline, path, className, placeholder } = props
 
   const {
     value,
@@ -11,7 +12,6 @@ export const TextInput = props => {
     onChange
   } = useFormInput({
     path,
-    onGetErrorMessage,
     extractor: (e) => e.target.value
   })
 
@@ -21,7 +21,7 @@ export const TextInput = props => {
       multiline={multiline}
       autoAdjustHeight={multiline}
       label={label}
-      type='text'
+      type={type}
       id={name}
       name={name}
       value={value}
@@ -33,5 +33,15 @@ export const TextInput = props => {
 }
 
 TextInput.defaultProps = {
-  multiline: false
+  multiline: false,
+  type: 'text'
+}
+
+TextInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  multiline: PropTypes.bool,
+  type: PropTypes.string,
+  placeholder: PropTypes.string
 }

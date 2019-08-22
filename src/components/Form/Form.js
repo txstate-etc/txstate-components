@@ -86,6 +86,7 @@ export const Form = React.forwardRef((props, ref) => {
 
   const validateOnChange = useCallback(debounce(async (form) => {
     try {
+      if (typeof validate !== 'function') return
       const results = await validate(form)
       const errors = get(results, 'errors')
       errorDispatch({ type: 'validation', payload: errors })

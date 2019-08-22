@@ -1,6 +1,8 @@
 import React from 'react'
 import { useFormInput } from '../../../hooks'
 import { ComboBox } from 'office-ui-fabric-react/lib/ComboBox'
+import PropTypes from 'prop-types'
+
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
 initializeIcons()
 
@@ -26,4 +28,16 @@ export const Dropdown = props => {
       errorMessage={error}
     />
   )
+}
+
+Dropdown.defaultProps = {
+  options: []
+}
+
+Dropdown.propTypes = {
+  label: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    text: PropTypes.string
+  }))
 }

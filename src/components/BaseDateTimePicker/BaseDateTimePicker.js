@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker
@@ -10,16 +10,6 @@ import dayjs from 'dayjs'
 export const BaseDateTimePicker = props => {
   const { value, onChange, format, disabled, variant, placeholder, mask, maxDate, minDate } = props
 
-  const [_value, _setValue] = useState()
-
-  const _onChange = useCallback((value) => {
-    if (!onChange) {
-      _setValue(value)
-    } else {
-      onChange(value)
-    }
-  }, [onChange, _setValue])
-
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
       <KeyboardDateTimePicker
@@ -30,8 +20,8 @@ export const BaseDateTimePicker = props => {
         maxDate={maxDate}
         minDate={minDate}
         variant={variant}
-        value={value || _value}
-        onChange={_onChange}
+        value={value}
+        onChange={onChange}
       />
     </MuiPickersUtilsProvider>
   )

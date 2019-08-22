@@ -1,16 +1,23 @@
 import React from 'react'
 import { TextInput } from '../TextInput'
+import PropTypes from 'prop-types'
 
 export const TextArea = props => {
-  const { name, label, onGetErrorMessage, path } = props
+  const { name, label, path, placeholder } = props
 
   return (
     <TextInput
+      placeholder={placeholder}
       name={name}
       label={label}
       multiline
       path={path}
-      onGetErrorMessage={onGetErrorMessage}
     />
   )
+}
+
+TextArea.propTypes = {
+  label: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  name: PropTypes.string
 }

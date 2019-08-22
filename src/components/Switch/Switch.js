@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useCallback, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Label } from 'office-ui-fabric-react/lib/Label'
 import { Theme } from '../Theme'
@@ -110,14 +110,14 @@ export const Switch = props => {
   const { disabled, label, onValueChange, size, on } = props
   const [state, dispatch] = useReducer(switchReducer, {
     on,
-    className: ''
+    className: on ? 'slide-right' : 'slide-left'
   })
 
-  const _handleClick = () => {
+  const _handleClick = useCallback(() => {
     if (disabled) return
     const nextOn = !state.on
     dispatch({ type: nextOn ? 'on' : 'off', disabled })
-  }
+  }, [state, dispatch])
 
   useEffect(() => {
     onValueChange(state.on)

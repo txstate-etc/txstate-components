@@ -1,27 +1,19 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers'
+import { Label } from 'office-ui-fabric-react/lib/Label'
 import DayjsUtils from '@date-io/dayjs'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
 export const BaseDatePicker = props => {
-  const { value, placeholder, disabled, onChange, mask, format, variant, emptyLabel, maxDate, minDate } = props
-
-  const [_value, _setValue] = useState()
-
-  const _onChange = useCallback((value) => {
-    if (!onChange) {
-      _setValue(value)
-    } else {
-      onChange(value)
-    }
-  }, [onChange, _setValue])
+  const { value, placeholder, disabled, onChange, mask, format, variant, emptyLabel, label, maxDate, minDate } = props
 
   return (
     <MuiPickersUtilsProvider utils={DayjsUtils}>
+      <Label>{label}</Label>
       <KeyboardDatePicker
         mask={mask}
         format={format}
@@ -31,8 +23,8 @@ export const BaseDatePicker = props => {
         maxDate={maxDate}
         minDate={minDate}
         variant={variant}
-        value={value || _value}
-        onChange={_onChange}
+        value={value}
+        onChange={onChange}
       />
     </MuiPickersUtilsProvider>
   )
@@ -54,6 +46,6 @@ BaseDatePicker.propTypes = {
   emptyLabel: PropTypes.string,
   format: PropTypes.string,
   value: PropTypes.instanceOf(dayjs),
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   mask: PropTypes.string
 }

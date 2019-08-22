@@ -1,6 +1,17 @@
 import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
-import { Form, Button, Stack } from '../components' 
-import { TextInput, Dropdown, Toggle } from '../components/Form/Inputs' 
+import { Form, Button, Label, Stack } from '../components' 
+import { 
+  TextInput,
+  Checkbox,
+  RadioGroup,
+  RichText,
+  DatePicker,
+  DateTimePicker,
+  TimePicker,
+  TextArea,
+  Dropdown,
+  Toggle
+} from '../components/Form/Inputs'
 
 <Meta title="Form|Inputs" component={Form} />
 
@@ -8,6 +19,9 @@ import { TextInput, Dropdown, Toggle } from '../components/Form/Inputs'
 ```js
 import { TextInput } from 'txstate-react/lib/components/Form/Inputs'
 ```
+
+<Props of={TextInput} />
+
 <Preview>
   <Story name='text input'>
     <Form>
@@ -16,11 +30,29 @@ import { TextInput } from 'txstate-react/lib/components/Form/Inputs'
   </Story>
 </Preview>
 
+# TextArea
+```js
+import { TextArea } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={TextArea} />
+
+<Preview>
+  <Story name='text area'>
+    <Form>
+      <TextArea label='Swallow Description' path='swallowDescription' placeholder='please describe the unladen swallow' />
+    </Form>
+  </Story>
+</Preview>
+
+
 
 # Dropdown
 ```js
 import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
 ```
+<Props of={Dropdown} />
+
 <Preview>
   <Story name='dropdown'>
     <Form>
@@ -40,12 +72,150 @@ import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
 ```js
 import { Toggle } from 'txstate-react/lib/components/Form/Inputs'
 ```
+
+<Props of={Toggle} />
+
 <Preview>
   <Story name='toggle'>
     <Form>
-      <Toggle 
+      <Toggle
+        defaultOn
         path='swallowLadenStatus'
         label='Swallow is Laden'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+# Checkbox
+```js
+import { Checkbox } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={Checkbox} />
+
+<Preview>
+  <Story name='checkbox'>
+    <Form>
+        <Stack spacing={12}>
+          <Label>Select Laden Swallow Testing Loads</Label>
+          <Stack horizontal spacing={12}>
+            <Stack spacing={12}>
+              <Checkbox
+                label='Coconut'
+                path='coconut'
+              />
+              <Checkbox
+                label='Grapefruit'
+                path='grapefruit'
+              />
+              <Checkbox
+                label='Watermelon'
+                path='watermelon'
+              />
+            </Stack>
+            <Stack spacing={12}>
+              <Checkbox
+                label='Orange'
+                path='orange'
+              />
+              <Checkbox
+                label='Very Small Rocks'
+                path='smallrocks'
+              />
+              <Checkbox
+                label='A Duck'
+                path='duck'
+              />
+            </Stack>
+          </Stack>
+        </Stack>
+    </Form>
+  </Story>
+</Preview>
+
+# RadioGroup
+```js
+import { RadioGroup } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={RadioGroup} />
+
+<Preview>
+  <Story name='radiogroup'>
+    <Form>
+      <RadioGroup
+        path='swallowType'
+        label='Swallow Type'
+        ariaLabel='choose the type of swallow to test'
+        options={[
+          {key: 'african', text: 'African'},
+          {key: 'european', text: 'European'}
+        ]}
+      />
+    </Form>
+  </Story>
+</Preview>
+
+# Date/Time Pickers
+
+## Date
+```js
+import { DatePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={DatePicker} />
+
+<Preview>
+  <Story name='date picker'>
+    <Form>
+      <DatePicker
+        variant='inline'
+        label='Swallow Departure'
+        path='swallowDepart'
+        displayFormat='DD/MM/YYYY'
+        mask='__-__-____'
+        format='DD/MM/YYYY'
+        placeholder='31/10/2019'
+        initialValue={null}
+      />
+    </Form>
+  </Story>
+</Preview>
+
+## DateTime
+```js
+import { DateTimePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={DateTimePicker} />
+
+<Preview>
+  <Story name='date time picker'>
+    <Form>
+      <DateTimePicker
+        variant='inline'
+        label='Swallow Departure'
+        path='swallowDepart'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+## Time Picker
+```js
+import { TimePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<Props of={TimePicker} />
+
+<Preview>
+  <Story name='time picker'>
+    <Form>
+      <TimePicker
+        variant='inline'
+        label='Swallow Departure Time'
+        path='swallowDepartTime'
       />
     </Form>
   </Story>
