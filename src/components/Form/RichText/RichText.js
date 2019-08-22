@@ -3,15 +3,15 @@ import { useFormInput } from '../../../hooks'
 import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import { Editor } from '../../Editor'
+import PropTypes from 'prop-types'
 
 export const RichText = props => {
-  const { path, onGetErrorMessage } = props
+  const { path } = props
   const {
     value,
     onChange
   } = useFormInput({
     path,
-    onGetErrorMessage,
     transformer: (editorState) => {
       return draftToHtml(convertToRaw(editorState.getCurrentContent()))
     },
@@ -24,4 +24,8 @@ export const RichText = props => {
       onChange={onChange}
     />
   )
+}
+
+RichText.propTypes = {
+  path: PropTypes.string.isRequired
 }
