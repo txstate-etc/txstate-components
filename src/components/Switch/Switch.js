@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
+import { Label } from 'office-ui-fabric-react/lib/Label'
 import { Theme } from '../Theme'
 import PropTypes from 'prop-types'
 
@@ -128,7 +129,7 @@ export const Switch = props => {
 
   return (
     <div onClick={_handleClick} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      {label ? <label style={{ marginRight: 12 }}>{label}</label> : null}
+      {label ? <Label style={{ marginRight: 12 }}>{label}</Label> : null}
       <Track size={size} className={disabled ? 'disabled' : state.className} on={state.on}>
         <Thumb size={size} className={disabled ? 'disabled' : state.className} on={state.on} />
       </Track>

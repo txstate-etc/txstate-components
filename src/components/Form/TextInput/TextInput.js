@@ -3,7 +3,7 @@ import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import { useFormInput } from '../../../hooks'
 
 export const TextInput = props => {
-  const { name, label, multiline, onGetErrorMessage, path, className } = props
+  const { name, label, multiline, onGetErrorMessage, path, className, placeholder } = props
 
   const {
     value,
@@ -26,6 +26,7 @@ export const TextInput = props => {
       name={name}
       value={value}
       errorMessage={error}
+      placeholder={placeholder}
       onChange={onChange}
     />
   )

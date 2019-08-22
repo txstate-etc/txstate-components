@@ -54,18 +54,12 @@ export const Form = React.forwardRef((props, ref) => {
     Subject.next(inputEvent, value)
   }, [formDispatch])
 
-  const handleChildError = useCallback(({ type, path, error }) => {
-    if (!path) return
-    errorDispatch({ type, path, payload: error })
-  })
-
   const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
 
   useCallback(() => {
   }, [])
 
   useEvent(`${formEvent.current}-data`, handleChildData)
-  useEvent(`${formEvent.current}-error`, handleChildError)
 
   const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
 
@@ -105,9 +99,9 @@ export const Form = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if (onChange && typeof onChange === 'function') {
-      onChange({ form })
+      onChange({ form, errors })
     }
-  }, [form, validateOnChange, onChange])
+  }, [form, onChange])
 
   useEffect(() => {
     validateOnChange.cancel()
@@ -124,5 +118,3 @@ export const Form = React.forwardRef((props, ref) => {
     </FormContext.Provider>
   )
 })
-
-Form.defaultProps = { name: 'five' }

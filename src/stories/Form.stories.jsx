@@ -13,6 +13,7 @@ const FormExample = props => {
   return (
     <Stack spacing={12}>
       <Form
+        onChange={({ form, errors }) => console.log(form, errors)}
         ref={form}
         validate={async (form) => {
           const errors = {}

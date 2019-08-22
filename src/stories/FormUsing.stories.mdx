@@ -1,0 +1,136 @@
+import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Form, Button, Stack } from '../components' 
+import { TextInput } from '../components/Form/Inputs' 
+
+<Meta title="Form|Using" components={Form} />
+
+# Forms
+
+React is not very good at two way data flow. Taking in user input is a guarantee that you need two way data flow, 
+so forms become really difficult in React. To solve this problem we've made a `<Form />` component which is used much 
+like the HTML Element `<form />`. It will hold the state of your form for you and track all the changes. When you're ready 
+to submit the form, you call the Form's `submit()` function and it calls your `onSubmit` function with the form's state and 
+any errors that may exist.
+
+A basic form with a couple text inputs and a dropdown might look like this:
+
+<Preview>
+  <Story name='basic form'>
+    <Form>
+      <Stack spacing={12}>
+        <TextInput path='name.first' label='First Name' />
+        <TextInput path='name.last' label='Last Name' />
+        <Button 
+          label='Submit'
+          ariaLabel='submit name'
+          onClick={() => {
+            //Call to form's submit function
+          }} 
+        />
+      </Stack>
+    </Form>
+  </Story>
+</Preview>
+
+## Submitting A Form
+
+The form component provides its form and errors objects through an imperative handle. An imperative handle in react is a way to only 
+expose specific functions to the parent of the component. In this case, the form provides a single `submit` function as part of its 
+ref.
+
+```jsx
+const form = useRef()
+
+const onSubmit = async ({ form, errors }) => {
+  // form.name is the text input's value
+  // errors.name is any error with the text input's value
+
+  await fakeApi.post(form)
+}
+
+return (
+  <Form ref={form} onSubmit={onSubmit}>
+    <TextInput path='name' label='Name' />
+    <Button label='Submit' onClick={() => form.current.submit()} />
+  </Form>
+)
+```
+
+In this example, `form.current.submit` is called when the Button is clicked on. When the function runs it calls the `onSubmit` 
+function provided to `<Form />` as a prop. Sometimes, even though your form has been perfectly filled out by the user, 
+there are still errors the server will let you know about. If you want those errors passed back to your inputs the `onSubmit`
+function **must** return an errors object that uses the same paths as your inputs.
+
+The example above can be modified to provide onSubmit validation errors as follows:
+
+```jsx
+const form = useRef()
+
+const onSubmit = async ({ form, errors }) => {
+  const results = await fakeApi.post(form)
+  if (results.errors) {
+    return results
+  }
+}
+
+return (
+  <Form ref={form} onSubmit={onSubmit}>
+    <TextInput path='name' label='Name' />
+    <Button label='Submit' onClick={() => form.current.submit()} />
+  </Form>
+)
+```
+
+## Validation
+
+As seen above, validation can run on submit. You also have the option of validating the whole form every time input changes.
+
+```jsx
+const form = useRef()
+
+const validate = async ({ form }) => {
+  const results = await fakeApi.validate(form)
+  if (results.errors) {
+    return results
+  }
+}
+
+return (
+  <Form ref={form} validate={validate}>
+    <TextInput path='name' label='Name' />
+    <Button label='Submit' onClick={() => form.current.submit()} />
+  </Form>
+)
+```
+
+The validate function needs to return the same type of `errors` object the onSubmit function returns. In the above example your errors object
+would be  
+```js
+results.errors = {
+  name: 'Please fill out your name'
+}
+```
+
+If for some reason you need or want to see every change made to the form, you provide an `onChange` function.
+This is a good way to inspect what's going on with form state as you build your forms. 
+
+```jsx
+const onChange = ({ form, errors }) => {
+  /**
+   * form = {
+   *  name: string
+   * }
+   * 
+   * errors = {
+   *  name: string
+   * }
+   */
+}
+
+return (
+  <Form onChange={onChange}>
+    <TextInput path='name' label='Name' />
+    <Button label='Submit' onClick={() => form.current.submit()} />
+  </Form>
+)
+```

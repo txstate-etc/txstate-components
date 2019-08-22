@@ -1,0 +1,52 @@
+import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Form, Button, Stack } from '../components' 
+import { TextInput, Dropdown, Toggle } from '../components/Form/Inputs' 
+
+<Meta title="Form|Inputs" component={Form} />
+
+# TextInput
+```js
+import { TextInput } from 'txstate-react/lib/components/Form/Inputs'
+```
+<Preview>
+  <Story name='text input'>
+    <Form>
+      <TextInput label='Airspeed velocity of an unladen swallow' path='swallowSpeed' placeholder='african or european?' />
+    </Form>
+  </Story>
+</Preview>
+
+
+# Dropdown
+```js
+import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
+```
+<Preview>
+  <Story name='dropdown'>
+    <Form>
+      <Dropdown 
+        label='Swallow Type'
+        options={[
+          { key: 'african', text: 'African' },
+          { key: 'european', text: 'European' }
+        ]}
+        path='swallowType'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+# Toggle
+```js
+import { Toggle } from 'txstate-react/lib/components/Form/Inputs'
+```
+<Preview>
+  <Story name='toggle'>
+    <Form>
+      <Toggle 
+        path='swallowLadenStatus'
+        label='Swallow is Laden'
+      />
+    </Form>
+  </Story>
+</Preview>
