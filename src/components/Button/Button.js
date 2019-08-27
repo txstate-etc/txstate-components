@@ -20,7 +20,8 @@ const ButtonBase = styled.div`
   border-radius: 2px;
   cursor: pointer;
   transition: all 200ms ease;
-  
+  border-radius: 3px;
+
   &.primary {
     background-color: ${Theme.maroon};
   }
