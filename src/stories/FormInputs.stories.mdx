@@ -1,5 +1,5 @@
 import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
-import { Form, Button, Label, Stack } from '../components' 
+import { Form, Button, BasePicker, Label, Stack } from '../components' 
 import { 
   TextInput,
   Checkbox,
@@ -67,6 +67,32 @@ import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
     </Form>
   </Story>
 </Preview>
+
+
+
+# Picker
+```js
+import { BasePicker } from 'txstate-react/lib/components/BasePicker'
+```
+<Props of={BasePicker} />
+
+<Preview>
+  <Story name='picker'>
+      <BasePicker 
+        label='What colors is your swallow?'
+        items={[
+          { name: 'red', key: 'red' },
+          { name: 'blue', key: 'blue' },
+          { name: 'green', key: 'green' },
+          { name: 'yellow', key: 'yellow' },
+          { name: 'orange', key: 'orange' },
+          { name: 'purple', key: 'purple' }
+        ]}
+        ariaLabel='swallow color choices'
+      />
+  </Story>
+</Preview>
+
 
 # Toggle
 ```js
