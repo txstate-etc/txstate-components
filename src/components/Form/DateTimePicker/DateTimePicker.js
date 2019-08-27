@@ -42,7 +42,7 @@ DateTimePicker.propTypes = {
   variant: PropTypes.oneOf(['dialog', 'inline', 'static']),
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
-  initialValue: PropTypes.instanceOf(Date),
+  initialValue: PropTypes.instanceOf(dayjs),
   emptyLabel: PropTypes.string,
   displayFormat: PropTypes.string,
   format: PropTypes.string,

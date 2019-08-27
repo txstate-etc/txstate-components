@@ -46,6 +46,6 @@ BaseDatePicker.propTypes = {
   emptyLabel: PropTypes.string,
   format: PropTypes.string,
   value: PropTypes.instanceOf(dayjs),
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   mask: PropTypes.string
 }

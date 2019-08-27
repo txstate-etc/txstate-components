@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button } from '../components'
-import { TextInput, Dropdown } from '../components/Form/Inputs'
+import { TextInput, TagPicker } from '../components/Form/Inputs'
 import styled from 'styled-components'
+import get from 'lodash.get'
 
 const FormInputs = styled(Stack)`
   width: 400px;
@@ -17,36 +18,34 @@ const FormExample = props => {
         ref={form}
         validate={async (form) => {
           const errors = {}
-          if (form.icecream.key === 'sherbert') {
+          if (get(form, 'icecream.key') === 'sherbert') {
             errors.icecream = 'Get out of here with your sherbert'
           }
-          if (form.name.first !== 'andrew') {
+          if (get(form, 'name.first') !== 'andrew') {
             errors.name = {
               first: 'Doesn\'t ring a bell'
             }
           }
-          console.log(errors)
           return { errors }
-        }}
-        initialValues={{
-          icecream: { key: 'butter pecan' }
         }}
       >
         <FormInputs>
           <TextInput label='First Name' path='name.first' />
           <TextInput label='Last Name' path='name.last' />
-          <Dropdown
+          <TagPicker
             label='Favorite Ice Cream'
+            ariaLabel='Ice Cream'
             path='icecream'
-            options={[
-              { key: 'vanilla', text: 'Vanilla' },
-              { key: 'strawberry', text: 'Strawberry' },
-              { key: 'chocolate', text: 'Chocolate' },
-              { key: 'butter pecan', text: 'Butter pecan' },
-              { key: 'cookie dough', text: 'Cookie dough' },
-              { key: 'mint', text: 'Mint' },
-              { key: 'coffee', text: 'Coffee' },
-              { key: 'sherbert', text: 'Sherbert' }
+            itemLimit={2}
+            items={[
+              { key: 'vanilla', name: 'Vanilla' },
+              { key: 'strawberry', name: 'Strawberry' },
+              { key: 'chocolate', name: 'Chocolate' },
+              { key: 'butter pecan', name: 'Butter pecan' },
+              { key: 'cookie dough', name: 'Cookie dough' },
+              { key: 'mint', name: 'Mint' },
+              { key: 'coffee', name: 'Coffee' },
+              { key: 'sherbert', name: 'Sherbert' }
             ]}
           />
         </FormInputs>

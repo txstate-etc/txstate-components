@@ -1,5 +1,5 @@
 import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
-import { Form, Button, BasePicker, Label, Stack } from '../components' 
+import { Form, Button, Label, Stack } from '../components' 
 import { 
   TextInput,
   Checkbox,
@@ -8,6 +8,7 @@ import {
   DatePicker,
   DateTimePicker,
   TimePicker,
+  TagPicker,
   TextArea,
   Dropdown,
   Toggle
@@ -70,15 +71,17 @@ import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
 
 
 
-# Picker
+# Tag Picker
 ```js
-import { BasePicker } from 'txstate-react/lib/components/BasePicker'
+import { TagPicker } from 'txstate-react/lib/components/Form/Inputs'
 ```
-<Props of={BasePicker} />
+<Props of={TagPicker} />
 
 <Preview>
   <Story name='picker'>
-      <BasePicker 
+    <Form>
+      <TagPicker 
+        path='swallowColors'
         label='What colors is your swallow?'
         items={[
           { name: 'red', key: 'red' },
@@ -88,8 +91,10 @@ import { BasePicker } from 'txstate-react/lib/components/BasePicker'
           { name: 'orange', key: 'orange' },
           { name: 'purple', key: 'purple' }
         ]}
+        itemLimit={2}
         ariaLabel='swallow color choices'
       />
+    </Form>
   </Story>
 </Preview>
 

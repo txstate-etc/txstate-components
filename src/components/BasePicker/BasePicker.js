@@ -53,7 +53,7 @@ export const BasePicker = props => {
     <>
       <Label>{label}</Label>
       <TagPicker
-        items={value}
+        selectedItems={value}
         onChange={onChange}
         componentRef={tagPicker}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
@@ -75,7 +75,6 @@ export const BasePicker = props => {
 
 BasePicker.defaultProps = {
   items: [],
-  itemLimit: 2,
   disabled: false,
   showSelectedItems: true,
   canSelectDuplicates: false
@@ -92,7 +91,6 @@ BasePicker.propTypes = {
   itemLimit: PropTypes.number,
   disabled: PropTypes.bool,
   canSelectDuplicates: PropTypes.bool,
-  itemLimit: PropTypes.number,
   value: PropTypes.array,
   onChange: PropTypes.func
 }

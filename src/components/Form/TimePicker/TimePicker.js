@@ -2,6 +2,7 @@ import React from 'react'
 import { BaseTimePicker } from '../../BaseTimePicker'
 import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
+import dayjs from 'dayjs'
 
 export const TimePicker = props => {
   const {
@@ -47,11 +48,11 @@ TimePicker.defaultProps = {
   format: 'HH:mm:ssZ',
   mask: '__:__ _m',
   disabled: false,
-  initialValue: new Date()
+  initialValue: dayjs()
 }
 
 TimePicker.propTypes = {
-  initialValue: PropTypes.instanceOf(Date),
+  initialValue: PropTypes.instanceOf(dayjs),
   emptyLabel: PropTypes.string,
   displayFormat: PropTypes.string,
   format: PropTypes.string,
