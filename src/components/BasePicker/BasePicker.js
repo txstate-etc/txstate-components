@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 
 const listContainsDocument = (item, itemList) => {
   if (!itemList || !itemList.length || itemList.length === 0) {
-    return false;
+    return false
   }
-  return itemList.filter(compareTag => compareTag.key === item.key).length > 0;
+  return itemList.filter(compareTag => compareTag.key === item.key).length > 0
 }
 
 export const BasePicker = props => {
