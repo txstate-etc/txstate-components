@@ -77,6 +77,38 @@ SidePanel.defaultProps = {
 }
 
 SidePanel.propTypes = {
+  /** Sets the size to one of three defaults or a custom value */
   size: PropTypes.oneOf(['small', 'medium', 'large', 'custom']),
-  side: PropTypes.oneOf(['near', 'far'])
+  /** Controls which side of the screen the panel will appear on, near is the side you start reading on. */
+  side: PropTypes.oneOf(['near', 'far']),
+  /** Used when size is set to custom, ignored otherwise */
+  customWidth: PropTypes.number,
+  /** Uses a modal overlay (scrim) when set to true  */
+  isBlocking: PropTypes.bool,
+  /** Hides the panel on dismiss instead of unmounting/destroying it */
+  isHiddenOnDismiss: PropTypes.bool,
+  /** Allows a click on the scrim to dismiss */
+  isScrimDismiss: PropTypes.bool,
+  /** Controls visibility of the panel */
+  isOpen: PropTypes.bool,
+  /** Focuses this element when the panel is dismissed */
+  elementToFocusOnDismiss: PropTypes.element,
+  /** Fixes the footer at the bottom of the panel regardless of the height of the content in it */
+  isFooterAtBottom: PropTypes.bool,
+  /** Called when the panel is dismissed. */
+  onDismiss: PropTypes.func,
+  /** Callback fired after the panel is dismissed */
+  onDismissed: PropTypes.func,
+  /** Callback fired when user clicks on the scrim to dismiss */
+  onScrimDismissClick: PropTypes.func,
+  /** Callback fired when the panel is opened, __before__ animation finishes */
+  onOpen: PropTypes.func,
+  /** Callback fired when the panel is opened, __after__ animation finishes */
+  onOpened: PropTypes.func,
+  /** Returns custom header element. */
+  onRenderHeader: PropTypes.func,
+  /** Returns custom footer element. */
+  onRenderFooter: PropTypes.func,
+  /** Returns custom navigation area, which normally holds the X icon to close the panel */
+  onRenderNavigation: PropTypes.func
 }
