@@ -38,6 +38,7 @@ export const Stack = props => {
 Stack.Item = OfficeStack.Item
 
 Stack.propTypes = {
+  /** Vertical alignment of immediate children in the stack. Follows flexbox alignment rules. */
   verticalAlign: PropTypes.oneOf([
     'start',
     'center',
@@ -48,6 +49,7 @@ Stack.propTypes = {
     'stretch',
     'baseline'
   ]),
+  /** Same as verticalAlign, only horizontal! 😲 */
   horizontalAlign: PropTypes.oneOf([
     'start',
     'center',
@@ -58,8 +60,11 @@ Stack.propTypes = {
     'stretch',
     'baseline'
   ]),
+  /** If true, the children will be laid out horizontally */
   horizontal: PropTypes.bool,
+  /** Spacing between children. Does not provide margin or padding in the stack itself. */
   spacing: PropTypes.number,
+  /** Render the stack as a different html element */
   renderAs: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 }
 

@@ -1,0 +1,37 @@
+import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Stack } from '../components'
+
+<Meta title="Components|Stack" component={Stack} />
+
+# Stack
+---
+## Props
+---
+<Props of={Stack} />
+
+### Vertical
+<Preview>
+  <Story name='vertical stack'>
+    <Stack style={{backgroundColor: '#005481'}}>
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+    </Stack>
+  </Story>
+</Preview>
+
+### Horizontal w/Spacing
+<Preview>
+  <Story name='horizontal stack'>
+    <Stack horizontal horizontalAlign='start' spacing={12} style={{backgroundColor: '#005481'}}>
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: 'white', border: 'solid 2px #501214', boxSizing: 'border-box' }} />
+    </Stack>
+  </Story>
+</Preview>
+
