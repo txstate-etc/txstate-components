@@ -17,7 +17,7 @@ const outline = css`
 const ButtonBase = styled.div`
   width: fit-content;
   padding: 1rem 2rem; 
-  border-radius: 2px;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 200ms ease;
   border-radius: 3px;
@@ -33,10 +33,6 @@ const ButtonBase = styled.div`
   &.transparent {
     ${outline}
     background-color: transparent;
-  }
-
-  &:hover {
-    transform: translate(0px, -3px);
   }
 `
 

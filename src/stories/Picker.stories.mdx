@@ -1,0 +1,35 @@
+import { Meta, Story, Props, Preview } from "@storybook/addon-docs/blocks";
+import { BasePicker } from "../components";
+
+<Meta title="Components|Picker" component={BasePicker} />
+
+# Picker
+
+```js
+import { BasePicker } from "txstate-react/lib/components";
+```
+
+## Props
+
+---
+
+If either `value` or `onChange` are provided, both must be provided. These props turn the picker into a controlled component.
+
+<Props of={BasePicker} />
+
+<Preview>
+  <Story name="picker">
+    <BasePicker
+      items={[
+        { key: "red", name: "red" },
+        { key: "orange", name: "orange" },
+        { key: "yellow", name: "yellow" },
+        { key: "green", name: "green" },
+        { key: "blue", name: "blue" },
+        { key: "indigo", name: "indigo" },
+        { key: "violet", name: "violet" }
+      ]}
+      itemLimit={3}
+    />
+  </Story>
+</Preview>

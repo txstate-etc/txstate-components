@@ -91,6 +91,6 @@ BasePicker.propTypes = {
   itemLimit: PropTypes.number,
   disabled: PropTypes.bool,
   canSelectDuplicates: PropTypes.bool,
-  value: PropTypes.array,
+  value: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
   onChange: PropTypes.func
 }
