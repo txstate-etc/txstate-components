@@ -1,0 +1,29 @@
+import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Button, Stack, toast } from '../components'
+
+<Meta title="Components|Toast" />
+
+# Toast
+---
+
+```js
+import { toast } from 'txstate-react/lib/components/Toast'
+```
+
+## Arguments
+
+The gravity positions listed below are available when importing the `toast` component under `toast.GRAVITY`
+
+| Name     | Description                                                                                                                                             | Default    |
+|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| message  | **Text to display in the Toast** <br /> string | -- |
+| duration | **Length to display the toast, in ms** <br /> number | 3000 |
+| gravity  | **Position of the toast** <br /> GRAVITY.TOP_LEFT \| GRAVITY.TOP_CENTER \| GRAVITY.TOP_RIGHT \| GRAVITY.BOTTOM_LEFT \| GRAVITY.BOTTOM_CENTER \| GRAVITY.BOTTOM_RIGHT | TOP_CENTER |
+
+<Preview>
+  <Story name='toast example'>
+    <Stack horizontal horizontalAlign='center'>
+      <Button label='Show Toast' onClick={() => toast.makeText({ message: 'Greetings!', gravity: toast.GRAVITY.TOP_LEFT })} />
+    </Stack>
+  </Story>
+</Preview>
