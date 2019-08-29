@@ -1,163 +1,93 @@
-import React, { useReducer, useState, useEffect } from 'react'
-import ReactTable from 'react-table'
-import get from 'lodash.get'
-import './Table.css'
+import React, { useEffect, useState } from 'react'
+import { BaseTable } from './BaseTable'
+import styled from 'styled-components'
+import { useTable } from '../../hooks'
+import PropTypes from 'prop-types'
 
-const getIndicesOfPage = (page, pageSize) => {
-  return {
-    start: page * pageSize,
-    end: (page + 1) * pageSize
-  }
-}
+const Overlay = styled.div`
+  background-color: #FFFFFF90;
+  position: absolute;
+  width: 100%;
+  height: 100%
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 3rem;
+  z-index: 100;
+`
 
-const dataReducer = (state, action) => {
-  switch (action.type) {
-    case 'load':
-      return {
-        ...state,
-        loading: true,
-        error: null
-      }
-    case 'next':
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        data: {
-          ...action.data,
-          list: [...state.data.list, ...action.data.list]
-        }
-      }
-    case 'sort': {
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        data: action.data
-      }
-    }
-    case 'success':
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        data: action.data
-      }
-    case 'failure':
-      return {
-        ...state,
-        loading: false,
-        error: action.error
-      }
-    default:
-      return state
-  }
-}
-
-const handleDataFetch = async (promise, dispatch) => {
-  dispatch({ type: 'load' })
-  try {
-    const results = await promise()
-    dispatch({ type: 'success', data: results })
-  } catch (error) {
-    dispatch({ type: 'failure', error })
-  }
-}
-
-const handleNextData = async (promise, dispatch) => {
-  dispatch({ type: 'load' })
-  try {
-    const results = await promise()
-    dispatch({ type: 'next', data: results })
-  } catch (error) {
-    dispatch({ type: 'failure', error })
-  }
-}
-
-const handleSortData = async (promise, dispatch) => {
-  dispatch({ type: 'load' })
-  try {
-    const results = await promise()
-    dispatch({ type: 'sort', data: results })
-  } catch (error) {
-    dispatch({ type: 'failure', error })
-  }
-}
-
-const initialState = {
-  loading: true,
-  data: {
-    list: [],
-    next: () => null,
-    prev: () => null,
-    total: 0
-  },
-  error: null
+const Loading = props => {
+  const { switchingPage, initialLoad } = props
+  if (initialLoad) return <div>Loading...</div>
+  if (switchingPage) return <Overlay>Loading</Overlay>
+  return null
 }
 
 export const Table = props => {
-  const { columns, getData, pageSize, fetchData, handleSort } = props
-  const [state, dispatch] = useReducer(dataReducer, initialState)
-  const [page, setPage] = useState(0)
-  const [pages, setPages] = useState(1)
+  const { initialPageSize, dataSource, columns } = props
+  const [initialLoad, setInitialLoad] = useState(true)
+
+  const {
+    onChangePage,
+    onChangeRowsPerPage,
+    onSort,
+    paginationPerPage,
+    paginationTotalRows,
+    fetchingPage,
+    data
+  } = useTable({
+    initialPageSize,
+    dataSource
+  })
 
   useEffect(() => {
-    handleDataFetch(fetchData, dispatch)
-  }, [getData, dispatch])
-
-  useEffect(() => {
-    const total = get(state, 'data.total', 0)
-    setPages(Math.ceil(total / pageSize))
-  }, [pageSize, setPages, state.data.total])
-
-  useEffect(() => {
-
-  }, [state.data])
-
-  const { start, end } = getIndicesOfPage(page, pageSize)
+    if (initialLoad && data.length > 0 && !fetchingPage) {
+      setInitialLoad(false)
+    }
+  }, [data, initialLoad, setInitialLoad, fetchingPage])
 
   return (
-    <ReactTable
-      manual
-      showPageSizeOptions={false}
-      showPageJump={false}
-      page={page}
-      pages={pages}
-      pageSize={pageSize}
-      loading={state.loading}
-      data={state.data.list.slice(start, end)}
-      onPageChange={pageId => {
-        const data = get(state, 'data.list', [])
-        const { start, end } = getIndicesOfPage(pageId + 1, pageSize)
-        if (data.slice(start, end).length < pageSize) {
-          handleNextData(get(state, 'data.next'), dispatch)
-        }
-        setPage(pageId)
-      }}
-      onSortedChange={sorted => {
-        const column = get(sorted, '[0].id')
-        const descending = get(sorted, '[0].desc')
-
-        const sort = {}
-
-        if (descending !== undefined && column !== undefined) {
-          sort.order = descending ? 'desc' : 'asc'
-          sort.column = column
-        }
-        setPage(0)
-        handleSortData(() => handleSort(sort), dispatch)
-      }}
-      columns={columns}
-    />
+    <div style={{ position: 'relative' }}>
+      <Loading initialLoad={initialLoad} switchingPage={fetchingPage} />
+      <BaseTable
+        initialLoad={initialLoad}
+        columns={columns}
+        data={data}
+        noDataComponent={() => {
+          if (data.length === 0 && fetchingPage) {
+            return <div />
+          }
+          return <div>No Records Found</div>
+        }}
+        title='People'
+        keyField='id.value'
+        onSort={onSort}
+        paginationTotalRows={paginationTotalRows}
+        paginationPerPage={paginationPerPage}
+        onChangePage={onChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
+        sortServer
+      />
+    </div>
   )
 }
 
-Table.defaultProps = {
-  data: {
-    list: [],
-    next: () => null,
-    prev: () => null,
-    total: 0
-  },
-  columns: []
+Table.propTypes = {
+  columns: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    selector: PropTypes.string,
+    sortable: PropTypes.bool,
+    format: PropTypes.func,
+    cell: PropTypes.elementType,
+    right: PropTypes.bool,
+    center: PropTypes.bool,
+    grow: PropTypes.number,
+    ignoreRowClick: PropTypes.bool,
+    button: PropTypes.bool,
+    allowOverflow: PropTypes.bool,
+    hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
+  }))
 }

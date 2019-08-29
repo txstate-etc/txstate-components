@@ -28,6 +28,7 @@
     "office-ui-fabric-react": "^7.28.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
+    "react-data-table-component": "^3.4.0",
     "react-dom": "^16.9.0",
     "react-draft-wysiwyg": "^1.13.2",
     "react-table": "^6.10.0",
