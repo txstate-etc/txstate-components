@@ -8,11 +8,18 @@ const Title = styled(Text)`
   font-family: sans-serif;
 `
 
-const StoryContainer = styled.div`
+const StoryContainer = styled.a`
   border: solid 1px #30303030;
   border-radius: 5px;
   padding: 8px 12px;
   width: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  
+  &:link, &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
 
   &:hover {
     background-color: #fafafa;
@@ -20,10 +27,10 @@ const StoryContainer = styled.div`
 `
 
 const Story = props => {
-  const { title } = props
+  const { title, url } = props
 
   return (
-    <StoryContainer>
+    <StoryContainer href={url} target='_blank'>
       <Title>{title}</Title>
     </StoryContainer>
   )
@@ -33,7 +40,7 @@ const StoriesView = props => {
   const { data, reload, load, reloading } = props
   return (
     <Stack spacing={12}>
-      {data.map((story) => <Story title={story.title} key={story.id} />)}
+      {data.map((story) => <Story title={story.title} url={story.url} key={story.id} />)}
       {reloading ? <div>Loading ... </div> : null}
       <Stack horizontal spacing={24}>
         <Button label='Refresh' ariaLabel='refresh new stories' onClick={() => reload()} />
