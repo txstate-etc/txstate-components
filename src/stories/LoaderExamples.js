@@ -1,0 +1,66 @@
+import React from 'react'
+import { Loader, Stack, Text, Button } from '../components'
+import axios from 'axios'
+import styled from 'styled-components'
+
+const Title = styled(Text)`
+  font-size: 1.2rem;
+  font-family: sans-serif;
+`
+
+const StoryContainer = styled.div`
+  border: solid 1px #30303030;
+  border-radius: 5px;
+  padding: 8px 12px;
+  width: 100%;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+`
+
+const Story = props => {
+  const { title } = props
+
+  return (
+    <StoryContainer>
+      <Title>{title}</Title>
+    </StoryContainer>
+  )
+}
+
+const StoriesView = props => {
+  const { data, reload, load, reloading } = props
+  return (
+    <Stack spacing={12}>
+      {data.map((story) => <Story title={story.title} key={story.id} />)}
+      {reloading ? <div>Loading ... </div> : null}
+      <Stack horizontal spacing={24}>
+        <Button label='Refresh' ariaLabel='refresh new stories' onClick={() => reload()} />
+        <Button label='Reload' ariaLabel='reload page' onClick={() => load()} />
+      </Stack>
+    </Stack>
+  )
+}
+
+const getStory = async (id) => {
+  const result = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  return result.data
+}
+
+const getStories = async (count = 8) => {
+  const results = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json')
+  const topStoryIds = results.data.slice(0, count)
+
+  const storyResults = await Promise.all(topStoryIds.map(getStory))
+  return storyResults
+}
+
+export const LoaderExamples = props => {
+  return (
+    <Loader
+      fetch={getStories}
+      View={StoriesView}
+    />
+  )
+}

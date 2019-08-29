@@ -1,5 +1,6 @@
 import React, { useReducer, useCallback, useEffect } from 'react'
 import { LoadingSpinner } from '../LoadingSpinner'
+import PropTypes from 'prop-types'
 
 const fetchReducer = (state, action) => {
   switch (action.type) {
@@ -78,3 +79,17 @@ export const Loader = React.forwardRef((props, ref) => {
     />
   )
 })
+
+Loader.defaultProps = {
+  View: ({ load, reload, reloading, data }) => <div />,
+  ErrorView: ({ error, load, reload }) => <div>{error.message}</div>
+}
+
+Loader.propTypes = {
+  /** A React component to render after loading is successfully complete */
+  View: PropTypes.elementType,
+  /** A React component to render when there is an error */
+  ErrorView: PropTypes.elementType,
+  /** Should return the data you are interested in rendering  */
+  fetch: PropTypes.func
+}
