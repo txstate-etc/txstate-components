@@ -7,7 +7,9 @@ import './Button.css'
 
 # Button
 
-Normally you would put a description here, so: this is a Button.
+```jsx
+import { Button } from 'txstate-react/lib/components'
+```
 
 ## Props
 <Props of={Button} />
@@ -22,7 +24,9 @@ Normally you would put a description here, so: this is a Button.
     <Button label='Outline' variant='outline' ariaLabel='Outline' />
   </Story>
   <Story name="transparent button">
-    <Button label='Transparent' variant='transparent' ariaLabel='Transparent' />
+    <div style={{ backgroundColor: '#bababa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Button label='Transparent' variant='transparent' ariaLabel='Transparent' />
+    </div>
   </Story>
 </Preview>
 

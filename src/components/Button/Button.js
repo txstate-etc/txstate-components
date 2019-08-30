@@ -5,22 +5,17 @@ import { Text } from '../Text'
 import { Theme } from '../Theme'
 
 const outline = css`
-  border: 1px solid ${Theme.maroon};
   background-color: ${Theme.white};
-  padding: calc(1rem - 1px) 2rem;
-
-  &:hover {
-    box-shadow: inset 0 -2px 0 0 ${Theme.maroon};
-  }
 `
 
 const ButtonBase = styled.div`
   width: fit-content;
-  padding: 1rem 2rem; 
+  padding: 0.5rem 2rem; 
   border-radius: 5px;
   cursor: pointer;
   transition: all 200ms ease;
   border-radius: 3px;
+  border: 1px solid ${Theme.maroon};
 
   &.primary {
     background-color: ${Theme.maroon};

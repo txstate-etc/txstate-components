@@ -18,10 +18,7 @@ const FormExample = props => {
         ref={form}
         validate={async (form) => {
           const errors = {}
-          if (get(form, 'icecream.key') === 'sherbert') {
-            errors.icecream = 'Get out of here with your sherbert'
-          }
-          if (get(form, 'name.first') !== 'andrew') {
+          if (get(form, 'name.first') !== 'phillip') {
             errors.name = {
               first: 'Doesn\'t ring a bell'
             }
@@ -60,7 +57,7 @@ const FormExample = props => {
   )
 }
 
-storiesOf('Form|Dev', module)
+storiesOf('Form|Simple', module)
   .add('basic', () => {
     return <FormExample />
   })

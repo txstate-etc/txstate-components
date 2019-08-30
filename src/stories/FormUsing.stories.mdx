@@ -6,6 +6,11 @@ import { TextInput } from '../components/Form/Inputs'
 
 # Forms
 
+```jsx
+import { Form } from 'txstate-react/lib/components'
+import { useFormInput } from 'txstate-react/lib/hooks'
+```
+
 React is not very good at two way data flow. Taking in user input is a guarantee that you need two way data flow, 
 so forms become really difficult in React. To solve this problem we've made a `<Form />` component which is used much 
 like the HTML Element `<form />`. It will hold the state of your form for you and track all the changes. When you're ready 
