@@ -52,7 +52,11 @@ export const useTable = ({ initialPageSize, dataSource }) => {
   }, [tableAction, dataSource])
 
   const onSort = useCallback((column, sortDirection) => {
-    fetchData(1, pageSize, { order: sortDirection, selector: column.selector, column })
+    fetchData({
+      page: 1,
+      pageSize,
+      sort: { order: sortDirection, selector: column.selector, column }
+    })
   }, [fetchData, pageSize])
 
   useEffect(() => {
