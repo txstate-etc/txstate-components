@@ -16,5 +16,12 @@ export interface LayoutProps {
   className?: string;
 }
 
-export const Layout: React.FC<LayoutProps>;
+export interface LayoutComponent<T> extends React.FC<T> {
+  Header: React.FC
+  Content: React.FC
+  Sidebar: React.FC
+  Footer: React.FC
+}
+
+export const Layout: LayoutComponent<LayoutProps>;
 
