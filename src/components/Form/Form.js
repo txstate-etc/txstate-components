@@ -7,6 +7,7 @@ import clone from 'lodash.clone'
 import get from 'lodash.get'
 import debounce from 'lodash.debounce'
 import uuid from 'uuid/v4'
+import PropTypes from 'prop-types'
 
 export const FormContext = React.createContext({})
 
@@ -119,3 +120,16 @@ export const Form = React.forwardRef((props, ref) => {
     </FormContext.Provider>
   )
 })
+
+Form.propTypes = {
+  /** This function is run when the form's submit function is called */
+  onSubmit: PropTypes.func,
+  /** Runs on every change of the form */
+  onChange: PropTypes.func,
+  /** Runs on every change, return value is used to display errors in components */
+  validate: PropTypes.func,
+  /** Sets the initial form state */
+  initialValues: PropTypes.object,
+  /** An optional ID which will be used instead of a randomly generated id */
+  id: PropTypes.string
+}
