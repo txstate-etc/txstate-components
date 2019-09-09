@@ -26,7 +26,7 @@ export const Dropdown = props => {
       label={label}
       options={options}
       errorMessage={error}
-      useComboBoxAsMenuWidth='true'
+      useComboBoxAsMenuWidth
     />
   )
 }
