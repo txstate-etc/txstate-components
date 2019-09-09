@@ -6,6 +6,7 @@ export interface TagPickerItems {
 }
 
 export interface TagPickerProps {
+  className?: string;
   ariaLabel: string;
   label: string;
   path: string;

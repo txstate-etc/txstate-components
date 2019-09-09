@@ -23,6 +23,7 @@ export const BasePicker = props => {
     itemLimit,
     getTextFromItem,
     value,
+    className,
     onChange
   } = props
 
@@ -53,6 +54,7 @@ export const BasePicker = props => {
     <>
       <Label>{label}</Label>
       <TagPicker
+        className={className}
         selectedItems={value}
         onChange={onChange}
         componentRef={tagPicker}
@@ -81,6 +83,7 @@ BasePicker.defaultProps = {
 }
 
 BasePicker.propTypes = {
+  className: PropTypes.string,
   label: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
   ariaLabel: PropTypes.string.isRequired,

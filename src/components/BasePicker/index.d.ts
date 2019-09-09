@@ -9,6 +9,7 @@ export interface BasePickerValue {
 }
 
 export interface BasePickerProps {
+  className?: string;
   label: string;
   items?: BasePickerItems[];
   ariaLabel: string;

@@ -9,6 +9,14 @@ const FormInputs = styled(Stack)`
   width: 400px;
 `
 
+const StyledInput = styled(TextInput)`
+  width: 100%;
+`
+
+const StyledPicker = styled(TagPicker)`
+  width: 100%;
+`
+
 const FormExample = props => {
   const form = useRef()
   return (
@@ -27,9 +35,9 @@ const FormExample = props => {
         }}
       >
         <FormInputs>
-          <TextInput label='First Name' path='name.first' />
-          <TextInput label='Last Name' path='name.last' />
-          <TagPicker
+          <StyledInput label='First Name' path='name.first' />
+          <StyledInput label='Last Name' path='name.last' />
+          <StyledPicker
             label='Favorite Ice Cream'
             ariaLabel='Ice Cream'
             path='icecream'
