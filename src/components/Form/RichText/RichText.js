@@ -6,7 +6,7 @@ import { Editor } from '../../Editor'
 import PropTypes from 'prop-types'
 
 export const RichText = props => {
-  const { path } = props
+  const { path, className } = props
   const {
     value,
     onChange
@@ -20,6 +20,7 @@ export const RichText = props => {
 
   return (
     <Editor
+      className={className}
       value={value}
       onChange={onChange}
     />

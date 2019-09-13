@@ -22,12 +22,12 @@ const TOOLBAR_OPTIONS = {
 }
 
 export const Editor = props => {
-  const { onChange, value } = props
+  const { onChange, value, className } = props
   return <Wysiwyg
     toolbar={TOOLBAR_OPTIONS}
     toolbarClassName='toolbarClassName'
-    wrapperClassName='wrapperClassName'
-    editorClassName='editor'
+    wrapperClassName={`wrapper ${className}`}
+    editorClassName={`editor`}
     editorState={value}
     onEditorStateChange={onChange}
   />

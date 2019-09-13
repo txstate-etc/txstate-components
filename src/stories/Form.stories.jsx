@@ -1,12 +1,15 @@
 import React, { useRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button } from '../components'
-import { TextInput, TagPicker } from '../components/Form/Inputs'
+import { TextInput, TagPicker, RichText } from '../components/Form/Inputs'
 import styled from 'styled-components'
 import get from 'lodash.get'
 
 const FormInputs = styled(Stack)`
   width: 400px;
+  height: 800px;
+  display: flex;
+  flex-direction: column;
 `
 
 const StyledInput = styled(TextInput)`
@@ -15,6 +18,10 @@ const StyledInput = styled(TextInput)`
 
 const StyledPicker = styled(TagPicker)`
   width: 100%;
+`
+
+const StyledRichText = styled(RichText)`
+  flex: 1;
 `
 
 const FormExample = props => {
@@ -52,6 +59,9 @@ const FormExample = props => {
               { key: 'coffee', name: 'Coffee' },
               { key: 'sherbert', name: 'Sherbert' }
             ]}
+          />
+          <StyledRichText
+            path='email.html'
           />
         </FormInputs>
       </Form>
