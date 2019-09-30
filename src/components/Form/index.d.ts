@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+export interface IFormRef {
+  submit: () => Promise<void>
+}
+
 export interface FormProps {
     /**
      * This function is run when the form's submit function is called
@@ -21,7 +25,7 @@ export interface FormProps {
      * An optional ID which will be used instead of a randomly generated id
      */
     id?: string;
-    ref?: React.MutableRefObject
+    ref?: React.MutableRefObject<IFormRef>
 }
 
 export const Form: React.FC<FormProps>;
