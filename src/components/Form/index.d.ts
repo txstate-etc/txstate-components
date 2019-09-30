@@ -21,6 +21,7 @@ export interface FormProps {
      * An optional ID which will be used instead of a randomly generated id
      */
     id?: string;
+    ref?: React.MutableRefObject
 }
 
 export const Form: React.FC<FormProps>;
