@@ -25,7 +25,10 @@ export interface FormProps {
      * An optional ID which will be used instead of a randomly generated id
      */
     id?: string;
-    ref?: React.MutableRefObject<IFormRef>
+    /**
+     * Ref of the form, which exposes the submit() version
+     */
+    ref?: React.MutableRefObject<IFormRef | undefined | null>
 }
 
 export const Form: React.FC<FormProps>;
