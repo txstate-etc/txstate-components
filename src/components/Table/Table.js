@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows = false } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {
@@ -65,6 +65,8 @@ export const Table = props => {
         title='People'
         keyField='id.value'
         onSort={onSort}
+        selectableRows={selectableRows}
+        onRowSelected={onRowSelected}
         paginationTotalRows={paginationTotalRows}
         paginationPerPage={paginationPerPage}
         onChangePage={onChangePage}
@@ -89,5 +91,7 @@ Table.propTypes = {
     button: PropTypes.bool,
     allowOverflow: PropTypes.bool,
     hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
-  }))
+  })),
+  selectableRows: PropTypes.bool,
+  onRowSelected: PropTypes.func
 }
