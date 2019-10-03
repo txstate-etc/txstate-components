@@ -22,6 +22,15 @@ Adding A Component (React)
 1. When you're _really_ done with the component, create some type defs in `src/React/index.d.ts`
     * This lets people using your component see what props are available, and get auto completion on enum type props. For an example, check the variant prop of Button.
 
+Adding SVG componenet
+---
+1. Create `.svg` file in `src/assets/svg`
+1. run `npx @svgr/cli --template src/utils/svgr.js -d src/components/Svg src/assets/svg` in terminal
+1. Make your component available to import from the library by adding and entry to `src/Svg/index.js`
+    * `export * from './Component'`
+1. Component will be available to import with `Svg` prefix
+    * `import { SvgComponent } from @txstate-mws/txstate-react`
+
 Using Storybook to Develop
 ---
 Storybook is a framework that allows us to develop components in an isolated environment. It acts as a living set of documentation and is extremely useful for development since you don't have to link this library with another project in order to develop with it. When you've written your component and ready to test it using Storybook, do the following:
