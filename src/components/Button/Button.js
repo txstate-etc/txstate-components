@@ -5,7 +5,7 @@ import { Text } from '../Text'
 import { Theme } from '../Theme'
 
 const outline = css`
-  background-color: ${Theme.white};
+  background-color: ${Theme.white.hex()};
 `
 
 const ButtonBase = styled.div`
@@ -15,10 +15,10 @@ const ButtonBase = styled.div`
   cursor: pointer;
   transition: all 200ms ease;
   border-radius: 3px;
-  border: 1px solid ${Theme.maroon};
+  border: 1px solid ${Theme.maroon.hex()};
 
   &.primary {
-    background-color: ${Theme.maroon};
+    background-color: ${Theme.maroon.hex()};
   }
 
   &.outline {
@@ -33,11 +33,11 @@ const ButtonBase = styled.div`
 
 const ButtonLabel = styled(Text)`
   user-select: none;
-  color: ${Theme.white};
+  color: ${Theme.white.hex()};
   transition: all 200ms ease;
 
   &.outline, &.transparent {
-    color: ${Theme.maroon}
+    color: ${Theme.maroon.hex()}
   }
 
   ${ButtonBase}:hover {
