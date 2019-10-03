@@ -89,5 +89,7 @@ Table.propTypes = {
     button: PropTypes.bool,
     allowOverflow: PropTypes.bool,
     hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
-  }))
+  })),
+  dataSource: PropTypes.func,
+  initialPageSize: PropTypes.number
 }

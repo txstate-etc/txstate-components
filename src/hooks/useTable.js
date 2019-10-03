@@ -26,7 +26,7 @@ const tableReducer = (state, action) => {
   }
 }
 
-export const useTable = ({ initialPageSize, dataSource }) => {
+export const useTable = ({ initialPageSize = 10, dataSource }) => {
   const [tableState, tableAction] = useReducer(tableReducer, { data: [], total: 10 })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
