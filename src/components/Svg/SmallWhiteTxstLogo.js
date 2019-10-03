@@ -1,5 +1,5 @@
 import React from 'react'
-export const SvgSmallWhiteTxstLogo01 = props => (
+export const SvgSmallWhiteTxstLogo = props => (
   <svg
     viewBox="0 0 354.9 58"
     width={24}

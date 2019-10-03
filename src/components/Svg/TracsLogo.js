@@ -1,5 +1,5 @@
 import React from 'react'
-export const SvgTracs01 = props => (
+export const SvgTracsLogo = props => (
   <svg
     data-name="Layer 1"
     viewBox="0 0 365.85 365.85"
