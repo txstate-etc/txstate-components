@@ -93,5 +93,7 @@ Table.propTypes = {
     hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
   })),
   selectableRows: PropTypes.bool,
-  onRowSelected: PropTypes.func
+  onRowSelected: PropTypes.func,
+  dataSource: PropTypes.func,
+  initialPageSize: PropTypes.number
 }
