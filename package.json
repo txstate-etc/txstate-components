@@ -1,6 +1,6 @@
 {
   "name": "@txstate-mws/txstate-react",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
     "url": "https://github.com/txstate-etc/txstate-components"
@@ -58,6 +58,18 @@
     ],
     "parser": "babel-eslint"
   },
+  "svgr": {
+    "prettierConfig": {
+      "singleQuote": true,
+        "semi": false
+    },
+    "svgProps": {
+      "width": 24,
+      "height": 24,
+      "stroke":"white",
+      "fill":"white"
+    }
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
@@ -72,6 +84,7 @@
     "@storybook/addon-viewport": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
+    "@svgr/cli": "^4.3.3",
     "axios": "^0.19.0",
     "babel-eslint": "10.0.1",
     "babel-loader": "^8.0.6",
