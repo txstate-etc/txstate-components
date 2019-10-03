@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button } from '../components'
 import { TextInput, TagPicker, RichText } from '../components/Form/Inputs'
+import { useEvent } from '../hooks'
 import styled from 'styled-components'
 import get from 'lodash.get'
 
@@ -26,11 +27,29 @@ const StyledRichText = styled(RichText)`
 
 const FormExample = props => {
   const form = useRef()
+  const [selectedItems, setSelectedItems] = useState([{ key: 'vanilla', name: 'Vanilla' }])
+  const updateInitialState = useEvent('ross-shitty-life-form-form-ready')
+  
+  const updatedSelectedItems = () => {
+    updateInitialState({
+        icecream: [
+          { key: 'vanilla', name: 'Vanilla' },
+          { key: 'strawberry', name: 'Strawberry' }
+        ]
+    })
+  }
+
   return (
     <Stack spacing={12}>
       <Form
+        id='ross-shitty-life-form'
         onChange={({ form, errors }) => console.log(form, errors)}
         ref={form}
+        initialValues={{
+          icecream: [
+            { key: 'vanilla', name: 'Vanilla' }
+          ]
+        }}
         validate={async (form) => {
           const errors = {}
           if (get(form, 'name.first') !== 'phillip') {
@@ -48,7 +67,6 @@ const FormExample = props => {
             label='Favorite Ice Cream'
             ariaLabel='Ice Cream'
             path='icecream'
-            itemLimit={2}
             items={[
               { key: 'vanilla', name: 'Vanilla' },
               { key: 'strawberry', name: 'Strawberry' },
@@ -63,6 +81,7 @@ const FormExample = props => {
           <StyledRichText
             path='email.html'
           />
+          <Button label='Add another' ariaLabel='add another item' onClick={updatedSelectedItems} />
         </FormInputs>
       </Form>
       <Stack.Item>
