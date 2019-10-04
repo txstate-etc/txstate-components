@@ -9,6 +9,7 @@ export interface DropdownProps {
   label: string;
   path: string;
   options?: DropdownOptions[];
+  disabled?: boolean;
 }
 
 export const Dropdown: React.FC<DropdownProps>;
