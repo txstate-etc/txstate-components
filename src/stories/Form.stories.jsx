@@ -1,10 +1,39 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useImperativeHandle } from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button } from '../components'
-import { TextInput, TagPicker, RichText } from '../components/Form/Inputs'
-import { useEvent } from '../hooks'
+import { Form, Stack, Button, BasePicker } from '../components'
+import { TextInput, RichText } from '../components/Form/Inputs'
+import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import get from 'lodash.get'
+
+const MetaDataTagPicker = React.forwardRef((props, ref) => {
+  const { ariaLabel, label, path, itemLimit, items, className } = props
+
+  const {
+    value,
+    onChange
+  } = useFormInput({
+    path,
+    initialValue: [],
+    extractor: e => e
+  })
+
+  useImperativeHandle(ref, () => ({
+    onChange
+  }))
+
+  return (
+    <BasePicker
+      className={className}
+      value={value}
+      onChange={onChange}
+      items={items}
+      ariaLabel={ariaLabel}
+      itemLimit={itemLimit}
+      label={label}
+    />
+  )
+})
 
 const FormInputs = styled(Stack)`
   width: 400px;
@@ -17,7 +46,7 @@ const StyledInput = styled(TextInput)`
   width: 100%;
 `
 
-const StyledPicker = styled(TagPicker)`
+const StyledPicker = styled(MetaDataTagPicker)`
   width: 100%;
 `
 
@@ -27,16 +56,13 @@ const StyledRichText = styled(RichText)`
 
 const FormExample = props => {
   const form = useRef()
-  const [selectedItems, setSelectedItems] = useState([{ key: 'vanilla', name: 'Vanilla' }])
-  const updateInitialState = useEvent('ross-shitty-life-form-form-ready')
+  const icecreamPicker = useRef()
   
   const updatedSelectedItems = () => {
-    updateInitialState({
-        icecream: [
-          { key: 'vanilla', name: 'Vanilla' },
-          { key: 'strawberry', name: 'Strawberry' }
-        ]
-    })
+    icecreamPicker.current.onChange([
+      { key: 'vanilla', name: 'Vanilla', data: { section: 'white' } },
+      { key: 'strawberry', name: 'Strawberry', data: { section: 'red' } }
+    ])
   }
 
   return (
@@ -47,7 +73,7 @@ const FormExample = props => {
         ref={form}
         initialValues={{
           icecream: [
-            { key: 'vanilla', name: 'Vanilla' }
+            { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
         validate={async (form) => {
@@ -64,18 +90,19 @@ const FormExample = props => {
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
           <StyledPicker
+            ref={icecreamPicker}
             label='Favorite Ice Cream'
             ariaLabel='Ice Cream'
             path='icecream'
             items={[
-              { key: 'vanilla', name: 'Vanilla' },
-              { key: 'strawberry', name: 'Strawberry' },
-              { key: 'chocolate', name: 'Chocolate' },
-              { key: 'butter pecan', name: 'Butter pecan' },
-              { key: 'cookie dough', name: 'Cookie dough' },
-              { key: 'mint', name: 'Mint' },
-              { key: 'coffee', name: 'Coffee' },
-              { key: 'sherbert', name: 'Sherbert' }
+              { key: 'vanilla', name: 'Vanilla', data: { section: 'yogurt' } },
+              { key: 'strawberry', name: 'Strawberry', data: { section: 'yogurt' } },
+              { key: 'chocolate', name: 'Chocolate', data: { section: 'yogurt' } },
+              { key: 'butter pecan', name: 'Butter pecan', data: { section: 'yogurt' } },
+              { key: 'cookie dough', name: 'Cookie dough', data: { section: 'yogurt' } },
+              { key: 'mint', name: 'Mint', data: { section: 'yogurt' } },
+              { key: 'coffee', name: 'Coffee', data: { section: 'yogurt' } },
+              { key: 'sherbert', name: 'Sherbert', data: { section: 'yogurt' } }
             ]}
           />
           <StyledRichText
