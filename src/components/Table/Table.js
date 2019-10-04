@@ -44,7 +44,8 @@ export const Table = props => {
   })
 
   useEffect(() => {
-    if (initialLoad && data.length > 0 && !fetchingPage) {
+    const dataAvailable = Array.isArray(data) && data.length > 0
+    if (initialLoad && dataAvailable && !fetchingPage) {
       setInitialLoad(false)
     }
   }, [data, initialLoad, setInitialLoad, fetchingPage])
@@ -57,7 +58,7 @@ export const Table = props => {
         columns={columns}
         data={data}
         noDataComponent={() => {
-          if (data.length === 0 && fetchingPage) {
+          if (Array.isArray(data) && data.length === 0 && fetchingPage) {
             return <div />
           }
           return <div>No Records Found</div>

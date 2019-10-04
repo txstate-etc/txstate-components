@@ -62,6 +62,8 @@ Stack.propTypes = {
     'stretch',
     'baseline'
   ]),
+  /** If true, items in the stack will wrap */
+  wrap: PropTypes.bool,
   /** If true, the children will be laid out horizontally */
   horizontal: PropTypes.bool,
   /** Spacing between children. Does not provide margin or padding in the stack itself. */

@@ -24,6 +24,10 @@ export interface StackProps {
    */
   spacing?: number;
   /**
+   * If true, items in the stack will wrap 
+   */
+  wrap?: boolean;
+  /**
    * Render the stack as a different html element
    */
   renderAs?: StackRenderAs;
