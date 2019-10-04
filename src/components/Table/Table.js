@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows = false } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {

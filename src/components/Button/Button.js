@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { PrimaryButton } from 'office-ui-fabric-react'
 import PropTypes from 'prop-types'
 import { Text } from '../Text'
 import { Theme } from '../Theme'
@@ -8,17 +9,19 @@ const outline = css`
   background-color: ${Theme.white.hex()};
 `
 
-const ButtonBase = styled.div`
+const ButtonBase = styled(PrimaryButton)`
   width: fit-content;
-  padding: 0.5rem 2rem; 
+  padding: 0.5rem 2rem;
   border-radius: 5px;
   cursor: pointer;
   transition: all 200ms ease;
   border-radius: 3px;
   border: 1px solid ${Theme.maroon.hex()};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &.primary {
-    background-color: ${Theme.maroon.hex()};
+    background-color: ${({ disabled }) =>
+    disabled ? Theme.maroon.lighten(0.5).hex() : Theme.maroon.hex()};
   }
 
   &.outline {
@@ -36,8 +39,9 @@ const ButtonLabel = styled(Text)`
   color: ${Theme.white.hex()};
   transition: all 200ms ease;
 
-  &.outline, &.transparent {
-    color: ${Theme.maroon.hex()}
+  &.outline,
+  &.transparent {
+    color: ${Theme.maroon.hex()};
   }
 
   ${ButtonBase}:hover {
@@ -46,13 +50,15 @@ const ButtonLabel = styled(Text)`
 `
 
 export const Button = props => {
-  const { label, variant, onClick, ariaLabel, className } = props
+  const { label, variant, onClick, ariaLabel, className, disabled, type } = props
 
   return (
     <ButtonBase
       role='button'
-      aria-label={ariaLabel}
+      aria-label={ariaLabel || label}
       onClick={onClick}
+      type={type}
+      disabled={disabled}
       className={[variant, className, 'button-container']}
     >
       <ButtonLabel
@@ -72,7 +78,9 @@ Button.defaultProps = {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  ariaLabel: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   variant: PropTypes.oneOf(['primary', 'outline', 'transparent']),
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+  type: PropTypes.oneOf(['button', 'submit', 'reset'])
 }

@@ -4,7 +4,7 @@ import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
 
 export const TextInput = props => {
-  const { name, label, type, multiline, path, className, placeholder } = props
+  const { name, label, type, multiline, path, className, placeholder, required } = props
 
   const {
     value,
@@ -17,6 +17,7 @@ export const TextInput = props => {
 
   return (
     <TextField
+      required={required}
       className={className}
       multiline={multiline}
       autoAdjustHeight={multiline}
@@ -43,5 +44,6 @@ TextInput.propTypes = {
   className: PropTypes.string,
   multiline: PropTypes.bool,
   type: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  required: PropTypes.bool
 }

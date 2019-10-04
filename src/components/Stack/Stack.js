@@ -40,6 +40,7 @@ Stack.Item = OfficeStack.Item
 Stack.propTypes = {
   /** Vertical alignment of immediate children in the stack. Follows flexbox alignment rules. */
   verticalAlign: PropTypes.oneOf([
+    'initial',
     'start',
     'center',
     'end',
@@ -51,6 +52,7 @@ Stack.propTypes = {
   ]),
   /** Same as verticalAlign, only horizontal! 😲 */
   horizontalAlign: PropTypes.oneOf([
+    'initial',
     'start',
     'center',
     'end',
@@ -69,8 +71,8 @@ Stack.propTypes = {
 }
 
 Stack.defaultProps = {
-  verticalAlign: 'start',
-  horizontalAlign: 'start',
+  verticalAlign: 'initial',
+  horizontalAlign: 'initial',
   horizontal: false,
   renderAs: 'div'
 }

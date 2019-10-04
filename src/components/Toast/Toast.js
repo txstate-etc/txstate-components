@@ -1,7 +1,7 @@
 import shortid from 'shortid'
 require('./Toast.css')
 
-export const toast = {
+export const Toast = {
   GRAVITY: {
     TOP_LEFT: 'toast-top-left',
     TOP_CENTER: 'toast-top-center',
@@ -10,12 +10,12 @@ export const toast = {
     BOTTOM_LEFT: 'toast-bottom-left',
     BOTTOM_RIGHT: 'toast-bottom-right'
   },
-  makeText ({ message, gravity = toast.GRAVITY.TOP_CENTER, duration = 3000 }) {
-    new Toast({ message, gravity, duration }).show()
+  makeText ({ message, gravity = Toast.GRAVITY.TOP_CENTER, duration = 3000 }) {
+    new TOAST({ message, gravity, duration }).show()
   }
 }
 
-class Toast {
+class TOAST {
   constructor ({ message, gravity, duration }) {
     this.message = message
     this.duration = duration
