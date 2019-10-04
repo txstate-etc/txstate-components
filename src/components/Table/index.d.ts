@@ -17,8 +17,9 @@ export interface TableColumns {
 
 export interface TableProps {
   columns?: TableColumns[];
-  dataSource?: () => Promise<any> | any
-  initialPageSize?: number
+  selectableRows?: boolean;
+  dataSource?: () => Promise<any> | any;
+  initialPageSize?: number;
 }
 
 export const Table: React.FC<TableProps>;
