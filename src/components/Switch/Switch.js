@@ -40,11 +40,11 @@ const Thumb = styled.div.attrs(({ size }) => ({
   width: ${({ thumb }) => thumb}px;
   height: ${({ thumb }) => thumb}px;
   border-radius: ${({ thumb }) => thumb / 2}px;
-  background-color: ${({ on }) => (on ? Theme.maroon.hex() : Theme.charcoal.hex())};
+  background-color: ${({ on }) => (on ? Theme.maroon : Theme.charcoal)};
   transition: background-color 300ms ease-in-out;
 
   &.disabled {
-    background-color: ${Theme.lightGray.hex()};
+    background-color: ${Theme.lightGray};
   }
 
   &.slide-right {
@@ -61,14 +61,14 @@ const Thumb = styled.div.attrs(({ size }) => ({
 const Track = styled.div`
   padding: 2px;
   border-radius: ${({ size }) => (SIZES[size].thumbWidth + 8) / 2 || 15}px;
-  border: solid 2px ${({ on }) => (on ? Theme.maroon.hex() : Theme.charcoal.hex())};
+  border: solid 2px ${({ on }) => (on ? Theme.maroon : Theme.charcoal)};
   box-shadow: ${({ on }) =>
-    on ? `0px 0px 5px 2px ${Theme.maroon.hex()}80` : 'none'};
+    on ? `0px 0px 5px 2px ${Theme.maroon}80` : 'none'};
   width: ${({ size }) => SIZES[size].trackWidth || 65}px;
-  background-color: ${Theme.white.hex()};
+  background-color: ${Theme.white};
 
   &.disabled {
-    border-color: ${Theme.lightGray.hex()};
+    border-color: ${Theme.lightGray};
   }
 
   transition: border 300ms ease-in-out, box-shadow 300ms ease-in-out;
