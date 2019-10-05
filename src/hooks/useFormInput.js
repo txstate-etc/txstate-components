@@ -4,7 +4,7 @@ import { useEvent } from './useEvent'
 import uuid from 'uuid/v4'
 import get from 'lodash.get'
 
-export const useFormInput = ({ path, extractor, transformer, onGetErrorMessage, initialValue }) => {
+export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)
   const _id = useRef(uuid())
   const [value, setValue] = useState(() => {

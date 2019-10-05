@@ -1,6 +1,4 @@
 export * from './useEvent'
 export * from './useFormInput'
-export * from './useManualPagination'
-export * from './useServerPagination'
 export * from './useEventListener'
 export * from './useTable'
