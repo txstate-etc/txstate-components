@@ -13,8 +13,8 @@ const tableReducer = (state, action) => {
         ...state,
         loading: false,
         firstLoad: false,
-        data: action.payload.data,
-        total: action.payload.total,
+        data: action.payload.data || [],
+        total: action.payload.total || 0,
         error: null
       }
     case 'failure':
@@ -71,6 +71,6 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
     paginationPerPage: pageSize,
     firstLoad: tableState.firstLoad,
     fetchingPage: tableState.loading,
-    data: tableState.data
+    data: tableState.data || []
   }
 }

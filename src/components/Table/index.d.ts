@@ -12,6 +12,8 @@ export interface TableColumns {
   ignoreRowClick?: boolean;
   button?: boolean;
   allowOverflow?: boolean;
+  title?: string;
+  keyField?: string;
   hide?: number | "sm" | "md" | "lg";
 }
 
