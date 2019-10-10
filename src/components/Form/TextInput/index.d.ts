@@ -7,6 +7,7 @@ export interface TextInputProps {
   multiline?: boolean;
   type?: string;
   placeholder?: string;
+  required?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps>;

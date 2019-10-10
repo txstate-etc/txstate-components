@@ -21,6 +21,7 @@ export interface TableProps {
   columns?: TableColumns[];
   selectableRows?: boolean;
   dataSource?: () => Promise<any> | any;
+  onRowSelected?: (...args: any[]) => any | any;
   initialPageSize?: number;
 }
 
