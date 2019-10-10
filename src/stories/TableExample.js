@@ -65,6 +65,7 @@ const columns = [
 export const TableExample = props => {
   return (
     <Table
+      title='People'
       columns={columns}
       dataSource={api.getPeople}
       initialPageSize={10}

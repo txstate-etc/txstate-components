@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, title, keyField } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {
@@ -63,8 +63,8 @@ export const Table = props => {
           }
           return <div>No Records Found</div>
         }}
-        title='People'
-        keyField='id.value'
+        title={title}
+        keyField={keyField}
         onSort={onSort}
         selectableRows={selectableRows}
         onRowSelected={onRowSelected}
@@ -81,6 +81,8 @@ export const Table = props => {
 Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
+    title: PropTypes.string,
+    keyField: PropTypes.string,
     selector: PropTypes.string,
     sortable: PropTypes.bool,
     format: PropTypes.func,
