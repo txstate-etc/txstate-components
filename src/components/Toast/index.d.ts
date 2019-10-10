@@ -9,14 +9,14 @@ export enum GRAVITY {
 
 export interface MakeTextArgs {
   message: string
-  gravity: GRAVITY,
+  gravity?: GRAVITY,
   duration: number
 }
 
-export interface Toast {
+export interface ToastProps {
   GRAVITY: GRAVITY
   makeText: (arg: MakeTextArgs) => void
 }
 
-export const toast: Toast
+export const Toast: ToastProps
 

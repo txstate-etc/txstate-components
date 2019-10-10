@@ -31,6 +31,7 @@ export interface StackProps {
    * Render the stack as a different html element
    */
   renderAs?: StackRenderAs;
+  style?: any;
 }
 
 export const Stack: React.FC<StackProps>;
