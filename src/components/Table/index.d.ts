@@ -12,8 +12,6 @@ export interface TableColumns {
   ignoreRowClick?: boolean;
   button?: boolean;
   allowOverflow?: boolean;
-  title?: string;
-  keyField?: string;
   hide?: number | "sm" | "md" | "lg";
 }
 
@@ -23,6 +21,8 @@ export interface TableProps {
   dataSource?: () => Promise<any> | any;
   onRowSelected?: (...args: any[]) => any | any;
   initialPageSize?: number;
+  title?: string;
+  keyField?: string;
 }
 
 export const Table: React.FC<TableProps>;
