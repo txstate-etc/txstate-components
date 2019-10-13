@@ -183,7 +183,7 @@ export const ReactTable = props => {
       pages={pages}
       pageSize={pageSize}
       loading={state.loading}
-      data={fetchData().list}
+      data={state.data.list.slice(start, end)}
       onPageChange={onPageChange}
       onSortedChange={onSortedChange}
       columns={columns}

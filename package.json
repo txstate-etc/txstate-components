@@ -23,6 +23,7 @@
     "react-data-table-component": "^3.4.0",
     "react-draft-wysiwyg": "^1.13.2",
     "react-email-editor": "^0.9.9",
+    "react-table": "^6.10.3",
     "rxjs": "^6.5.2",
     "shortid": "^2.2.14",
     "styled-components": "4.3.2",
