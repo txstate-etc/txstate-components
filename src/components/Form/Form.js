@@ -1,11 +1,7 @@
 import React, { useRef, useImperativeHandle, useCallback, useEffect, useReducer } from 'react'
 import { useEvent } from '../../hooks'
 import { Subject } from '../../utils'
-import set from 'lodash.set'
-import unset from 'lodash.unset'
-import clone from 'lodash.clone'
-import get from 'lodash.get'
-import debounce from 'lodash.debounce'
+import { set, unset, clone, get, debounce } from 'lodash'
 import uuid from 'uuid/v4'
 import PropTypes from 'prop-types'
 

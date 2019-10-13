@@ -1,5 +1,6 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
 import { TableExample } from './TableExample'
+import { ReactTableExample } from './ReactTableExample'
 import { Table } from '../components'
 
 <Meta title='Components|Table' component={Table} />
@@ -16,5 +17,11 @@ import { Table } from 'txstate-react/lib/components/Table'
 <Preview>
   <Story name='simple table'>
     <TableExample />
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name='react table'>
+    <ReactTableExample />
   </Story>
 </Preview>

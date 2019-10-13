@@ -1,14 +1,14 @@
 import React from 'react'
 import { Table } from '../components'
 import axios from 'axios'
-import get from 'lodash.get'
+import { get } from 'lodash'
 
 const randomUser = axios.create({
   baseURL: 'https://randomuser.me/api'
 })
 
 const api = {
-  async getPeople (page = 1, pageSize = 10, sort = { order: 'none', selector: '' }) {
+  async getPeople(page = 1, pageSize = 10, sort = { order: 'none', selector: '' }) {
     const totalResults = 48
     await new Promise(resolve => setTimeout(resolve, 1000))
     const results = await randomUser.get(`?page=${page}&results=${pageSize}&seed=potluck`)
