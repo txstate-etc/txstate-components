@@ -112,7 +112,7 @@ export const Form = React.forwardRef((props, ref) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
-    console.log('on submit')
+
     if (onSubmit && typeof onSubmit === 'function') {
       try {
         const results = await onSubmit({ form, errors })
@@ -125,7 +125,7 @@ export const Form = React.forwardRef((props, ref) => {
         broadcastValidateResults(errors)
       }
     }
-  })
+  }, [onSubmit, form, errors, broadcastValidateResults])
 
   return (
     <FormContext.Provider value={formEvent.current}>
