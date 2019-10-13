@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useState, useReducer, useEffect, useCallback } from 'react'
 import Table from 'react-table'
 import './ReactTable.css'
 import { get } from 'lodash'
@@ -64,10 +64,10 @@ const handleDataFetch = (page, pageSize) => async (promise, dispatch) => {
   }
 }
 
-const handleNextData = (page, pageSize) => async (promise, dispatch) => {
+const handleNextData = (page, pageSize, sort) => async (promise, dispatch) => {
   dispatch({ type: 'load' })
   try {
-    const results = await promise(page, pageSize)
+    const results = await promise(page, pageSize, sort)
     dispatch({ type: 'next', data: results })
   } catch (error) {
     dispatch({ type: 'failure', error })
@@ -101,6 +101,9 @@ export const ReactTable = props => {
   const [state, dispatch] = useReducer(dataReducer, initialState)
   const [page, setPage] = useState(0)
   const [pages, setPages] = useState(1)
+  const [start, setStart] = useState(0)
+  const [end, setEnd] = useState(pageSize)
+  const [sort, setSort] = useState({ order: 'none', column: '' })
 
   useEffect(() => {
     handleDataFetch(page, pageSize)(fetchData, dispatch)
@@ -111,11 +114,37 @@ export const ReactTable = props => {
     setPages(Math.ceil(total / pageSize))
   }, [pageSize, setPages, state.data.total])
 
-  useEffect(() => {
-    console.log('PAGE: ', page)
-  }, [page])
+  const onPageChange = useCallback((pageId) => {
+    const { start, end } = getPageStartAndEnd(pageId, pageSize)
+    const itemsOnNextPage = state.data.list.slice(start, end).length
+    if (itemsOnNextPage < pageSize) {
+      handleNextData(pageId, pageSize, sort)(fetchData, dispatch)
+    }
+    setPage(pageId)
+  }, [state, pageSize, fetchData, dispatch, setPage])
 
-  const { start, end } = getPageStartAndEnd(page, pageSize)
+  const onSortedChange = useCallback(sorted => {
+    const column = get(sorted, '[0].id')
+    const descending = get(sorted, '[0].desc')
+
+    let currentSort = sort
+    if (descending !== undefined && column !== undefined) {
+      currentSort = { order: descending ? 'desc' : 'asc', column }
+      setSort(currentSort)
+    } else {
+      currentSort = { order: 'none', column: '' }
+      setSort(currentSort)
+    }
+
+    setPage(0)
+    handleSortData(pageSize, currentSort)(fetchData, dispatch)
+  }, [sort, setSort, pageSize, fetchData, dispatch, handleSortData])
+
+  useEffect(() => {
+    const { start, end } = getPageStartAndEnd(page, pageSize)
+    setStart(start)
+    setEnd(end)
+  }, [page, pageSize, setStart, setEnd])
 
   return (
     <Table
@@ -127,27 +156,8 @@ export const ReactTable = props => {
       pageSize={pageSize}
       loading={state.loading}
       data={state.data.list.slice(start, end)}
-      onPageChange={pageId => {
-        const data = get(state, 'data.list', [])
-        const { start, end } = getPageStartAndEnd(pageId, pageSize)
-        if (data.slice(start, end).length < pageSize && (pageId + 1) * pageSize < state.data.total) {
-          handleNextData(pageId, pageSize)(fetchData, dispatch)
-        }
-        setPage(pageId)
-      }}
-      onSortedChange={sorted => {
-        const column = get(sorted, '[0].id')
-        const descending = get(sorted, '[0].desc')
-
-        const sort = {}
-
-        if (descending !== undefined && column !== undefined) {
-          sort.order = descending ? 'desc' : 'asc'
-          sort.column = column
-        }
-        setPage(0)
-        handleSortData(pageSize, sort)(fetchData, dispatch)
-      }}
+      onPageChange={onPageChange}
+      onSortedChange={onSortedChange}
       columns={columns}
     />
   )

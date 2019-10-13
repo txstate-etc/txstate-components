@@ -9,8 +9,15 @@ const randomUser = axios.create({
 
 const api = {
   async getPeople(page = 0, pageSize = 10, sort = { order: 'none', column: '' }) {
-    const totalResults = 48
+    const totalResults = 24
     await new Promise(resolve => setTimeout(resolve, 1000))
+    const start = page * pageSize
+    let end = pageSize * (page + 1)
+    const isLastPage = end > totalResults
+    if (isLastPage) {
+      end = totalResults
+    }
+
     switch (sort.order) {
       case 'asc':
         const ascendingResults = await randomUser.get(`?results=${totalResults}&seed=potluck`)
@@ -19,6 +26,7 @@ const api = {
           if (get(a, sort.column) < get(b, sort.column)) return -1
           return 0
         })
+        ascendingResults.data.results = ascendingResults.data.results.slice(start, end)
         return {
           list: ascendingResults.data.results,
           total: totalResults
@@ -30,12 +38,16 @@ const api = {
           if (get(a, sort.column) < get(b, sort.column)) return 1
           return 0
         })
+        descendingResults.data.results = descendingResults.data.results.slice(start, end)
         return {
           list: descendingResults.data.results,
           total: totalResults
         }
       default:
         const unsortedResults = await randomUser.get(`?page=${page + 1}&results=${pageSize}&seed=potluck`)
+        if (isLastPage) {
+          unsortedResults.data.results = unsortedResults.data.results.slice(0, totalResults % pageSize)
+        }
         return {
           list: unsortedResults.data.results,
           total: totalResults
