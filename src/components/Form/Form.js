@@ -110,24 +110,26 @@ export const Form = React.forwardRef((props, ref) => {
     validateOnChange(form)
   }, [validateOnChange, form])
 
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault()
+    console.log('on submit')
+    if (onSubmit && typeof onSubmit === 'function') {
+      try {
+        const results = await onSubmit({ form, errors })
+        const errorResults = get(results, 'errors')
+        if (errorResults) {
+          broadcastValidateResults(errorResults)
+        }
+      } catch (results) {
+        const errors = get(results, 'errors')
+        broadcastValidateResults(errors)
+      }
+    }
+  })
+
   return (
     <FormContext.Provider value={formEvent.current}>
-      <form onSubmit={async (e) => {
-        e.preventDefault()
-        console.log('on submit')
-        if (onSubmit && typeof onSubmit === 'function') {
-          try {
-            const results = await onSubmit({ form, errors })
-            const errorResults = get(results, 'errors')
-            if (errorResults) {
-              broadcastValidateResults(errorResults)
-            }
-          } catch (results) {
-            const errors = get(results, 'errors')
-            broadcastValidateResults(errors)
-          }
-        }
-      }}>
+      <form onSubmit={handleSubmit}>
         {children}
       </form>
     </FormContext.Provider>
