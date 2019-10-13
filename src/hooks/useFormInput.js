@@ -15,6 +15,8 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
+  const [isDirty, setIsDirty] = useState(false)
+
   const handleChange = useCallback(useEvent(`${formEvent}-data`), [])
 
   const handleFormReady = useCallback((initialState) => {
@@ -53,8 +55,14 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     handleChange({ value, path, inputEvent, transformer })
   }, [handleChange, extractor])
 
+  const onBlur = useCallback(() => {
+    if (!isDirty) setIsDirty(true)
+  }, [setIsDirty, isDirty])
+
   return {
     onChange: notifyFormValueChange,
+    onBlur,
+    isDirty,
     value,
     error
   }
