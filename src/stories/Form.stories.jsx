@@ -70,12 +70,12 @@ const FormExample = props => {
       <Form
         id='ross-shitty-life-form'
         onChange={({ form, errors }) => console.log(form, errors)}
-        ref={form}
         initialValues={{
           icecream: [
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
+        onSubmit={({ form, errors }) => console.log('FORM: ', form)}
         validate={async (form) => {
           const errors = {}
           if (get(form, 'name.first') !== 'phillip') {
@@ -110,13 +110,14 @@ const FormExample = props => {
           />
           <Button label='Add another' ariaLabel='add another item' onClick={updatedSelectedItems} />
         </FormInputs>
+
+        <Stack.Item>
+          <Stack spacing={12} horizontal>
+            <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
+            <Button label='Submit' ariaLabel='submit example form' type='submit' />
+          </Stack>
+        </Stack.Item>
       </Form>
-      <Stack.Item>
-        <Stack spacing={12} horizontal>
-          <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
-          <Button label='Submit' ariaLabel='submit example form' onClick={() => form.current.submit()} />
-        </Stack>
-      </Stack.Item>
     </Stack>
   )
 }

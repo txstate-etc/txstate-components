@@ -112,7 +112,24 @@ export const Form = React.forwardRef((props, ref) => {
 
   return (
     <FormContext.Provider value={formEvent.current}>
-      {children}
+      <form onSubmit={async (e) => {
+        e.preventDefault()
+        console.log('on submit')
+        if (onSubmit && typeof onSubmit === 'function') {
+          try {
+            const results = await onSubmit({ form, errors })
+            const errorResults = get(results, 'errors')
+            if (errorResults) {
+              broadcastValidateResults(errorResults)
+            }
+          } catch (results) {
+            const errors = get(results, 'errors')
+            broadcastValidateResults(errors)
+          }
+        }
+      }}>
+        {children}
+      </form>
     </FormContext.Provider>
   )
 })
