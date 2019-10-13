@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useEffect, useCallback } from 'react'
 import Table from 'react-table'
 import './ReactTable.css'
+import PropTypes from 'prop-types'
 import { get } from 'lodash'
 
 const getPageStartAndEnd = (page = 0, pageSize = 10) => {
@@ -97,7 +98,33 @@ const initialState = {
 
 
 export const ReactTable = props => {
-  const { columns, pageSize, fetchData } = props
+  const {
+    columns,
+    fetchData,
+    pageSize,
+    showPageSizeOptions,
+    showPageJump,
+    className,
+    getProps,
+    getTableProps,
+    getTheadGroupProps,
+    getTheadGroupTrProps,
+    getTheadGroupThProps,
+    getTheadProps,
+    getTheadTrProps,
+    getTheadThProps,
+    getTheadFilterProps,
+    getTheadFilterTrProps,
+    getTheadFilterThProps,
+    getTbodyProps,
+    getTrGroupProps,
+    getTrProps,
+    getTdProps,
+    getPaginationProps,
+    getLoadingProps,
+    getNoDataProps,
+    getResizerProps
+  } = props
   const [state, dispatch] = useReducer(dataReducer, initialState)
   const [page, setPage] = useState(0)
   const [pages, setPages] = useState(1)
@@ -149,26 +176,73 @@ export const ReactTable = props => {
   return (
     <Table
       manual
-      showPageSizeOptions={false}
-      showPageJump={false}
+      className={className}
+      showPageSizeOptions={showPageSizeOptions}
+      showPageJump={showPageJump}
       page={page}
       pages={pages}
       pageSize={pageSize}
       loading={state.loading}
-      data={state.data.list.slice(start, end)}
+      data={fetchData().list}
       onPageChange={onPageChange}
       onSortedChange={onSortedChange}
       columns={columns}
+      getProps={getProps}
+      getTableProps={getTableProps}
+      getTheadGroupProps={getTheadGroupProps}
+      getTheadGroupTrProps={getTheadGroupTrProps}
+      getTheadGroupThProps={getTheadGroupThProps}
+      getTheadProps={getTheadProps}
+      getTheadTrProps={getTheadTrProps}
+      getTheadThProps={getTheadThProps}
+      getTheadFilterProps={getTheadFilterProps}
+      getTheadFilterTrProps={getTheadFilterTrProps}
+      getTheadFilterThProps={getTheadFilterThProps}
+      getTbodyProps={getTbodyProps}
+      getTrGroupProps={getTrGroupProps}
+      getTrProps={getTrProps}
+      getTdProps={getTdProps}
+      getPaginationProps={getPaginationProps}
+      getLoadingProps={getLoadingProps}
+      getNoDataProps={getNoDataProps}
+      getResizerProps={getResizerProps}
     />
   )
 }
 
 ReactTable.defaultProps = {
-  data: {
-    list: [],
-    next: () => null,
-    prev: () => null,
-    total: 0
-  },
+  data: { list: [], total: 0 },
+  showPageSizeOptions: false,
+  showPageJump: false,
+  pageSize: 10,
   columns: []
+}
+
+ReactTable.propTypes = {
+  className: PropTypes.string,
+  data: PropTypes.arrayOf(PropTypes.shape({ list: PropTypes.array, total: PropTypes.number })),
+  pageSize: PropTypes.number,
+  showPageSizeOptions: PropTypes.bool,
+  showPageJump: PropTypes.bool,
+  /** https://www.npmjs.com/package/react-table#columns */
+  columns: PropTypes.array,
+  getProps: PropTypes.func,
+  getTableProps: PropTypes.func,
+  getTheadGroupProps: PropTypes.func,
+  getTheadGroupTrProps: PropTypes.func,
+  getTheadGroupThProps: PropTypes.func,
+  getTheadProps: PropTypes.func,
+  getTheadTrProps: PropTypes.func,
+  getTheadThProps: PropTypes.func,
+  getTheadFilterProps: PropTypes.func,
+  getTheadFilterTrProps: PropTypes.func,
+  getTheadFilterThProps: PropTypes.func,
+  getTbodyProps: PropTypes.func,
+  getTrGroupProps: PropTypes.func,
+  getTrProps: PropTypes.func,
+  getTdProps: PropTypes.func,
+  getPaginationProps: PropTypes.func,
+  getLoadingProps: PropTypes.func,
+  getNoDataProps: PropTypes.func,
+  getResizerProps: PropTypes.func
 }
