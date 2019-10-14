@@ -2,7 +2,7 @@ import { useContext, useRef, useState, useEffect, useCallback } from 'react'
 import { FormContext } from '../components/Form'
 import { useEvent } from './useEvent'
 import uuid from 'uuid/v4'
-import get from 'lodash.get'
+import { get } from 'lodash'
 
 export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)

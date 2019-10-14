@@ -4,7 +4,7 @@ import { Form, Stack, Button, BasePicker } from '../components'
 import { TextInput, RichText } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
-import get from 'lodash.get'
+import { get } from 'lodash'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className } = props
@@ -57,7 +57,7 @@ const StyledRichText = styled(RichText)`
 const FormExample = props => {
   const form = useRef()
   const icecreamPicker = useRef()
-  
+
   const updatedSelectedItems = () => {
     icecreamPicker.current.onChange([
       { key: 'vanilla', name: 'Vanilla', data: { section: 'white' } },

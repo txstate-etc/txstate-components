@@ -1,10 +1,11 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
 import { TableExample } from './TableExample'
-import { Table } from '../components'
+import { ReactTableExample } from './ReactTableExample'
+import { Table, ReactTable } from '../components'
 
 <Meta title='Components|Table' component={Table} />
 
-# Table
+# React Data Table
 ---
 ```jsx
 import { Table } from 'txstate-react/lib/components/Table'
@@ -16,5 +17,24 @@ import { Table } from 'txstate-react/lib/components/Table'
 <Preview>
   <Story name='simple table'>
     <TableExample />
+  </Story>
+</Preview>
+
+# React Table
+---
+```jsx
+import { ReactTable } from 'txstate-react/lib/components/ReactTable'
+```
+## Props
+---
+
+All components of the table can have their props extended: [React Table Docs](https://www.npmjs.com/package/react-table#js-styles).
+If any of the `getProps` functions are used a valid object **must** be returned.
+
+<Props of={ReactTable} />
+
+<Preview>
+  <Story name='react table'>
+    <ReactTableExample />
   </Story>
 </Preview>
