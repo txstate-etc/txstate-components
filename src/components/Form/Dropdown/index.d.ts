@@ -11,7 +11,7 @@ export interface DropdownProps {
   path: string;
   options?: DropdownOptions[];
   disabled?: boolean;
-  styles?: IComboBoxStyles;
+  styles?: Partial<IComboBoxStyles>;
 }
 
 export const Dropdown: React.FC<DropdownProps>;
