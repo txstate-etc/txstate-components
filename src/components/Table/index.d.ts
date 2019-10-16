@@ -44,9 +44,11 @@ export interface IDataResponse<T> {
   total: number
 }
 
+export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort) => IDataResponse<T> | Promise<IDataResponse<T>>
+
 export interface ReactTableProps {
   className?: string
-  fetchData: <T>(page: number, pageSize: number, sort: ISort) => IDataResponse<T> | Promise<IDataResponse<T>>
+  fetchData: FetchFunction<T>
   pageSize?: number
   showPageSizeOptions?: boolean
   showPageJump?: boolean
