@@ -64,7 +64,7 @@ export const Form = React.forwardRef((props, ref) => {
     notifyChildrenReady(_initialState.current)
   }, [notifyChildrenReady])
 
-  const submitForm = (async () => {
+  const submitForm = useCallback(async () => {
     if (onSubmit && typeof onSubmit === 'function') {
       try {
         const results = await onSubmit({ form, errors })
