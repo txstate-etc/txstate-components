@@ -96,7 +96,6 @@ const initialState = {
   error: null
 }
 
-
 export const ReactTable = props => {
   const {
     columns,
@@ -211,7 +210,7 @@ export const ReactTable = props => {
 }
 
 ReactTable.defaultProps = {
-  data: { list: [], total: 0 },
+  fetchData: () => ({ list: [], total: 0 }),
   showPageSizeOptions: false,
   showPageJump: false,
   pageSize: 10,
@@ -220,7 +219,7 @@ ReactTable.defaultProps = {
 
 ReactTable.propTypes = {
   className: PropTypes.string,
-  data: PropTypes.arrayOf(PropTypes.shape({ list: PropTypes.array, total: PropTypes.number })),
+  fetchData: PropTypes.func.isRequired,
   pageSize: PropTypes.number,
   showPageSizeOptions: PropTypes.bool,
   showPageJump: PropTypes.bool,

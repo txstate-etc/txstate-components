@@ -7,7 +7,7 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
 initializeIcons()
 
 export const Dropdown = props => {
-  const { label, options, path, initialSelectedKey, disabled } = props
+  const { label, options, path, initialSelectedKey, disabled, styles } = props
 
   const {
     value,
@@ -20,6 +20,7 @@ export const Dropdown = props => {
 
   return (
     <ComboBox
+      styles={styles}
       disabled={disabled}
       selectedKey={value.key}
       onChange={onChange}
@@ -42,5 +43,6 @@ Dropdown.propTypes = {
     key: PropTypes.string.isRequired,
     text: PropTypes.string
   })),
+  styles: PropTypes.any,
   disabled: PropTypes.bool
 }
