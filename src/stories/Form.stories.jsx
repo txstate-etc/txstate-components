@@ -55,7 +55,6 @@ const StyledRichText = styled(RichText)`
 `
 
 const FormExample = props => {
-  const form = useRef()
   const icecreamPicker = useRef()
 
   const updatedSelectedItems = () => {
@@ -114,7 +113,7 @@ const FormExample = props => {
         <Stack.Item>
           <Stack spacing={12} horizontal>
             <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
-            <Button label='Submit' ariaLabel='submit example form' onClick={() => form.current.submit()} />
+            <Button label='Submit' ariaLabel='submit example form' type='submit' />
           </Stack>
       </Stack.Item>
       </Form>

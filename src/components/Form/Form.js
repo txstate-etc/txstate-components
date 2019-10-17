@@ -64,7 +64,7 @@ export const Form = React.forwardRef((props, ref) => {
     notifyChildrenReady(_initialState.current)
   }, [notifyChildrenReady])
 
-  const submitForm = useCallback(async () => {
+  const submitForm = async () => {
     if (onSubmit && typeof onSubmit === 'function') {
       try {
         const results = await onSubmit({ form, errors })
@@ -77,12 +77,7 @@ export const Form = React.forwardRef((props, ref) => {
         broadcastValidateResults(errors)
       }
     }
-  }, [onSubmit, form, errors, broadcastValidateResults])
-
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault()
-    await submitForm()
-  }, [submitForm])
+  }
 
   useImperativeHandle(ref, () => ({ submit: submitForm }))
 
@@ -117,7 +112,10 @@ export const Form = React.forwardRef((props, ref) => {
 
   return (
     <FormContext.Provider value={formEvent.current}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={e => {
+        e.preventDefault()
+        submitForm && submitForm()
+      }}>
         {children}
       </form>
     </FormContext.Provider>
