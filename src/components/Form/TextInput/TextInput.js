@@ -1,10 +1,11 @@
 import React from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
-import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
+import { useFormInput } from '../../../hooks'
 
 export const TextInput = props => {
-  const { name, label, type, multiline, path, className, placeholder, required, disabled } = props
+
+  const { name, label, type, multiline, path, className, placeholder, required, disabled, iconProps } = props
 
   const {
     value,
@@ -29,6 +30,7 @@ export const TextInput = props => {
       errorMessage={error}
       placeholder={placeholder}
       onChange={onChange}
+      iconProps={iconProps}
       disabled={disabled}
     />
   )
@@ -47,5 +49,13 @@ TextInput.propTypes = {
   multiline: PropTypes.bool,
   type: PropTypes.string,
   placeholder: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  iconProps: PropTypes.shape({
+    ariaLabel: PropTypes.string,
+    iconName: PropTypes.string,
+    iconType: PropTypes.object,
+    imageProps: PropTypes.object,
+    styles: PropTypes.object,
+    theme: PropTypes.object
+  })
 }
