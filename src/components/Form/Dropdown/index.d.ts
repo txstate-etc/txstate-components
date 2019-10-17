@@ -10,6 +10,7 @@ export interface DropdownProps {
   path: string;
   options?: DropdownOptions[];
   disabled?: boolean;
+  initialSelectedKey?: string;
 }
 
 export const Dropdown: React.FC<DropdownProps>;
