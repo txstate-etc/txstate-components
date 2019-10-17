@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IComboBoxStyles } from 'office-ui-fabric-react/lib/ComboBox'
 
 export interface DropdownOptions {
   key: string;

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'
 
 export const TextInput = props => {
-  const { name, label, type, multiline, path, className, placeholder, required, iconProps } = props
+
+  const { name, label, type, multiline, path, className, placeholder, required, disabled, iconProps } = props
 
   const {
     value,
@@ -30,6 +31,7 @@ export const TextInput = props => {
       placeholder={placeholder}
       onChange={onChange}
       iconProps={iconProps}
+      disabled={disabled}
     />
   )
 }
@@ -41,6 +43,7 @@ TextInput.defaultProps = {
 
 TextInput.propTypes = {
   label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   path: PropTypes.string.isRequired,
   className: PropTypes.string,
   multiline: PropTypes.bool,

@@ -1,7 +1,7 @@
-import React, { useRef, useState, useImperativeHandle } from 'react'
+import React, { useRef, useImperativeHandle } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button, BasePicker } from '../components'
-import { TextInput, RichText } from '../components/Form/Inputs'
+import { TextInput, RichText, Dropdown } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import { get } from 'lodash'
@@ -55,7 +55,6 @@ const StyledRichText = styled(RichText)`
 `
 
 const FormExample = props => {
-  const form = useRef()
   const icecreamPicker = useRef()
 
   const updatedSelectedItems = () => {
@@ -70,12 +69,12 @@ const FormExample = props => {
       <Form
         id='ross-shitty-life-form'
         onChange={({ form, errors }) => console.log(form, errors)}
-        ref={form}
         initialValues={{
           icecream: [
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
+        onSubmit={({ form, errors }) => console.log('FORM: ', form)}
         validate={async (form) => {
           const errors = {}
           if (get(form, 'name.first') !== 'phillip') {
@@ -89,6 +88,7 @@ const FormExample = props => {
         <FormInputs>
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
+          <Dropdown styles={{ container: { display: 'none' }}} label='Temperature' path='temperature' options={[ { key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
           <StyledPicker
             ref={icecreamPicker}
             label='Favorite Ice Cream'
@@ -110,13 +110,13 @@ const FormExample = props => {
           />
           <Button label='Add another' ariaLabel='add another item' onClick={updatedSelectedItems} />
         </FormInputs>
-      </Form>
-      <Stack.Item>
-        <Stack spacing={12} horizontal>
-          <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
-          <Button label='Submit' ariaLabel='submit example form' onClick={() => form.current.submit()} />
-        </Stack>
+        <Stack.Item>
+          <Stack spacing={12} horizontal>
+            <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
+            <Button label='Submit' ariaLabel='submit example form' type='submit' />
+          </Stack>
       </Stack.Item>
+      </Form>
     </Stack>
   )
 }

@@ -9,7 +9,8 @@ export interface TextInputProps {
   type?: string;
   placeholder?: string;
   required?: boolean;
-  iconProps?: IIconProps
+  iconProps?: IIconProps;
+  disabled?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps>;
