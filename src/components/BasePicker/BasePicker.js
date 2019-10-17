@@ -2,6 +2,15 @@ import React, { useCallback, useRef } from 'react'
 import { TagPicker } from 'office-ui-fabric-react/lib/Pickers'
 import { Label } from '../Label'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Theme } from '../Theme'
+const Desc = styled.div`
+  font-size: 12px;
+  font-family: 'Univers W01', Helvetica, Calibri, Arial, sans-serif;
+  color: ${Theme.charcoal.lighten(1).hex()};
+  line-height: 20px;
+  margin-bottom: ${({ show }) => (show ? '10px' : '')};
+`
 
 const listContainsDocument = (item, itemList) => {
   if (!itemList || !itemList.length || itemList.length === 0) {
@@ -24,7 +33,8 @@ export const BasePicker = props => {
     getTextFromItem,
     value,
     className,
-    onChange
+    onChange,
+    description
   } = props
 
   const tagPicker = useRef()
@@ -53,6 +63,7 @@ export const BasePicker = props => {
   return (
     <>
       <Label>{label}</Label>
+      <Desc show={description}>{description}</Desc>
       <TagPicker
         className={className}
         selectedItems={value}
@@ -95,5 +106,6 @@ BasePicker.propTypes = {
   disabled: PropTypes.bool,
   canSelectDuplicates: PropTypes.bool,
   value: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  description: PropTypes.string
 }

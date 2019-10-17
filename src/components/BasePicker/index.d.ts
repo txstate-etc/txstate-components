@@ -22,6 +22,7 @@ export interface BasePickerProps {
   canSelectDuplicates?: boolean;
   value?: BasePickerValue[];
   onChange?: (...args: any[]) => any;
+  description?: string;
 }
 
 export const BasePicker: React.FC<BasePickerProps>;
