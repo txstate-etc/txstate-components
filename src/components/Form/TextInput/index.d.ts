@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IIconProps } from 'office-ui-fabric-react'
 
 export interface TextInputProps {
   label: string;
@@ -8,6 +9,7 @@ export interface TextInputProps {
   type?: string;
   placeholder?: string;
   required?: boolean;
+  iconProps?: IIconProps
 }
 
 export const TextInput: React.FC<TextInputProps>;
