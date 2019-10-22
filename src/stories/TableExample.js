@@ -2,7 +2,6 @@ import React from 'react'
 import { Table, Button } from '../components'
 import axios from 'axios'
 import { get } from 'lodash'
-import { useEvent } from '../hooks'
 
 const randomUser = axios.create({
   baseURL: 'https://randomuser.me/api'
@@ -64,16 +63,29 @@ const columns = [
 ]
 
 export const TableExample = props => {
-  const refreshEvent = 'storybooktableexample'
-  const refresh = useEvent(refreshEvent)
   return (<React.Fragment>
     <Table
       title='People'
       columns={columns}
+      keyField='login.uuid'
       dataSource={api.getPeople}
       initialPageSize={10}
-      refreshEvent={refreshEvent}
     />
-    <Button label="Refresh" onClick={refresh}/>
+  </React.Fragment>)
+}
+
+export const TableSelectable = props => {
+  return (<React.Fragment>
+    <Table
+      title='People'
+      columns={columns}
+      keyField='login.uuid'
+      dataSource={api.getPeople}
+      initialPageSize={10}
+      selectableRows
+      WithSelectedArea={(props) => {
+        return (<Button label="Refresh" onClick={props.refreshData}/>)
+      }}
+    />
   </React.Fragment>)
 }

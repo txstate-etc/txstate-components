@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, title, keyField, refreshEvent } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, title, keyField, WithSelectedArea } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {
@@ -43,8 +43,6 @@ export const Table = props => {
     initialPageSize,
     dataSource
   })
-
-  if (refreshEvent) useEvent(refreshEvent, fetchData)
 
   useEffect(() => {
     const dataAvailable = Array.isArray(data) && data.length > 0
@@ -76,6 +74,7 @@ export const Table = props => {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         sortServer
+        WithSelectedArea={WithSelectedArea && <WithSelectedArea refreshData={fetchData}/>}
       />
     </div>
   )
@@ -102,5 +101,6 @@ Table.propTypes = {
   onRowSelected: PropTypes.func,
   dataSource: PropTypes.func,
   initialPageSize: PropTypes.number,
-  refreshEvent: PropTypes.string
+  keyField: PropTypes.string,
+  WithSelectedArea: PropTypes.func
 }

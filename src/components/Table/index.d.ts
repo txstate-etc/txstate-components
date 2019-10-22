@@ -16,6 +16,10 @@ export interface TableColumns {
   hide?: number | "sm" | "md" | "lg";
 }
 
+interface WithSelectedAreaProps {
+  refreshData: Function
+}
+
 export interface TableProps {
   columns?: TableColumns[];
   selectableRows?: boolean;
@@ -24,6 +28,7 @@ export interface TableProps {
   initialPageSize?: number;
   title?: string;
   keyField?: string;
+  WithSelectedArea?: React.FC<WithSelectedAreaProps>;
 }
 
 export const Table: React.FC<TableProps>;
