@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BaseTable } from './BaseTable'
 import styled from 'styled-components'
-import { useTable } from '../../hooks'
+import { useTable, useEvent } from '../../hooks'
 import PropTypes from 'prop-types'
 
 const Overlay = styled.div`
