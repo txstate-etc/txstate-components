@@ -17,7 +17,7 @@ export interface TableColumns {
 }
 
 interface WithSelectedAreaProps {
-  refreshData: Function
+  refreshData: () => Promise<void>
 }
 
 export interface TableProps {

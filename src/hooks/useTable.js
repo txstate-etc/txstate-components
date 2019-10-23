@@ -31,6 +31,7 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
   const [tableState, tableAction] = useReducer(tableReducer, { data: [], total: 10 })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
+  const [sort, setSort] = useState()
 
   const onChangePage = useCallback((page, totalRows) => {
     setPage(page)
@@ -39,6 +40,11 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
   const onChangeRowsPerPage = useCallback((pageSize, page) => {
     setPageSize(pageSize)
   }, [setPageSize])
+
+  const onSort = useCallback((column, sortDirection) => {
+    setPage(1)
+    setSort({ order: sortDirection, selector: column.selector, column })
+  })
 
   const fetchData = useCallback(async ({ page, sort, pageSize }) => {
     tableAction({ type: 'loading' })
@@ -57,17 +63,9 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
     }
   }, [tableAction, dataSource])
 
-  const onSort = useCallback((column, sortDirection) => {
-    fetchData({
-      page: 1,
-      pageSize,
-      sort: { order: sortDirection, selector: column.selector, column }
-    })
-  }, [fetchData, pageSize])
-
   useEffect(() => {
-    fetchData({ page, pageSize })
-  }, [fetchData, page, pageSize])
+    fetchData({ page, pageSize, sort })
+  }, [fetchData, page, pageSize, sort])
 
   return {
     onChangePage,
@@ -76,7 +74,7 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
     paginationTotalRows: tableState.total,
     paginationPerPage: pageSize,
     firstLoad: tableState.firstLoad,
-    fetchData,
+    fetchData: () => fetchData({ page, sort, pageSize }),
     clearSelectedRows: tableState.clearSelectedRows,
     fetchingPage: tableState.loading,
     data: tableState.data || []
