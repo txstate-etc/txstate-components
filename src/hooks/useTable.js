@@ -13,6 +13,7 @@ const tableReducer = (state, action) => {
         ...state,
         loading: false,
         firstLoad: false,
+        clearSelectedRows: !state.clearSelectedRows,
         data: action.payload.data || [],
         total: action.payload.total || 0,
         error: null
@@ -76,6 +77,7 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
     paginationPerPage: pageSize,
     firstLoad: tableState.firstLoad,
     fetchData,
+    clearSelectedRows: tableState.clearSelectedRows,
     fetchingPage: tableState.loading,
     data: tableState.data || []
   }

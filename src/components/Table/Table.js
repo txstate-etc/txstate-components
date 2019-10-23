@@ -38,6 +38,7 @@ export const Table = props => {
     paginationTotalRows,
     fetchingPage,
     fetchData,
+    clearSelectedRows,
     data
   } = useTable({
     initialPageSize,
@@ -68,6 +69,7 @@ export const Table = props => {
         keyField={keyField}
         onSort={onSort}
         selectableRows={selectableRows}
+        clearSelectedRows={clearSelectedRows}
         onRowSelected={onRowSelected}
         paginationTotalRows={paginationTotalRows}
         paginationPerPage={paginationPerPage}
