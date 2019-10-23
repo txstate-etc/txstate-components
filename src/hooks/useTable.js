@@ -13,6 +13,7 @@ const tableReducer = (state, action) => {
         ...state,
         loading: false,
         firstLoad: false,
+        clearSelectedRows: !state.clearSelectedRows,
         data: action.payload.data || [],
         total: action.payload.total || 0,
         error: null
@@ -44,6 +45,11 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
 
     try {
       const { data, total } = await dataSource(page, pageSize, sort)
+      const lastPage = Math.ceil(total / pageSize)
+      if (page > lastPage) {
+        setPage(lastPage)
+        await dataSource(lastPage, pageSize, sort)
+      }
       tableAction({ type: 'success', payload: { data, total } })
     } catch (error) {
       console.log(error.message)
@@ -70,6 +76,8 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
     paginationTotalRows: tableState.total,
     paginationPerPage: pageSize,
     firstLoad: tableState.firstLoad,
+    fetchData,
+    clearSelectedRows: tableState.clearSelectedRows,
     fetchingPage: tableState.loading,
     data: tableState.data || []
   }

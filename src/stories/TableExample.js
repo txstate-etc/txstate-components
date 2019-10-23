@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from '../components'
+import { Table, Button } from '../components'
 import axios from 'axios'
 import { get } from 'lodash'
 
@@ -63,12 +63,29 @@ const columns = [
 ]
 
 export const TableExample = props => {
-  return (
+  return (<React.Fragment>
     <Table
       title='People'
       columns={columns}
+      keyField='login.uuid'
       dataSource={api.getPeople}
       initialPageSize={10}
     />
-  )
+  </React.Fragment>)
+}
+
+export const TableSelectable = props => {
+  return (<React.Fragment>
+    <Table
+      title='People'
+      columns={columns}
+      keyField='login.uuid'
+      dataSource={api.getPeople}
+      initialPageSize={10}
+      selectableRows
+      WithSelectedArea={(props) => {
+        return (<Button label="Refresh" onClick={props.refreshData}/>)
+      }}
+    />
+  </React.Fragment>)
 }
