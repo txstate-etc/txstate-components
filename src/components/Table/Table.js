@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BaseTable } from './BaseTable'
 import styled from 'styled-components'
-import { useTable, useEvent } from '../../hooks'
+import { useTable } from '../../hooks'
 import PropTypes from 'prop-types'
 
 const Overlay = styled.div`
@@ -76,7 +76,7 @@ export const Table = props => {
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         sortServer
-        WithSelectedArea={WithSelectedArea && <WithSelectedArea refreshData={fetchData}/>}
+        WithSelectedArea={WithSelectedArea && <WithSelectedArea refreshData={fetchData} />}
       />
     </div>
   )

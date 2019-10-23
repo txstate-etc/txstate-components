@@ -8,7 +8,7 @@ const randomUser = axios.create({
 })
 
 const api = {
-  async getPeople(page = 1, pageSize = 10, sort = { order: 'none', selector: '' }) {
+  async getPeople (page = 1, pageSize = 10, sort = { order: 'none', selector: '' }) {
     const totalResults = 48
     await new Promise(resolve => setTimeout(resolve, 1000))
     const results = await randomUser.get(`?page=${page}&results=${pageSize}&seed=potluck`)
@@ -84,7 +84,7 @@ export const TableSelectable = props => {
       initialPageSize={10}
       selectableRows
       WithSelectedArea={(props) => {
-        return (<Button label="Refresh" onClick={props.refreshData}/>)
+        return (<Button label='Refresh' onClick={props.refreshData} />)
       }}
     />
   </React.Fragment>)
