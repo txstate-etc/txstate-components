@@ -33,6 +33,7 @@ export interface IUseTableResult {
   paginationTotalRows: number,
   paginationPerPage: number,
   firstLoad: boolean,
+  fetchData: Function,
   fetchingPage: boolean,
   data: any[]
 }

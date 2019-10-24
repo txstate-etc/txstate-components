@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, title, keyField } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, title, keyField, WithSelectedArea } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {
@@ -37,6 +37,8 @@ export const Table = props => {
     paginationPerPage,
     paginationTotalRows,
     fetchingPage,
+    fetchData,
+    clearSelectedRows,
     data
   } = useTable({
     initialPageSize,
@@ -67,12 +69,14 @@ export const Table = props => {
         keyField={keyField}
         onSort={onSort}
         selectableRows={selectableRows}
+        clearSelectedRows={clearSelectedRows}
         onRowSelected={onRowSelected}
         paginationTotalRows={paginationTotalRows}
         paginationPerPage={paginationPerPage}
         onChangePage={onChangePage}
         onChangeRowsPerPage={onChangeRowsPerPage}
         sortServer
+        WithSelectedArea={WithSelectedArea && <WithSelectedArea refreshData={fetchData} />}
       />
     </div>
   )
@@ -82,7 +86,6 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     title: PropTypes.string,
-    keyField: PropTypes.string,
     selector: PropTypes.string,
     sortable: PropTypes.bool,
     format: PropTypes.func,
@@ -95,8 +98,11 @@ Table.propTypes = {
     allowOverflow: PropTypes.bool,
     hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
   })),
+  title: PropTypes.string,
   selectableRows: PropTypes.bool,
   onRowSelected: PropTypes.func,
   dataSource: PropTypes.func,
-  initialPageSize: PropTypes.number
+  initialPageSize: PropTypes.number,
+  keyField: PropTypes.string,
+  WithSelectedArea: PropTypes.func
 }

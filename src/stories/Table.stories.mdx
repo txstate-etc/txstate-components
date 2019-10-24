@@ -1,5 +1,5 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
-import { TableExample } from './TableExample'
+import { TableExample, TableSelectable } from './TableExample'
 import { ReactTableExample } from './ReactTableExample'
 import { Table, ReactTable } from '../components'
 
@@ -17,6 +17,21 @@ import { Table } from 'txstate-react/lib/components/Table'
 <Preview>
   <Story name='simple table'>
     <TableExample />
+  </Story>
+</Preview>
+
+# React Data Table Selectable
+---
+```jsx
+import { Table } from 'txstate-react/lib/components/Table'
+```
+## Props
+---
+<Props of={Table} />
+
+<Preview>
+  <Story name='selectable table'>
+    <TableSelectable />
   </Story>
 </Preview>
 
