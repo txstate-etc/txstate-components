@@ -25,7 +25,7 @@ export const ChoiceGroup = props => {
     }
     return { color: 'red' }
   }, [styles])
-  console.log(errorStyle)
+
   return (
     <>
       <Label htmlFor={_id}>{label}</Label>
