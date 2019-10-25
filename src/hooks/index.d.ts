@@ -13,9 +13,9 @@ export interface IInitialValue {
 
 export interface IUseFormInputArgs {
   path: string
-  extractor: (...args: any[]) => any
-  transformer: (...args: any[]) => any
-  initialValue: IInitialValue
+  extractor?: (...args: any[]) => any
+  transformer?: (...args: any[]) => any
+  initialValue?: IInitialValue
 }
 
 export interface IUseFormInputResults {
