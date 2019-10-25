@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button, BasePicker } from '../components'
-import { TextInput, RichText, Dropdown } from '../components/Form/Inputs'
+import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import { get } from 'lodash'
@@ -89,6 +89,16 @@ const FormExample = props => {
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
           <Dropdown styles={{ container: { display: 'none' }}} label='Temperature' path='temperature' options={[ { key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
+          <RadioGroup
+            path='swallowType'
+            label='Swallow Type'
+            ariaLabel='choose the type of swallow to test'
+            initialSelectedKey='african'
+            options={[
+              {key: 'african', text: 'African'},
+              {key: 'european', text: 'European'}
+            ]}
+          />
           <StyledPicker
             ref={icecreamPicker}
             label='Favorite Ice Cream'

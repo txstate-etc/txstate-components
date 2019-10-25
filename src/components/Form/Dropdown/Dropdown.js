@@ -39,6 +39,7 @@ Dropdown.defaultProps = {
 
 Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
+  initialSelectedKey: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     text: PropTypes.string
