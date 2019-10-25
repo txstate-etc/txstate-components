@@ -9,9 +9,9 @@ interface IExtendedStyle {
 export type ChoiceGroupStyle = IExtendedStyle & IChoiceGroupStyles
 
 export interface IChoiceGroupOption {
-  text: string
-  key: string
-  disabled: boolean
+  text?: string
+  key?: string
+  disabled?: boolean
 }
 
 export interface ChoiceGroupProps {

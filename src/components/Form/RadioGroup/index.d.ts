@@ -4,7 +4,7 @@ import { ChoiceGroupStyle } from '../../ChoiceGroup'
 export interface RadioGroupOptions {
   key?: string;
   text?: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export interface RadioGroupProps {
