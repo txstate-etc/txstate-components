@@ -20,10 +20,23 @@ interface WithSelectedAreaProps {
   refreshData: () => Promise<void>
 }
 
+export interface TableDataSourceResponse<ReturnType = any> {
+  data: ReturnType[]
+  total: number
+}
+
+enum SortDirection {
+  NONE = 'none',
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export type TableDataSourceFunction<ReturnType> = (page?:number, pageSize?:number, sort?:{ order?:SortDirection, selector:string }) => Promise<TableDataSourceResponse> | TableDataSourceResponse
+
 export interface TableProps {
   columns?: TableColumns[];
   selectableRows?: boolean;
-  dataSource?: () => Promise<any> | any;
+  dataSource?: TableDataSourceFunction
   onRowSelected?: (...args: any[]) => any | any;
   initialPageSize?: number;
   title?: string;
