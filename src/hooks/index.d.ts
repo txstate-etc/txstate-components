@@ -49,5 +49,5 @@ export interface IUseTableArgs {
 export type UseTable = (arg: IUseTableArgs) => IUseTableResult
 export const useTable: UseTable
 
-export type UseSubject = <StateType = any>(subject: BehaviorSubject) => [StateType, (state:StateType) => void]
+export type UseSubject = <StateType = any>(subject: BehaviorSubject<StateType>) => [StateType, (state:StateType) => void]
 export const useSubject: UseSubject
