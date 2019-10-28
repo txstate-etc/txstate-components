@@ -7,15 +7,11 @@ export const useEvent: UseEventHook
 export type UseEventListener = (event: string, handler: (event: any) => void) => void
 export const UseEventListener: UseEventListener
 
-export interface IInitialValue {
-  [key: string]: any
-}
-
 export interface IUseFormInputArgs {
   path: string
   extractor?: (...args: any[]) => any
   transformer?: (...args: any[]) => any
-  initialValue?: IInitialValue
+  initialValue?: any
 }
 
 export interface IUseFormInputResults {
