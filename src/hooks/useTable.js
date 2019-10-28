@@ -51,7 +51,7 @@ export const useTable = ({ initialPageSize = 10, dataSource }) => {
 
     try {
       const { data, total } = await dataSource(page, pageSize, sort)
-      const lastPage = Math.ceil(total / pageSize)
+      const lastPage = Math.ceil(total / pageSize) || 1
       if (page > lastPage) {
         setPage(lastPage)
         await dataSource(lastPage, pageSize, sort)
