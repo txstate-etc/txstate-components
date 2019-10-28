@@ -25,12 +25,15 @@ const immutableReducer = (state, action) => {
   }
 }
 
+// TODO: Add a success object to return after validation (opt-in).
+// TODO: Add index ordering to the form inputs that register with the form.
 export const Form = React.forwardRef((props, ref) => {
   const {
     children,
     onSubmit,
     onChange,
     validate,
+    validationDelay = 300,
     initialValues,
     id
   } = props
@@ -52,9 +55,6 @@ export const Form = React.forwardRef((props, ref) => {
   }, [formDispatch])
 
   const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
-
-  useCallback(() => {
-  }, [])
 
   useEvent(`${formEvent.current}-data`, handleChildData)
 
@@ -93,7 +93,7 @@ export const Form = React.forwardRef((props, ref) => {
     } catch (err) {
       console.log(err)
     }
-  }, 300), [validate, broadcastValidateResults])
+  }, validationDelay), [validate, broadcastValidateResults])
 
   useEffect(() => {
     if (onChange && typeof onChange === 'function') {
@@ -132,5 +132,7 @@ Form.propTypes = {
   /** Sets the initial form state */
   initialValues: PropTypes.object,
   /** An optional ID which will be used instead of a randomly generated id */
-  id: PropTypes.string
+  id: PropTypes.string,
+  /** The amount of time to wait, in milliseconds, before calling the validation function */
+  validationDelay: PropTypes.number,
 }

@@ -1,8 +1,10 @@
-import React, { useState, useReducer, useEffect, useCallback } from 'react'
+import React, { useState, useReducer, useEffect, useCallback, useRef } from 'react'
 import Table from 'react-table'
 import './ReactTable.css'
 import PropTypes from 'prop-types'
+import shortid from 'shortid'
 import { get } from 'lodash'
+import { useEvent } from '../../hooks'
 
 const getPageStartAndEnd = (page = 0, pageSize = 10) => {
   return {
@@ -98,6 +100,7 @@ const initialState = {
 
 export const ReactTable = props => {
   const {
+    id,
     columns,
     fetchData,
     pageSize,
@@ -130,6 +133,13 @@ export const ReactTable = props => {
   const [start, setStart] = useState(0)
   const [end, setEnd] = useState(pageSize)
   const [sort, setSort] = useState({ order: 'none', column: '' })
+  const _id = useRef(id || shortid.generate())
+
+  useEvent(`refresh-${_id.current}`, refetchData)
+
+  const refetchData = useCallback((page) => {
+    handleDataFetch(page, pageSize)(fetchData, dispatch)
+  }, [pageSize, fetchData, dispatch])
 
   useEffect(() => {
     handleDataFetch(page, pageSize)(fetchData, dispatch)
@@ -218,6 +228,7 @@ ReactTable.defaultProps = {
 }
 
 ReactTable.propTypes = {
+  id: PropTypes.string,
   className: PropTypes.string,
   fetchData: PropTypes.func.isRequired,
   pageSize: PropTypes.number,

@@ -28,7 +28,11 @@ export interface FormProps {
     /**
      * Ref of the form, which exposes the submit() version
      */
-    ref?: React.MutableRefObject<IFormRef | undefined | null>
+    ref?: React.MutableRefObject<IFormRef | undefined | null>;
+    /** 
+     * The amount of time to wait, in milliseconds, before calling the validation function 
+     */
+    validationDelay?: number;
 }
 
 export const Form: React.FC<FormProps>;
