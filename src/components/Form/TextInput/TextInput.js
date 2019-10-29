@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'
-import { Stack } from '../../Stack'
 import styled from 'styled-components'
 
 const SuccessMessageText = styled.span`
@@ -41,7 +40,7 @@ export const TextInput = props => {
   }, [styles, success, error])
 
   return (
-    <Stack>
+    <>
       <TextField
         required={required}
         className={className}
@@ -61,7 +60,7 @@ export const TextInput = props => {
         disabled={disabled}
       />
       {SuccessComponent ? <SuccessComponent message={success} /> : <SuccessMessage message={success} />}
-    </Stack>
+    </>
   )
 }
 

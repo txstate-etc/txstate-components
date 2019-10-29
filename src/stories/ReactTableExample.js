@@ -1,14 +1,15 @@
-import React from 'react'
-import { ReactTable } from '../components'
+import React, { useCallback } from 'react'
+import { ReactTable, Button } from '../components'
 import axios from 'axios'
 import { get } from 'lodash'
+import { useEvent } from '../hooks'
 
 const randomUser = axios.create({
   baseURL: 'https://randomuser.me/api'
 })
 
 const api = {
-  async getPeople(page = 0, pageSize = 10, sort = { order: 'none', column: '' }) {
+  async getPeople (page = 0, pageSize = 10, sort = { order: 'none', column: '' }) {
     const totalResults = 24
     await new Promise(resolve => setTimeout(resolve, 1000))
     const start = page * pageSize
@@ -74,13 +75,22 @@ const columns = [
   buildColumn('Phone', 'phone')
 ]
 
-
 export const ReactTableExample = props => {
+  const refresh = useEvent('refresh-example-table')
+
+  const handleRefresh = useCallback(() => {
+    refresh(1)
+  }, [refresh])
+
   return (
-    <ReactTable
-      pageSize={10}
-      fetchData={api.getPeople}
-      columns={columns}
-    />
+    <>
+      <Button label='Refresh' onClick={handleRefresh} />
+      <ReactTable
+        id='example-table'
+        pageSize={10}
+        fetchData={api.getPeople}
+        columns={columns}
+      />
+    </>
   )
 }

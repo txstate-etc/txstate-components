@@ -135,11 +135,10 @@ export const ReactTable = props => {
   const [sort, setSort] = useState({ order: 'none', column: '' })
   const _id = useRef(id || shortid.generate())
 
-  useEvent(`refresh-${_id.current}`, refetchData)
-
   const refetchData = useCallback((page) => {
     handleDataFetch(page, pageSize)(fetchData, dispatch)
   }, [pageSize, fetchData, dispatch])
+  useEvent(`refresh-${_id.current}`, refetchData)
 
   useEffect(() => {
     handleDataFetch(page, pageSize)(fetchData, dispatch)
