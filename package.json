@@ -1,6 +1,6 @@
 {
   "name": "@txstate-mws/txstate-react",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
     "url": "https://github.com/txstate-etc/txstate-components"
@@ -80,21 +80,21 @@
     "@storybook/addon-viewport": "^5.2.3",
     "@storybook/addons": "^5.2.3",
     "@storybook/react": "^5.2.3",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "eslint": "^6.2.1",
-    "eslint-config-standard-with-typescript": "^8.0.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
     "@svgr/cli": "^4.3.3",
     "@types/jest": "^24.0.18",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.0",
     "babel-eslint": "10.0.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "color": "^3.1.2",
+    "eslint": "^6.2.1",
+    "eslint-config-standard-with-typescript": "^8.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "standard": "^13.1.0",
     "typescript": "^3.6.4"
   }
