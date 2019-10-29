@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from 'react'
 import { IIconProps } from 'office-ui-fabric-react'
-import { ITextFieldStyleProps } from 'office-ui-fabric-react/lib/TextField'
+import { ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField'
 
 export interface TextInputProps {
   label: string;
@@ -13,8 +13,7 @@ export interface TextInputProps {
   iconProps?: IIconProps;
   disabled?: boolean;
   SuccessComponent?: React.ElementType
-  styles?: Partial<ITextFieldStyleProps>
+  styles?: Partial<ITextFieldStyles>
 }
 
-export const TextInput: React.FC<TextInputProps>;
-
+export const TextInput: React.FC<TextInputProps>
