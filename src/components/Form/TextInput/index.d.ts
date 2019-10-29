@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IIconProps } from 'office-ui-fabric-react'
+import { ITextFieldStyleProps } from 'office-ui-fabric-react/lib/TextField'
 
 export interface TextInputProps {
   label: string;
@@ -11,6 +12,8 @@ export interface TextInputProps {
   required?: boolean;
   iconProps?: IIconProps;
   disabled?: boolean;
+  SuccessComponent?: React.ElementType
+  styles?: Partial<ITextFieldStyleProps>
 }
 
 export const TextInput: React.FC<TextInputProps>;

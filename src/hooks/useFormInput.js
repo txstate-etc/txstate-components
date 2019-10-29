@@ -12,6 +12,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     return ''
   })
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
@@ -27,8 +28,11 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   }, [setValue])
 
   const handleValidation = useCallback(result => {
-    const errorMessage = get(result, path)
+    const errorMessage = get(result, `errors.${path}`)
+    const successMessage = get(result, `success.${path}`)
+
     setError(errorMessage || '')
+    setSuccess(successMessage || '')
   }, [setError])
 
   useEvent(`${formEvent}-form-ready`, handleFormReady)
@@ -64,6 +68,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     onBlur,
     isDirty,
     value,
-    error
+    error,
+    success
   }
 }
