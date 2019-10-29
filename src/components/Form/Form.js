@@ -25,7 +25,6 @@ const immutableReducer = (state, action) => {
   }
 }
 
-// TODO: Add a success object to return after validation (opt-in).
 // TODO: Add index ordering to the form inputs that register with the form.
 export const Form = React.forwardRef((props, ref) => {
   const {
@@ -43,6 +42,7 @@ export const Form = React.forwardRef((props, ref) => {
 
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
+  const [success, successDispatch] = useReducer(immutableReducer, {})
 
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
@@ -69,12 +69,15 @@ export const Form = React.forwardRef((props, ref) => {
       try {
         const results = await onSubmit({ form, errors })
         const errorResults = get(results, 'errors')
-        if (errorResults) {
-          broadcastValidateResults(errorResults)
+        const successResults = get(results, 'success')
+
+        if (errorResults || successResults) {
+          broadcastValidateResults({ errors: errorResults, success: successResults })
         }
       } catch (results) {
         const errors = get(results, 'errors')
-        broadcastValidateResults(errors)
+        const success = get(results, 'success')
+        broadcastValidateResults({ errors, success })
       }
     }
   }
@@ -86,9 +89,13 @@ export const Form = React.forwardRef((props, ref) => {
       if (typeof validate !== 'function') return
       const results = await validate(form)
       const errors = get(results, 'errors')
+      const success = get(results, 'success')
+
       errorDispatch({ type: 'validation', payload: errors })
-      if (errors) {
-        broadcastValidateResults(errors)
+      successDispatch({ type: 'validation', payload: success })
+
+      if (errors || success) {
+        broadcastValidateResults({ errors, success })
       }
     } catch (err) {
       console.log(err)
@@ -97,9 +104,9 @@ export const Form = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     if (onChange && typeof onChange === 'function') {
-      onChange({ form, errors })
+      onChange({ form, errors, success })
     }
-  }, [form, onChange, errors])
+  }, [form, onChange, errors, success])
 
   useEffect(() => {
     validateOnChange.cancel()
@@ -134,5 +141,5 @@ Form.propTypes = {
   /** An optional ID which will be used instead of a randomly generated id */
   id: PropTypes.string,
   /** The amount of time to wait, in milliseconds, before calling the validation function */
-  validationDelay: PropTypes.number,
+  validationDelay: PropTypes.number
 }

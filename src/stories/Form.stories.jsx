@@ -68,35 +68,53 @@ const FormExample = props => {
     <Stack spacing={12}>
       <Form
         id='ross-shitty-life-form'
-        onChange={({ form, errors }) => console.log(form, errors)}
+        onChange={({ form, errors, success }) => console.log(form, errors, success)}
         initialValues={{
           icecream: [
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
-        onSubmit={({ form, errors }) => console.log('FORM: ', form)}
+        onSubmit={({ form, errors }) => {
+          console.log('FORM: ', form)
+          const lastName = get(form, 'name.last')
+          if (lastName) {
+            return {
+              success: {
+                name: {
+                  last: 'This is a great last name!'
+                }
+              }
+            }
+          }
+        }}
         validate={async (form) => {
           const errors = {}
-          if (get(form, 'name.first') !== 'phillip') {
+          const success = {}
+          const name = get(form, 'name.first')
+          if (name !== 'phillip') {
             errors.name = {
               first: 'Doesn\'t ring a bell'
             }
+          } else if (name === 'phillip') {
+            success.name = {
+              first: 'Great Job, phillip!'
+            }
           }
-          return { errors }
+          return { errors, success }
         }}
       >
         <FormInputs>
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
-          <Dropdown styles={{ container: { display: 'none' }}} label='Temperature' path='temperature' options={[ { key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
+          <Dropdown styles={{ container: { display: 'none' } }} label='Temperature' path='temperature' options={[{ key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
           <RadioGroup
             path='swallowType'
             label='Swallow Type'
             ariaLabel='choose the type of swallow to test'
             initialSelectedKey='african'
             options={[
-              {key: 'african', text: 'African'},
-              {key: 'european', text: 'European'}
+              { key: 'african', text: 'African' },
+              { key: 'european', text: 'European' }
             ]}
           />
           <StyledPicker
@@ -125,7 +143,7 @@ const FormExample = props => {
             <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
             <Button label='Submit' ariaLabel='submit example form' type='submit' />
           </Stack>
-      </Stack.Item>
+        </Stack.Item>
       </Form>
     </Stack>
   )
