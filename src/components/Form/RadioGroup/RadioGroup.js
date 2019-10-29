@@ -4,7 +4,7 @@ import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
 
 export const RadioGroup = props => {
-  const { path, label, options, ariaLabel, required, initialSelectedKey, styles } = props
+  const { path, label, options, ariaLabel, required, initialSelectedKey, styles, id } = props
 
   const {
     value,
@@ -17,6 +17,7 @@ export const RadioGroup = props => {
 
   return (
     <ChoiceGroup
+      id={id}
       options={options}
       ariaLabel={ariaLabel}
       label={label}
@@ -33,6 +34,7 @@ export const RadioGroup = props => {
 RadioGroup.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string,
+  id: PropTypes.string,
   ariaLabel: PropTypes.string,
   initialSelectedKey: PropTypes.string,
   required: PropTypes.bool,

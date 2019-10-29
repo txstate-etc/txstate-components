@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import { IChoiceGroupStyles } from 'office-ui-fabric-react/lib/ChoiceGroup'
 import { IStyle } from 'office-ui-fabric-react'
 
@@ -27,5 +27,4 @@ export interface ChoiceGroupProps {
   id?: string;
 }
 
-export const ChoiceGroup: React.FC<ChoiceGroupProps>;
-
+export const ChoiceGroup: React.FC<ChoiceGroupProps>

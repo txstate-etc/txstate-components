@@ -28,13 +28,13 @@ export const ChoiceGroup = props => {
 
   return (
     <>
-      <Label htmlFor={_id}>{label}</Label>
+      <Label htmlFor={_id.current}>{label}</Label>
       <OfficeChoiceGroup
         styles={{ ...styles }}
-        id={_id}
+        id={_id.current}
         role='radiogroup'
         ariaLabel={ariaLabel || label}
-        ariaLabelledBy={_id}
+        ariaLabelledBy={_id.current}
         onChange={onChange}
         selectedKey={selectedKey}
         options={options}

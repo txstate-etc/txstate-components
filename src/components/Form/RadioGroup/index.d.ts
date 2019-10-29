@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import { ChoiceGroupStyle } from '../../ChoiceGroup'
 
 export interface RadioGroupOptions {
@@ -15,11 +15,7 @@ export interface RadioGroupProps {
   required?: boolean;
   options?: RadioGroupOptions[];
   styles?: ChoiceGroupStyle
+  id?: string;
 }
 
-RadioGroup.propTypes = {
-  styles: PropTypes.object
-}
-
-export const RadioGroup: React.FC<RadioGroupProps>;
-
+export const RadioGroup: React.FC<RadioGroupProps>
