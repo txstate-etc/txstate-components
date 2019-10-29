@@ -17,7 +17,10 @@ export interface IUseFormInputArgs {
 export interface IUseFormInputResults {
   value: any
   onChange: (...args: any[]) => void
+  isDirty: boolean
+  onBlur: Function
   error: string
+  success: string
 }
 
 export type UseFormInput = (arg: IUseFormInputArgs) => IUseFormInputResults
