@@ -83,6 +83,7 @@
     "@svgr/cli": "^4.3.3",
     "@types/jest": "^24.0.18",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "2.6.0",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.0",
     "babel-eslint": "10.0.1",
