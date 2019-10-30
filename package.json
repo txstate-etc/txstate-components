@@ -20,7 +20,7 @@
     "mobx-react-lite": "^1.4.1",
     "office-ui-fabric-react": "^7.28.0",
     "prop-types": "^15.7.2",
-    "react-data-table-component": "^3.4.0",
+    "react-data-table-component": "^3.6.1",
     "react-draft-wysiwyg": "^1.13.2",
     "react-email-editor": "^0.9.9",
     "react-table": "^6.10.3",
