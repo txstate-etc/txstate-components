@@ -9,3 +9,8 @@ export const useSubject = subject => {
   const newSetState = state => subject.next(state)
   return [value, newSetState]
 }
+
+export const useSub = subject => {
+  const [value] = useSubject(subject)
+  return value
+}

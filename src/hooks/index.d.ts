@@ -50,3 +50,5 @@ export const useTable: UseTable
 
 export type UseSubject = <StateType = any>(subject: BehaviorSubject<StateType>) => [StateType, (state:StateType) => void]
 export const useSubject: UseSubject
+export type UseSub = <StateType = any>(subject: BehaviorSubject<StateType>) => StateType
+export const useSub: UseSub
