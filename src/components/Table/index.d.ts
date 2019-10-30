@@ -10,9 +10,13 @@ export interface TableColumns {
   right?: boolean;
   center?: boolean;
   grow?: number;
+  width?: string;
+  minWidth?: string;
+  maxWidth?: string;
   ignoreRowClick?: boolean;
   button?: boolean;
   allowOverflow?: boolean;
+  wrap?: boolean;
   hide?: number | "sm" | "md" | "lg";
 }
 

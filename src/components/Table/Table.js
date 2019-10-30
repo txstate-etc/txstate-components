@@ -88,9 +88,13 @@ Table.propTypes = {
     right: PropTypes.bool,
     center: PropTypes.bool,
     grow: PropTypes.number,
+    width: PropTypes.string,
+    minWidth: PropTypes.string,
+    maxWidth: PropTypes.string,
     ignoreRowClick: PropTypes.bool,
     button: PropTypes.bool,
     allowOverflow: PropTypes.bool,
+    wrap: PropTypes.bool,
     hide: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['sm', 'md', 'lg'])])
   })),
   title: PropTypes.string,
