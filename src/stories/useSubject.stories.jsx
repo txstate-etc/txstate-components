@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { BehaviorSubject } from 'rxjs'
-import { useSubject } from '../hooks/useSubject'
+import { useSubject } from '../hooks'
 import { Button } from '../components'
 
 const CounterSubject = new BehaviorSubject(0)
