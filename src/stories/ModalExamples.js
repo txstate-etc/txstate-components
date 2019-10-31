@@ -5,11 +5,10 @@ class ModalExamples extends React.Component {
   constructor (props) {
     super(props)
     this.state = { isOpen: false }
-    this.handleClose = this.handleClose.bind()
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleClose () {
-    console.log('Modal closed')
     this.setState({ isOpen: !this.state.isOpen })
   }
 
