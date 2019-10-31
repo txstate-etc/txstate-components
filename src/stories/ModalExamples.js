@@ -2,17 +2,19 @@ import React from 'react'
 import { Modal, Button } from '../components'
 
 class ModalExamples extends React.Component {
-    state = {
-      isOpen: false
-    }
+  constructor (props) {
+    super(props)
+    this.state = { isOpen: false }
+    this.handleClose = this.handleClose.bind()
+  }
 
-    handleClose = () => {
-      console.log('Modal closed')
-      this.setState({ isOpen: !this.state.isOpen })
-    }
+  handleClose () {
+    console.log('Modal closed')
+    this.setState({ isOpen: !this.state.isOpen })
+  }
 
-    render () {
-      return (
+  render () {
+    return (
         <>
           <Button label='Open Modal' onClick={() => this.setState({ isOpen: true })} />
           <Modal
@@ -26,8 +28,8 @@ class ModalExamples extends React.Component {
             </div>
           </Modal>
         </>
-      )
-    }
+    )
+  }
 }
 
 export default ModalExamples
