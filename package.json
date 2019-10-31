@@ -16,8 +16,6 @@
     "draftjs-to-html": "^0.8.4",
     "html-to-draftjs": "^1.4.0",
     "lodash": "^4.17.15",
-    "mobx": "^5.13.0",
-    "mobx-react-lite": "^1.4.1",
     "office-ui-fabric-react": "^7.28.0",
     "prop-types": "^15.7.2",
     "react-data-table-component": "^3.6.1",
