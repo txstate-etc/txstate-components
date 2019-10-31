@@ -28,6 +28,10 @@ class TOAST {
     this._toast.classList.add('toast', 'toast-visible', this.gravity)
   }
 
+  addAria () {
+    this._toast.setAttribute('aria-live', 'polite')
+  }
+
   addMessage () {
     const el = document.createElement('span')
     const text = document.createTextNode(this.message)
@@ -56,6 +60,7 @@ class TOAST {
 
   show () {
     this.addStyles()
+    this.addAria()
     this.addMessage()
     this.addToastToBody()
     this.expireToast()
