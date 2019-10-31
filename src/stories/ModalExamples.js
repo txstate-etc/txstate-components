@@ -17,7 +17,7 @@ class ModalExamples extends React.Component {
         <>
           <Button label='Open Modal' onClick={() => this.setState({ isOpen: true })} />
           <Modal
-            aria-labelledby='Modal Label'
+            ariaLabel='Modal Label'
             isOpen={this.state.isOpen}
             onClose={this.handleClose}
             centerContent
