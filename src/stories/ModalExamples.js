@@ -14,19 +14,19 @@ class ModalExamples extends React.Component {
 
   render () {
     return (
-        <>
-          <Button label='Open Modal' onClick={() => this.setState({ isOpen: true })} />
-          <Modal
-            ariaLabel='Modal Label'
-            isOpen={this.state.isOpen}
-            onClose={this.handleClose}
-            centerContent
-          >
-            <div style={{ background: 'white', padding: 32 }}>
-              <p>I am in a modal</p>
-            </div>
-          </Modal>
-        </>
+      <>
+        <Button label='Open modal' onClick={() => this.setState({ isOpen: true })} />
+        <Modal
+          ariaLabel='Modal Label'
+          isOpen={this.state.isOpen}
+          onClose={this.handleClose}
+          centerContent
+        >
+          <div style={{ background: 'white', padding: 32 }}>
+            <p>I am in a modal</p>
+          </div>
+        </Modal>
+      </>
     )
   }
 }
