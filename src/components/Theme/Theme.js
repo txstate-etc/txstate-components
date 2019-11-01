@@ -1,4 +1,5 @@
 import Color from 'color'
+
 export const Theme = {
   maroon: Color('#501214'),
   gold: Color('#6a5638'),
@@ -11,5 +12,10 @@ export const Theme = {
   placeholder: Color('#dedede'),
   trueBlack: Color('#222'),
   lightGray: Color('#d8d8d8'),
-  white: Color('#ffffff')
+  white: Color('#ffffff'),
+  input: {
+    error: Color('#B30E1B'),
+    focus: Color('#3F84BF'),
+    success: Color('#28a745')
+  }
 }
