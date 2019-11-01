@@ -39,7 +39,8 @@
     "prepublish": "yarn build",
     "build": "rm -rf lib/ && npx babel src/ -d lib/ --copy-files && rm -rf lib/stories",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "build-icons": "npx @svgr/cli --template src/utils/svgr.js -d src/components/Svg src/assets/svg"
   },
   "standard": {
     "ignore": [
