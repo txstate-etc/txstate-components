@@ -1,0 +1,29 @@
+import { LoadingOverlay } from '../components'
+import LoadingOverlayExamples from './LoadingOverlayExamples'
+
+import { Meta, Story, Props, Preview } from "@storybook/addon-docs/blocks"
+
+<Meta title="Components|LoadingOverlay" component={LoadingOverlay} />
+
+# LoadingOverlay
+
+```js
+import { LoadingOverlay } from "txstate-react/lib/components"
+```
+
+## Props
+
+---
+
+If either `value` or `onChange` are provided, both must be provided. These props turn the picker into a controlled component.
+
+<Props of={LoadingOverlay} />
+
+<Preview>
+  <Story name="primary">
+    <LoadingOverlayExamples variant='primary' />
+  </Story>
+  <Story name="secondary">
+    <LoadingOverlayExamples variant='secondary' />
+  </Story>
+</Preview>
