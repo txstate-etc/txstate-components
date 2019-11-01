@@ -12,7 +12,7 @@ export const Theme = {
   placeholder: Color('#dedede'),
   trueBlack: Color('#222'),
   lightGray: Color('#d8d8d8'),
-  white: Color('#FFF'),
+  white: Color('#ffffff'),
   input: {
     error: Color('#B30E1B'),
     focus: Color('#3F84BF'),

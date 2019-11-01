@@ -1,0 +1,27 @@
+import { LoadingOverlay } from '../components'
+import LoadingOverlayExamples from './LoadingOverlayExamples'
+
+import { Meta, Story, Props, Preview } from "@storybook/addon-docs/blocks"
+
+<Meta title="Components|LoadingOverlay" component={LoadingOverlay} />
+
+# LoadingOverlay
+
+```js
+import { LoadingOverlay } from "txstate-react/lib/components"
+```
+
+## Props
+
+---
+
+<Props of={LoadingOverlay} />
+
+<Preview>
+  <Story name="primary">
+    <LoadingOverlayExamples variant='primary' />
+  </Story>
+  <Story name="secondary">
+    <LoadingOverlayExamples variant='secondary' />
+  </Story>
+</Preview>

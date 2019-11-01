@@ -7,6 +7,7 @@ export interface ModalProps {
   onClose: () => void
   backdropTimeout: number
   centerContent?: boolean
+  disableEnforceFocus: boolean
 }
 
 export const Modal: React.FC<ModalProps>

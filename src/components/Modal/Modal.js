@@ -18,6 +18,8 @@ export const Modal = props => {
       onClose={props.onClose}
       centerContent={props.centerContent}
       closeAfterTransition
+      disableAutoFocus={props.disableEnforceFocus}
+      disableEnforceFocus={props.disableEnforceFocus}
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: props.backdropTimeout
@@ -35,7 +37,8 @@ export const Modal = props => {
 Modal.defaultProps = {
   isOpen: false,
   backdropTimeout: 500,
-  onClose: () => {}
+  onClose: () => {},
+  disableEnforceFocus: false
 }
 
 Modal.propTypes = {
@@ -44,7 +47,8 @@ Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   backdropTimeout: PropTypes.number,
-  centerContent: PropTypes.bool
+  centerContent: PropTypes.bool,
+  disableEnforceFocus: PropTypes.bool
 }
 
 export default Modal
