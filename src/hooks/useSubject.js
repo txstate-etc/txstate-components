@@ -26,6 +26,11 @@ export const useDerivedSubject = (subject, transform, mutate) => {
   return useSubject(derived)
 }
 
+export const useDerivedSubjectFromContext = (context, transform, mutate) => {
+  const subject = useContext(context)
+  return useDerivedSubject(subject, transform, mutate)
+}
+
 export const useDerivedSub = (subject, transform) => {
   const derived = useMemo(() => new DerivedSubject(subject, transform), [subject, transform.toString()])
   return useSub(derived)
