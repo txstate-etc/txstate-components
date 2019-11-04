@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs'
+import { skip } from 'rxjs/operators'
 import equal from 'fast-deep-equal'
 
 export class DerivedSubject extends BehaviorSubject {
@@ -6,7 +7,7 @@ export class DerivedSubject extends BehaviorSubject {
     super(transform(subject.value))
     this.parentSubject = subject
     this.mutate = mutate
-    subject.subscribe(newval => {
+    subject.pipe(skip(1)).subscribe(newval => {
       const newderived = transform(newval)
       if (!equal(newderived, this.value)) {
         super.next(newderived)
