@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { BehaviorSubject } from 'rxjs'
-import { useSubject, useDerivedSub, useSubFromContext } from '../hooks'
+import { useSubject, useDerivedSubject, useSubFromContext } from '../hooks'
 import { Button } from '../components'
 
 const counterSubject = new BehaviorSubject(0)
@@ -45,12 +45,14 @@ storiesOf('Hooks|useSubject', module)
   })
 
 const parentSubject = new BehaviorSubject({ first: 0, second: 0 })
-const incrementOne = which => () => parentSubject.next({ ...parentSubject.value, [which]: parentSubject.value[which] + 1 })
 const DerivedExample = props => {
-  const counterValue = useDerivedSub(parentSubject, counters => counters[props.which])
+  const [counterValue, setCounter] = useDerivedSubject(parentSubject,
+    counters => counters[props.which],
+    (value, counters) => ({ ...counters, [props.which]: value })
+  )
   console.log('rendering', props.which)
   return (<div style={{ marginBottom: '10px' }}>
-    <Button label={String(counterValue)} onClick={incrementOne(props.which)} />
+    <Button label={String(counterValue)} onClick={() => setCounter(counterValue + 1)} />
   </div>)
 }
 
