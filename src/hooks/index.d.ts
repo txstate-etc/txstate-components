@@ -1,5 +1,7 @@
-import { HandlerFunction, NextFunction } from '../utils'
-import { BehaviorSubject } from 'rxjs'
+import { HandlerFunction, NextFunction, DerivedSubjectTransform } from '../utils'
+import { BehaviorSubject, Subject, Subscription } from 'rxjs'
+import { Context } from 'react'
+import { DerivedSubject } from '../utils'
 
 export type UseEventHook = (event: string, handler?: HandlerFunction) => NextFunction
 export const useEvent: UseEventHook
@@ -48,7 +50,24 @@ export interface IUseTableArgs {
 export type UseTable = (arg: IUseTableArgs) => IUseTableResult
 export const useTable: UseTable
 
-export type UseSubject = <StateType = any>(subject: BehaviorSubject<StateType>) => [StateType, (state:StateType) => void]
+export interface UsableSubject<StateType = any> {
+  value:StateType
+  subscribe (observer:(value:StateType) => void): Subscription
+}
+export type UseSubject = <StateType = any>(subject: UsableSubject<StateType>) => [StateType, (state:StateType) => void]
 export const useSubject: UseSubject
-export type UseSub = <StateType = any>(subject: BehaviorSubject<StateType>) => StateType
+export type UseSub = <StateType = any>(subject: UsableSubject<StateType>) => StateType
 export const useSub: UseSub
+export type UseSubFromContext = <StateType = any>(context: Context<UsableSubject<StateType>>) => StateType
+export const useSubFromContext: UseSubFromContext
+export type UseDerivedSub =
+  <DerivedType = any, StateType = any> (
+    subject:UsableSubject<StateType>,
+    transform:DerivedSubjectTransform<StateType, DerivedType>
+  ) => DerivedType
+export const useDerivedSub: UseDerivedSub
+export type UseDerivedSubFromContext =
+  <DerivedType = any, StateType = any> (
+    context:Context<UsableSubject<StateType>>,
+    transform:DerivedSubjectTransform<StateType, DerivedType>
+  ) => DerivedType
