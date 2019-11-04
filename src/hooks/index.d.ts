@@ -1,7 +1,6 @@
-import { HandlerFunction, NextFunction, DerivedSubjectTransform } from '../utils'
+import { HandlerFunction, NextFunction, DerivedSubjectTransform, DerivedSubjectMutate } from '../utils'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs'
 import { Context } from 'react'
-import { DerivedSubject } from '../utils'
 
 export type UseEventHook = (event: string, handler?: HandlerFunction) => NextFunction
 export const useEvent: UseEventHook
@@ -60,6 +59,13 @@ export type UseSub = <StateType = any>(subject: UsableSubject<StateType>) => Sta
 export const useSub: UseSub
 export type UseSubFromContext = <StateType = any>(context: Context<UsableSubject<StateType>>) => StateType
 export const useSubFromContext: UseSubFromContext
+export type UseDerivedSubject =
+  <DerivedType = any, StateType = any> (
+    subject:UsableSubject<StateType>,
+    transform:DerivedSubjectTransform<StateType, DerivedType>,
+    mutate:DerivedSubjectMutate<StateType, DerivedType>
+  ) => [DerivedType, (state:StateType) => void]
+export const useDerivedSubject: UseDerivedSubject
 export type UseDerivedSub =
   <DerivedType = any, StateType = any> (
     subject:UsableSubject<StateType>,
