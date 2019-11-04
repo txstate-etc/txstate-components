@@ -66,6 +66,13 @@ export type UseDerivedSubject =
     mutate:DerivedSubjectMutate<StateType, DerivedType>
   ) => [DerivedType, (state:StateType) => void]
 export const useDerivedSubject: UseDerivedSubject
+export type UseDerivedSubjectFromContext =
+  <DerivedType = any, StateType = any> (
+    context:Context<UsableSubject<StateType>>,
+    transform:DerivedSubjectTransform<StateType, DerivedType>,
+    mutate:DerivedSubjectMutate<StateType, DerivedType>
+  ) => [DerivedType, (state:StateType) => void]
+export const useDerivedSubject: UseDerivedSubject
 export type UseDerivedSub =
   <DerivedType = any, StateType = any> (
     subject:UsableSubject<StateType>,
