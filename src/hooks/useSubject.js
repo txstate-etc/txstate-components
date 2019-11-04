@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo, useCallback } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
 import { DerivedSubject } from '../utils/DerivedSubject'
 import { skip } from 'rxjs/operators'
 export const useSubject = subject => {
@@ -21,9 +21,13 @@ export const useSubFromContext = context => {
   return useSub(subject)
 }
 
+export const useDerivedSubject = (subject, transform, mutate) => {
+  const derived = useMemo(() => new DerivedSubject(subject, transform, mutate), [subject, transform.toString(), mutate.toString()])
+  return useSubject(derived)
+}
+
 export const useDerivedSub = (subject, transform) => {
-  const derivedtransform = useCallback(transform)
-  const derived = useMemo(() => new DerivedSubject(subject, derivedtransform), [subject, derivedtransform])
+  const derived = useMemo(() => new DerivedSubject(subject, transform), [subject, transform.toString()])
   return useSub(derived)
 }
 
