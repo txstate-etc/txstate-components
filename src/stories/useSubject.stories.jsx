@@ -66,3 +66,22 @@ storiesOf('Hooks|useSubject', module)
       <div>Top two buttons and bottom two buttons should be linked.</div>
     </React.Fragment>
   })
+
+const AccessorExample = props => {
+  const [counterValue, setCounter] = useDerivedSubject(parentSubject, props.which)
+  console.log('rendering', props.which)
+  return (<div style={{ marginBottom: '10px' }}>
+    <Button label={String(counterValue)} onClick={() => setCounter(counterValue + 1)} />
+  </div>)
+}
+
+storiesOf('Hooks|useSubject', module)
+  .add('accessor', () => {
+    return <React.Fragment>
+      <AccessorExample which='first' />
+      <AccessorExample which='first' />
+      <AccessorExample which='second' />
+      <AccessorExample which='second' />
+      <div>Top two buttons and bottom two buttons should be linked.</div>
+    </React.Fragment>
+  })
