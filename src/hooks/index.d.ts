@@ -53,10 +53,10 @@ export interface UsableSubject<StateType = any> {
   value:StateType
   subscribe (observer:(value:StateType) => void): Subscription
 }
-
-export function useSubject <StateType = any, SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType<StateType>): [StateType, (state:StateType) => void]
-export function useSub <StateType = any, SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType<StateType>): StateType
-export function useSubFromContext <StateType = any, SubjectType extends UsableSubject = UsableSubject>(context: Context<SubjectType<StateType>>): StateType
+type UsableSubjectStateType<SubjectType> = SubjectType extends { value: infer StateType } ? StateType : never
+export function useSubject <SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType): [UsableSubjectStateType<SubjectType>, (state:UsableSubjectStateType<SubjectType>) => void]
+export function useSub <SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType): UsableSubjectStateType<SubjectType>
+export function useSubFromContext <SubjectType extends UsableSubject = UsableSubject>(context: Context<SubjectType>): UsableSubjectStateType<SubjectType>
 
 export function useDerivedSubject <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
   subject:SubjectType<StateType>,
