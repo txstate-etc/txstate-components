@@ -40,6 +40,7 @@ export type TableDataSourceFunction<ReturnType> = (page?:number, pageSize?:numbe
 export interface TableProps {
   columns?: TableColumns[];
   selectableRows?: boolean;
+  selectableRowsDisabledField?: string
   dataSource?: TableDataSourceFunction
   onRowSelected?: (...args: any[]) => any | any;
   initialPageSize?: number;
