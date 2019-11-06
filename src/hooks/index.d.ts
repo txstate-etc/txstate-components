@@ -68,6 +68,10 @@ export function useDerivedSubject <Accessor extends keyof UsableSubjectStateType
   subject:SubjectType,
   accessor:Accessor,
 ): [UsableSubjectStateType<SubjectType>[Accessor], (state:UsableSubjectStateType<SubjectType>[Accessor]) => void]
+export function useDerivedSubject <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  accessor:string,
+): [DerivedType, (state:DerivedType) => void]
 
 export function useDerivedSubjectFromContext <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
   context:Context<SubjectType>,
@@ -78,8 +82,12 @@ export function useDerivedSubjectFromContext <Accessor extends keyof UsableSubje
   context:Context<SubjectType>,
   accessor:Accessor
 ): [UsableSubjectStateType<SubjectType>[Accessor], (state:UsableSubjectStateType<SubjectType>[Accessor]) => void]
+export function useDerivedSubjectFromContext <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  accessor:string
+): [DerivedType, (state:DerivedType) => void]
 
-export function useDerivedSub <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
+export function useDerivedSub <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
   subject:SubjectType,
   transform:(state:UsableSubjectStateType<SubjectType>)=>DerivedType
 ): DerivedType
@@ -87,6 +95,10 @@ export function useDerivedSub <Accessor extends keyof UsableSubjectStateType<Sub
   subject:SubjectType,
   accessor:Accessor
 ): UsableSubjectStateType<SubjectType>[Accessor]
+export function useDerivedSub <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  accessor:string
+): DerivedType
 
 export function UseDerivedSubFromContext <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
   context:Context<SubjectType>,
@@ -96,3 +108,7 @@ export function UseDerivedSubFromContext <Accessor extends keyof UsableSubjectSt
   context:Context<SubjectType>,
   accessor:Accessor
 ): UsableSubjectStateType<SubjectType>[Accessor]
+export function UseDerivedSubFromContext <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  accessor:string
+): DerivedType
