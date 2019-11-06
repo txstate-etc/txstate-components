@@ -1,5 +1,5 @@
 import { HandlerFunction, NextFunction, DerivedSubjectTransform, DerivedSubjectMutate } from '../utils'
-import { BehaviorSubject, Subject, Subscription } from 'rxjs'
+import { Subscription, OperatorFunction, Observable } from 'rxjs'
 import { Context } from 'react'
 
 export type UseEventHook = (event: string, handler?: HandlerFunction) => NextFunction
@@ -52,38 +52,47 @@ export const useTable: UseTable
 export interface UsableSubject<StateType = any> {
   value:StateType
   subscribe (observer:(value:StateType) => void): Subscription
+  pipe(...operations: OperatorFunction<any, any>[]): Observable<any>
 }
 type UsableSubjectStateType<SubjectType> = SubjectType extends { value: infer StateType } ? StateType : never
 export function useSubject <SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType): [UsableSubjectStateType<SubjectType>, (state:UsableSubjectStateType<SubjectType>) => void]
 export function useSub <SubjectType extends UsableSubject = UsableSubject>(subject: SubjectType): UsableSubjectStateType<SubjectType>
 export function useSubFromContext <SubjectType extends UsableSubject = UsableSubject>(context: Context<SubjectType>): UsableSubjectStateType<SubjectType>
 
-export function useDerivedSubject <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  subject:SubjectType<StateType>,
-  transform:DerivedSubjectTransform<StateType, DerivedType>,
-  mutate:DerivedSubjectMutate<StateType, DerivedType>
+export function useDerivedSubject <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  transform:(state:UsableSubjectStateType<SubjectType>)=>DerivedType,
+  mutate:(derived:DerivedType)=>UsableSubjectStateType<SubjectType>
 ): [DerivedType, (state:DerivedType) => void]
-export function useDerivedSubject <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  subject:SubjectType<StateType>,
-  accessor:string,
-): [DerivedType, (state:DerivedType) => void]
+export function useDerivedSubject <Accessor extends keyof UsableSubjectStateType<SubjectType>, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  accessor:Accessor,
+): [UsableSubjectStateType<SubjectType>[Accessor], (state:UsableSubjectStateType<SubjectType>[Accessor]) => void]
 
-export function useDerivedSubjectFromContext <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  context:Context<SubjectType<StateType>>,
-  transform:DerivedSubjectTransform<StateType, DerivedType>,
-  mutate:DerivedSubjectMutate<StateType, DerivedType>
+export function useDerivedSubjectFromContext <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  transform:(state:UsableSubjectStateType<SubjectType>)=>DerivedType,
+  mutate:(derived:DerivedType)=>UsableSubjectStateType<SubjectType>
 ): [DerivedType, (state:DerivedType) => void]
-export function useDerivedSubjectFromContext <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  context:Context<SubjectType<StateType>>,
-  accessor:string
-): [DerivedType, (state:DerivedType) => void]
+export function useDerivedSubjectFromContext <Accessor extends keyof UsableSubjectStateType<SubjectType>, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  accessor:Accessor
+): [UsableSubjectStateType<SubjectType>[Accessor], (state:UsableSubjectStateType<SubjectType>[Accessor]) => void]
 
-export function useDerivedSub <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  subject:SubjectType<StateType>,
-  transform:DerivedSubjectTransform<StateType, DerivedType>
+export function useDerivedSub <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  transform:(state:UsableSubjectStateType<SubjectType>)=>DerivedType
 ): DerivedType
+export function useDerivedSub <Accessor extends keyof UsableSubjectStateType<SubjectType>, SubjectType extends UsableSubject = UsableSubject> (
+  subject:SubjectType,
+  accessor:Accessor
+): UsableSubjectStateType<SubjectType>[Accessor]
 
-export function UseDerivedSubFromContext <DerivedType = any, StateType = any, SubjectType extends UsableSubject = UsableSubject> (
-  context:Context<SubjectType<StateType>>,
-  transform:DerivedSubjectTransform<StateType, DerivedType>
+export function UseDerivedSubFromContext <DerivedType = any, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  transform:(state:UsableSubjectStateType<SubjectType>)=>DerivedType
 ): DerivedType
+export function UseDerivedSubFromContext <Accessor extends keyof UsableSubjectStateType<SubjectType>, SubjectType extends UsableSubject = UsableSubject> (
+  context:Context<SubjectType>,
+  accessor:Accessor
+): UsableSubjectStateType<SubjectType>[Accessor]
