@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import { IComboBoxStyles } from 'office-ui-fabric-react/lib/ComboBox'
 
 export interface DropdownOptions {
@@ -7,6 +7,7 @@ export interface DropdownOptions {
 }
 
 export interface DropdownProps {
+  ref?: React.MutableRefObject<HTMLInputElement | undefined>
   label: string;
   path: string;
   options?: DropdownOptions[];
@@ -15,5 +16,4 @@ export interface DropdownProps {
   initialSelectedKey?: string;
 }
 
-export const Dropdown: React.FC<DropdownProps>;
-
+export const Dropdown: React.FC<DropdownProps>

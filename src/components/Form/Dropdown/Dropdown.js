@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
 initializeIcons()
 
-export const Dropdown = props => {
+export const Dropdown = React.forwardRef((props, ref) => {
   const { label, options, path, initialSelectedKey, disabled, styles } = props
 
   const {
@@ -20,6 +20,7 @@ export const Dropdown = props => {
 
   return (
     <ComboBox
+      ref={ref}
       styles={styles}
       disabled={disabled}
       selectedKey={value.key}
@@ -31,7 +32,7 @@ export const Dropdown = props => {
       useComboBoxAsMenuWidth
     />
   )
-}
+})
 
 Dropdown.defaultProps = {
   options: []
