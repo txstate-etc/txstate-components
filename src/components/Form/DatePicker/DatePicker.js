@@ -3,6 +3,7 @@ import { useFormInput } from '../../../hooks'
 import { BaseDatePicker } from '../../BaseDatePicker'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const DatePicker = props => {
   const {
@@ -20,14 +21,14 @@ export const DatePicker = props => {
     variant
   } = props
 
-  const { value, onChange } = useFormInput({
+  const { value, error, onChange } = useFormInput({
     path,
     initialValue: initialValue || dayjs(),
     extractor: date => date,
     transformer: date => date && date.format(format)
   })
 
-  return (
+  return <React.Fragment>
     <BaseDatePicker
       value={value}
       label={label}
@@ -41,7 +42,8 @@ export const DatePicker = props => {
       maxDate={maxDate}
       disabled={disabled}
     />
-  )
+    {error ? <ErrorMessage error={error} /> : null}
+  </React.Fragment>
 }
 
 DatePicker.defaultProps = {

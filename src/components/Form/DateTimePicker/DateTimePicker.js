@@ -3,11 +3,13 @@ import { BaseDateTimePicker } from '../../BaseDateTimePicker'
 import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const DateTimePicker = props => {
   const { path, initialValue, displayFormat, format, emptyLabel, variant } = props
   const {
     value,
+    error,
     onChange
   } = useFormInput({
     path,
@@ -15,7 +17,7 @@ export const DateTimePicker = props => {
     extractor: dateTime => dateTime,
     transformer: dateTime => dateTime && dateTime.format(format)
   })
-  return (
+  return <React.Fragment>
     <BaseDateTimePicker
       format={displayFormat}
       value={value}
@@ -23,7 +25,8 @@ export const DateTimePicker = props => {
       variant={variant}
       emptyLabel={emptyLabel}
     />
-  )
+    {error ? <ErrorMessage error={error} /> : null}
+  </React.Fragment>
 }
 
 DateTimePicker.defaultProps = {

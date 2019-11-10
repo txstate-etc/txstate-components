@@ -1,70 +1,62 @@
-import { useContext, useRef, useState, useEffect, useCallback } from 'react'
-import { FormContext } from '../components/Form'
-import { useEvent } from './useEvent'
-import uuid from 'uuid/v4'
-import { get } from 'lodash'
+import { useContext, useEffect, useCallback, useMemo } from 'react'
+import { FormValueContext, FormErrorContext, FormRegistrationContext, FormHasInitialValuesContext } from '../components/Form'
+import { useDerivedSubFromContext, useDerivedSubjectFromContext, useDerivedSub } from '.'
 
 export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
-  const formEvent = useContext(FormContext)
-  const _id = useRef(uuid())
-  const [value, setValue] = useState(() => {
-    if (initialValue || initialValue === null) return initialValue
-    return ''
+  let firstrun = false
+  useMemo(() => { firstrun = true }, [firstrun])
+  const hasInitialValues = useContext(FormHasInitialValuesContext)
+  const useValue = useDerivedSubjectFromContext(FormValueContext, path)
+  let value = useValue[0] || ''
+  const setValue = useValue[1]
+  if (firstrun && initialValue && !hasInitialValues) {
+    setValue(initialValue)
+    value = initialValue
+  }
+
+  const error = useDerivedSubFromContext(FormErrorContext, 'errors.' + path)
+  const success = useDerivedSubFromContext(FormErrorContext, 'success.' + path)
+
+  const registrationSubject = useContext(FormRegistrationContext)
+  const isDirty = useDerivedSub(registrationSubject, registrationList => {
+    for (let i = registrationList.length - 1; i >= 0; i--) {
+      if (registrationList[i].isDirty) return true
+      if (registrationList[i].path === path) return false
+    }
+    return false
   })
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
-
-  const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
-
-  const [isDirty, setIsDirty] = useState(false)
-
-  const handleChange = useCallback(useEvent(`${formEvent}-data`), [])
-
-  const handleFormReady = useCallback((initialState) => {
-    const initialValue = get(initialState, path)
-    if (initialValue) {
-      setValue(initialValue)
-    }
-  }, [setValue])
-
-  const handleValidation = useCallback(result => {
-    const errorMessage = get(result, `errors.${path}`)
-    const successMessage = get(result, `success.${path}`)
-
-    setError(errorMessage || '')
-    setSuccess(successMessage || '')
-  }, [setError])
-
-  useEvent(`${formEvent}-form-ready`, handleFormReady)
-  useEvent(`${formEvent}-validate-result`, handleValidation)
-
-  const updateFormValue = useCallback((value) => {
-    setValue(value)
-  }, [setValue])
-
-  useEvent(inputEvent, updateFormValue)
-
-  useEffect(() => {
-    setInputEvent(`${formEvent}_${_id.current}`)
-  }, [formEvent])
-
-  const notifyFormValueChange = useCallback((...args) => {
-    let value = get(args, '[1]')
-    const hasExtractor = extractor && typeof extractor === 'function'
-
-    if (hasExtractor) {
-      value = extractor(...args)
-    }
-
-    handleChange({ value, path, inputEvent, transformer })
-  }, [handleChange, extractor])
 
   const onBlur = useCallback(() => {
-    if (!isDirty) setIsDirty(true)
-  }, [setIsDirty, isDirty])
+    for (const reg of registrationSubject.value) {
+      if (reg.path === path && !reg.isDirty) {
+        reg.isDirty = true
+        registrationSubject.next(registrationSubject.value)
+      }
+    }
+  }, [registrationSubject])
+
+  const onChange = useCallback((...args) => {
+    const newvalue = typeof extractor === 'function' ? extractor(...args) : (args[0].target ? args[0].target.value : args[0])
+    setValue(newvalue)
+    onBlur()
+  }, [onBlur, setValue])
+
+  useEffect(() => {
+    let found = false
+    for (const reg of registrationSubject.value) {
+      if (reg.path === path) {
+        reg.transformer = transformer
+        reg.onChange = onChange
+        reg.initialValue = initialValue
+        found = true
+      }
+    }
+    if (!found) registrationSubject.value.push({ path, isDirty: false, transformer, onChange, initialValue })
+    registrationSubject.next(registrationSubject.value)
+  }, [transformer, onChange, initialValue])
 
   return {
-    onChange: notifyFormValueChange,
+    onChange,
     onBlur,
     isDirty,
     value,

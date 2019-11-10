@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from 'react'
+import { useState, useEffect, useContext, useMemo, useCallback } from 'react'
 import { DerivedSubject } from '../utils/DerivedSubject'
 import { skip } from 'rxjs/operators'
 export const useSubject = subject => {
@@ -7,7 +7,7 @@ export const useSubject = subject => {
     const sub = subject.pipe(skip(1)).subscribe(s => setState(s))
     return () => sub.unsubscribe()
   }, [subject])
-  const newSetState = state => subject.next(state)
+  const newSetState = useCallback(state => subject.next(state), [subject])
   return [value, newSetState]
 }
 

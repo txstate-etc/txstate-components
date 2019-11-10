@@ -130,8 +130,8 @@ export const Switch = props => {
   return (
     <div onClick={_handleClick} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {label ? <Label style={{ marginRight: 12 }}>{label}</Label> : null}
-      <Track size={size} className={disabled ? 'disabled' : state.className} on={state.on}>
-        <Thumb size={size} className={disabled ? 'disabled' : state.className} on={state.on} />
+      <Track size={size} className={disabled ? 'disabled' : state.className} on={state.on ? 1 : undefined}>
+        <Thumb size={size} className={disabled ? 'disabled' : state.className} on={state.on ? 1 : undefined} />
       </Track>
     </div>
   )

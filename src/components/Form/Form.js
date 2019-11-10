@@ -1,29 +1,13 @@
-import React, { useRef, useImperativeHandle, useCallback, useEffect, useReducer } from 'react'
-import { useEvent } from '../../hooks'
-import { Subject } from '../../utils'
-import { set, unset, clone, get, debounce } from 'lodash'
-import uuid from 'uuid/v4'
+import React, { useImperativeHandle, useCallback, useEffect, useMemo } from 'react'
+import { clone, debounce, get, set } from 'lodash'
 import PropTypes from 'prop-types'
+import { BehaviorSubject } from 'rxjs'
+import { skip } from 'rxjs/operators'
 
-export const FormContext = React.createContext({})
-
-const immutableReducer = (state, action) => {
-  let localState = null
-  switch (action.type) {
-    case 'set':
-      localState = clone(state)
-      const localValue = clone(action.payload)
-      return set(localState, action.path, localValue)
-    case 'remove':
-      localState = clone(state)
-      unset(localState, action.path)
-      return localState
-    case 'validation':
-      return action.payload
-    default:
-      return state
-  }
-}
+export const FormValueContext = React.createContext()
+export const FormErrorContext = React.createContext()
+export const FormRegistrationContext = React.createContext()
+export const FormHasInitialValuesContext = React.createContext(false)
 
 // TODO: Add index ordering to the form inputs that register with the form.
 export const Form = React.forwardRef((props, ref) => {
@@ -36,96 +20,87 @@ export const Form = React.forwardRef((props, ref) => {
     initialValues,
     id
   } = props
-  const formEvent = useRef(id || uuid())
-  const _initialState = useRef(initialValues || {})
-  const firstValidationSkipped = useRef(false)
 
-  const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
-  const [errors, errorDispatch] = useReducer(immutableReducer, {})
-  const [success, successDispatch] = useReducer(immutableReducer, {})
+  const valueSubject = useMemo(() => new BehaviorSubject(initialValues || {}), [])
+  const errorSubject = useMemo(() => new BehaviorSubject({}), [])
+  const registrationSubject = useMemo(() => new BehaviorSubject([]), [])
+  useEffect(() => () => {
+    valueSubject.complete()
+    errorSubject.complete()
+    registrationSubject.complete()
+  }, [])
 
-  const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
-    if (!path) return
-    let transformedValue = value
-    if (transformer && typeof transformer === 'function') {
-      transformedValue = transformer(value)
-    }
-    formDispatch({ type: 'set', path, payload: transformedValue })
-    Subject.next(inputEvent, value)
-  }, [formDispatch])
-
-  const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
-
-  useEvent(`${formEvent.current}-data`, handleChildData)
-
-  const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
-
-  useEffect(() => {
-    notifyChildrenReady(_initialState.current)
-  }, [notifyChildrenReady])
-
-  const submitForm = async () => {
-    if (onSubmit && typeof onSubmit === 'function') {
-      try {
-        const results = await onSubmit({ form, errors })
-        const errorResults = get(results, 'errors')
-        const successResults = get(results, 'success')
-
-        if (errorResults || successResults) {
-          broadcastValidateResults({ errors: errorResults, success: successResults })
-        }
-      } catch (results) {
-        const errors = get(results, 'errors')
-        const success = get(results, 'success')
-        broadcastValidateResults({ errors, success })
+  const getFormValue = () => {
+    const ret = clone(valueSubject.value)
+    for (const reg of registrationSubject.value) {
+      if (typeof reg.transformer === 'function') {
+        const val = get(ret, reg.path)
+        if (typeof val !== 'undefined') set(ret, reg.path, reg.transformer(val))
       }
     }
+    return ret
   }
 
-  useImperativeHandle(ref, () => ({ submit: submitForm }))
-
-  const validateOnChange = useCallback(debounce(async (form) => {
-    try {
-      if (typeof validate !== 'function') return
-      const results = await validate(form)
-      const errors = get(results, 'errors')
-      const success = get(results, 'success')
-
-      errorDispatch({ type: 'validation', payload: errors })
-      successDispatch({ type: 'validation', payload: success })
-
-      if (errors || success) {
-        broadcastValidateResults({ errors, success })
+  const submitForm = useCallback(async () => {
+    if (onSubmit && typeof onSubmit === 'function') {
+      try {
+        const results = await onSubmit({ form: getFormValue(), errors: errorSubject.value.errors, success: errorSubject.value.success })
+        errorSubject.next({
+          errors: get(results, 'errors'),
+          success: get(results, 'success')
+        })
+      } catch (results) {
+        errorSubject.next({
+          errors: get(results, 'errors'),
+          success: get(results, 'success')
+        })
       }
-    } catch (err) {
-      console.log(err)
     }
-  }, validationDelay), [validate, broadcastValidateResults])
+  }, [onSubmit, errorSubject])
+
+  const updateForm = useCallback((data) => valueSubject.next(data), [])
+  useImperativeHandle(ref, () => ({ submit: submitForm, update: updateForm }))
 
   useEffect(() => {
-    if (onChange && typeof onChange === 'function') {
-      onChange({ form, errors, success })
-    }
-  }, [form, onChange, errors, success])
-
-  useEffect(() => {
-    validateOnChange.cancel()
-    if (!firstValidationSkipped.current) {
-      firstValidationSkipped.current = true
-      return
-    }
-    validateOnChange(form)
-  }, [validateOnChange, form])
+    let validationversion = 0
+    const subscription = valueSubject.pipe(skip(1)).subscribe(debounce(async (data) => {
+      try {
+        if (typeof validate !== 'function') return
+        const form = getFormValue()
+        validationversion++
+        const savevalidationversion = validationversion
+        const results = await validate(form)
+        if (validationversion === savevalidationversion) {
+          errorSubject.next({
+            errors: get(results, 'errors'),
+            success: get(results, 'success')
+          })
+          if (onChange && typeof onChange === 'function') {
+            onChange({ form, errors: errorSubject.value.errors, success: errorSubject.value.success })
+          }
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }, validationDelay))
+    return () => subscription.unsubscribe()
+  }, [valueSubject, errorSubject, registrationSubject])
 
   return (
-    <FormContext.Provider value={formEvent.current}>
-      <form onSubmit={e => {
-        e.preventDefault()
-        submitForm && submitForm()
-      }}>
-        {children}
-      </form>
-    </FormContext.Provider>
+    <FormValueContext.Provider value={valueSubject}>
+      <FormErrorContext.Provider value={errorSubject}>
+        <FormRegistrationContext.Provider value={registrationSubject}>
+          <FormHasInitialValuesContext.Provider value={initialValues && true}>
+            <form id={id} onSubmit={e => {
+              e.preventDefault()
+              submitForm && submitForm()
+            }}>
+              {children}
+            </form>
+          </FormHasInitialValuesContext.Provider>
+        </FormRegistrationContext.Provider>
+      </FormErrorContext.Provider>
+    </FormValueContext.Provider>
   )
 })
 

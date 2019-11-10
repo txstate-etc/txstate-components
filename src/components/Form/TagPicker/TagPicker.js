@@ -2,12 +2,14 @@ import React from 'react'
 import { BasePicker } from '../../BasePicker'
 import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const TagPicker = props => {
   const { ariaLabel, label, path, itemLimit, items, className } = props
 
   const {
     value,
+    error,
     onChange
   } = useFormInput({
     path,
@@ -17,7 +19,7 @@ export const TagPicker = props => {
     }
   })
 
-  return (
+  return <React.Fragment>
     <BasePicker
       className={className}
       value={value}
@@ -27,7 +29,8 @@ export const TagPicker = props => {
       itemLimit={itemLimit}
       label={label}
     />
-  )
+    {error ? <ErrorMessage error={error} /> : null}
+  </React.Fragment>
 }
 
 TagPicker.defaultProps = {

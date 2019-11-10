@@ -1,47 +1,13 @@
 import React, { useMemo, useCallback } from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import { Text } from 'office-ui-fabric-react/lib/Text'
-import { Stack } from '../../Stack'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { useFormInput } from '../../../hooks'
-import { SvgExclamation } from '../../Svg'
 import { Theme } from '../../Theme'
-
-const SuccessMessageText = styled.span`
-  font-weight: 400;
-  font-size: 12px;
-  color: #28a745;
-  padding-top: 5px;
-  font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-`
+import { ErrorMessage } from '../ErrorMessage'
 
 const SuccessMessage = ({ success }) => {
   return <Text variant='small' styles={{ root: { color: Theme.input.success } }}>{success}</Text>
-}
-
-const ErrorContainer = styled(Stack)`
-  border-radius: 3px;
-  overflow: hidden;
-  background-color: #EBEBEB;
-  padding-left: 8px;
-`
-
-const Square = styled(Stack)`
-  width: 40px;
-  height: 40px;
-  background-color: ${Theme.input.error.hex()};
-`
-
-const ErrorMessage = ({ error }) => {
-  return (
-    <ErrorContainer horizontal verticalAlign='center' horizontalAlign='space-between'>
-      <Text variant='small' styles={{ root: { color: Theme.input.error } }}>{error}</Text>
-      <Square horizontalAlign='center' verticalAlign='center'>
-        <SvgExclamation color='#FFF' width={16} height={16} />
-      </Square>
-    </ErrorContainer>
-  )
 }
 
 export const TextInput = props => {
@@ -129,7 +95,6 @@ export const TextInput = props => {
         styles={_styles}
         placeholder={placeholder}
         onChange={onChange}
-        iconProps={iconProps}
         disabled={disabled}
       />
     </>
