@@ -40,6 +40,7 @@ export const BasePicker = props => {
   const tagPicker = useRef()
 
   const defaultOnResolveItems = useCallback((filteredText, selectedItems) => {
+    console.log(filteredText, items)
     if (!filteredText) return items
 
     if (showSelectedItems) {
@@ -70,6 +71,7 @@ export const BasePicker = props => {
         onChange={onChange}
         componentRef={tagPicker}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
+        onEmptyInputFocus={onResolveItems || defaultOnResolveItems}
         onItemSelected={onItemSelected || defaultOnItemSelected}
         getTextFromItem={getTextFromItem}
         pickerSuggestionsProps={{
