@@ -1,5 +1,5 @@
 import shortid from 'shortid'
-require('./Toast.css')
+import './Toast.css'
 
 export const Toast = {
   GRAVITY: {

@@ -7,12 +7,12 @@ import { Button, Stack, Toast } from '../components'
 ---
 
 ```js
-import { toast } from 'txstate-react/lib/components/Toast'
+import { Toast } from 'txstate-react/lib/components/Toast'
 ```
 
 ## Arguments
 
-The gravity positions listed below are available when importing the `toast` component under `toast.GRAVITY`
+The gravity positions listed below are available when importing the `Toast` component under `Toast.GRAVITY`
 
 | Name     | Description                                                                                                                                             | Default    |
 |----------|---------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
@@ -23,7 +23,7 @@ The gravity positions listed below are available when importing the `toast` comp
 <Preview>
   <Story name='toast example'>
     <Stack horizontal horizontalAlign='center'>
-      <Button label='Show Toast' onClick={() => toast.makeText({ message: 'Greetings!', gravity: toast.GRAVITY.TOP_LEFT })} />
+      <Button label='Show Toast' onClick={() => Toast.makeText({ message: 'Greetings!', gravity: Toast.GRAVITY.TOP_LEFT })} />
     </Stack>
   </Story>
 </Preview>
