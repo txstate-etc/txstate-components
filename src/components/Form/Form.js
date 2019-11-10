@@ -58,8 +58,11 @@ export const Form = React.forwardRef((props, ref) => {
     }
   }, [onSubmit, errorSubject])
 
-  const updateForm = useCallback((data) => valueSubject.next(data), [])
-  useImperativeHandle(ref, () => ({ submit: submitForm, update: updateForm }))
+  const update = useCallback((data) => valueSubject.next(data), [])
+  const updatePath = useCallback((path, value) => {
+    update(set(valueSubject.value, path, value))
+  })
+  useImperativeHandle(ref, () => ({ submit: submitForm, update, updatePath }))
 
   useEffect(() => {
     let validationversion = 0
