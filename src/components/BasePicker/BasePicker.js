@@ -40,7 +40,6 @@ export const BasePicker = props => {
   const tagPicker = useRef()
 
   const defaultOnResolveItems = useCallback((filteredText, selectedItems) => {
-    console.log(filteredText, items)
     if (!filteredText) return items
 
     if (showSelectedItems) {
