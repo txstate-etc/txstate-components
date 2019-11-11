@@ -55,16 +55,16 @@ export const Form = React.forwardRef((props, ref) => {
   }, [formDispatch])
 
   const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
+  const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
+  const updateChildState = useCallback(useEvent(`${formEvent.current}-update-state`), [])
 
   useEvent(`${formEvent.current}-data`, handleChildData)
-
-  const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
 
   useEffect(() => {
     notifyChildrenReady(_initialState.current)
   }, [notifyChildrenReady])
 
-  const submitForm = async () => {
+  const submitForm = useCallback(async () => {
     if (onSubmit && typeof onSubmit === 'function') {
       try {
         const results = await onSubmit({ form, errors })
@@ -80,9 +80,14 @@ export const Form = React.forwardRef((props, ref) => {
         broadcastValidateResults({ errors, success })
       }
     }
-  }
+  }, [onSubmit, broadcastValidateResults, form, errors])
 
-  useImperativeHandle(ref, () => ({ submit: submitForm }))
+  const updatePath = useCallback((path, value) => {
+    const updatedState = set({}, path, value)
+    updateChildState(updatedState)
+  })
+
+  useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
 
   const validateOnChange = useCallback(debounce(async (form) => {
     try {

@@ -35,7 +35,15 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     setSuccess(successMessage || '')
   }, [setError])
 
+  const handleUpdateState = useCallback(state => {
+    const updatedValue = get(state, path)
+    if (updatedValue !== value) {
+      handleChange({ value: updatedValue, path, inputEvent, transformer })
+    }
+  }, [])
+
   useEvent(`${formEvent}-form-ready`, handleFormReady)
+  useEvent(`${formEvent}-update-state`, handleUpdateState)
   useEvent(`${formEvent}-validate-result`, handleValidation)
 
   const updateFormValue = useCallback((value) => {

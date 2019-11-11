@@ -149,7 +149,27 @@ const FormExample = props => {
   )
 }
 
+const PathUpdateForm = () => {
+  const form = useRef()
+  return (
+    <Stack spacing={12}>
+      <Form
+        onChange={({ form }) => console.log(form.name)}
+        onSubmit={({ form }) => console.log(form)}
+        ref={form}
+      >
+        <StyledInput label='Name' path='name' />
+        <Button type='submit' label='Submit' />
+      </Form>
+      <Button label='Update Name' onClick={() => form.current.updatePath('name', 'Andrew')} />
+    </Stack>
+  )
+}
+
 storiesOf('Form|Simple', module)
   .add('basic', () => {
     return <FormExample />
+  })
+  .add('path updates', () => {
+    return <PathUpdateForm />
   })
