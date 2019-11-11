@@ -9,7 +9,6 @@ export const FormErrorContext = React.createContext()
 export const FormRegistrationContext = React.createContext()
 export const FormHasInitialValuesContext = React.createContext(false)
 
-// TODO: Add index ordering to the form inputs that register with the form.
 export const Form = React.forwardRef((props, ref) => {
   const {
     children,
@@ -30,6 +29,8 @@ export const Form = React.forwardRef((props, ref) => {
     registrationSubject.complete()
   }, [])
 
+  // when we call our consumer's validate or onSubmit function, we need
+  // to make sure we apply the transformer, if any, for each registered input
   const getFormValue = () => {
     const ret = clone(valueSubject.value)
     for (const reg of registrationSubject.value) {
@@ -54,16 +55,25 @@ export const Form = React.forwardRef((props, ref) => {
           errors: get(results, 'errors'),
           success: get(results, 'success')
         })
+      } finally {
+        // mark all inputs dirty so that they show errors from now on
+        registrationSubject.next(registrationSubject.value.map(reg => ({ ...reg, isDirty: true })))
       }
     }
   }, [onSubmit, errorSubject])
 
-  const update = useCallback((data) => valueSubject.next(data), [])
+  // provide some utility functions on our ref, for use by our consumer
+  // NOTE: updating a path that uses a transformer function will be confusing
+  // as we have no way to un-transform the value sent to updatePath
+  // it will be up to the consumer to send a value in the storage format, NOT the
+  // format sent to validate and onSubmit
   const updatePath = useCallback((path, value) => {
-    update(set(valueSubject.value, path, value))
-  })
-  useImperativeHandle(ref, () => ({ submit: submitForm, update, updatePath }))
+    valueSubject.next(set(valueSubject.value, path, value))
+  }, [valueSubject])
+  useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
 
+  // subscribe to valueSubject so that we can call our consumer's validate and
+  // onChange functions and feed the results to the errorSubject
   useEffect(() => {
     let validationversion = 0
     const subscription = valueSubject.pipe(skip(1)).subscribe(debounce(async (data) => {
@@ -87,7 +97,7 @@ export const Form = React.forwardRef((props, ref) => {
       }
     }, validationDelay))
     return () => subscription.unsubscribe()
-  }, [valueSubject, errorSubject, registrationSubject])
+  }, [valueSubject, errorSubject])
 
   return (
     <FormValueContext.Provider value={valueSubject}>
