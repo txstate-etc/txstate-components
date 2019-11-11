@@ -3,6 +3,7 @@ import { useFormInput } from '../../../hooks'
 import { Checkbox as OfficeCheckbox } from 'office-ui-fabric-react/lib/Checkbox'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const Checkbox = props => {
   const { path, label, name, ariaLabel } = props
@@ -10,13 +11,17 @@ export const Checkbox = props => {
 
   const {
     value,
-    onChange
+    onChange,
+    error,
+    success
   } = useFormInput({
     path,
     extractor: e => e.target.checked
   })
-
-  return <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} />
+  return <React.Fragment>
+    <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} />
+    <ErrorMessage error={error} success={success} />
+  </React.Fragment>
 }
 
 Checkbox.propTypes = {

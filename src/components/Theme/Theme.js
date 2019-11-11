@@ -15,7 +15,9 @@ export const Theme = {
   white: Color('#ffffff'),
   input: {
     error: Color('#B30E1B'),
+    errorbg: Color('#EBEBEB'),
     focus: Color('#3F84BF'),
-    success: Color('#28a745')
+    success: Color('#176329'),
+    successbg: Color('#F2F2F2')
   }
 }

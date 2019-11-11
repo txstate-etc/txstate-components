@@ -12,6 +12,7 @@ export interface TextInputProps {
   required?: boolean;
   iconProps?: IIconProps;
   disabled?: boolean;
+  ErrorComponent?: React.ElementType
   SuccessComponent?: React.ElementType
   styles?: Partial<ITextFieldStyles>
 }
