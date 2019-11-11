@@ -16,7 +16,6 @@ export const Modal = props => {
       aria-describedby={props.ariaDescription}
       open={props.isOpen}
       onClose={props.onClose}
-      centerContent={props.centerContent}
       closeAfterTransition
       disableAutoFocus={props.disableEnforceFocus}
       disableEnforceFocus={props.disableEnforceFocus}
