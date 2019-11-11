@@ -1,7 +1,8 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface IFormRef {
   submit: () => Promise<void>
+  updatePath: (path: string, value: any) => void
 }
 
 export interface FormProps {
@@ -29,11 +30,10 @@ export interface FormProps {
      * Ref of the form, which exposes the submit() version
      */
     ref?: React.MutableRefObject<IFormRef | undefined | null>;
-    /** 
-     * The amount of time to wait, in milliseconds, before calling the validation function 
+    /**
+     * The amount of time to wait, in milliseconds, before calling the validation function
      */
     validationDelay?: number;
 }
 
-export const Form: React.FC<FormProps>;
-
+export const Form: React.FC<FormProps>
