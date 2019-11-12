@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { Subject } from '../utils'
 
 export const useEvent = (event, handler) => {
@@ -8,5 +8,5 @@ export const useEvent = (event, handler) => {
     return () => Subject.unsubscribe(event, handler)
   }, [event, handler])
 
-  return value => Subject.next(event, value)
+  return useCallback(value => Subject.next(event, value), [event])
 }
