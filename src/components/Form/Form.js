@@ -83,7 +83,6 @@ export const Form = React.forwardRef((props, ref) => {
         const errorResults = get(results, 'errors')
         const successResults = get(results, 'success')
 
-        console.log('error results', errorResults)
         if (errorResults || successResults) {
           broadcastValidateResults({ errors: errorResults, success: successResults })
         }
