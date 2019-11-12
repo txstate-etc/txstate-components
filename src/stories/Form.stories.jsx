@@ -4,7 +4,7 @@ import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
 import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className } = props

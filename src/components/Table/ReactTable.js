@@ -3,7 +3,7 @@ import Table from 'react-table'
 import './ReactTable.css'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { useEvent } from '../../hooks'
 
 const getPageStartAndEnd = (page = 0, pageSize = 10) => {

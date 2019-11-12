@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { ReactTable, Button } from '../components'
 import axios from 'axios'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { useEvent } from '../hooks'
 
 const randomUser = axios.create({
