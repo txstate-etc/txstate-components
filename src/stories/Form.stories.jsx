@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle } from 'react'
+import React, { useRef, useImperativeHandle, useCallback } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
 import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
@@ -175,19 +175,22 @@ const PathUpdateForm = () => {
 
 const IndexedErrorForm = () => {
   const form = useRef()
+  const validate = useCallback((form) => {
+    const errors = {}
+    if (!form.one) errors['one'] = 'One is required'
+    if (!form.two) errors['two'] = 'Two is required'
+    if (!form.three) errors['three'] = 'Three is required'
+    if (!form.four) errors['four'] = 'Four is required'
+    if (!form.five) errors['five'] = 'Five is required'
+    return { errors }
+  }, [])
   return (
     <Stack spacing={12}>
       <Form
-        validate={(form) => {
-          const errors = {}
-          if (!form.one) errors['one'] = 'One is required'
-          if (!form.two) errors['two'] = 'Two is required'
-          if (!form.three) errors['three'] = 'Three is required'
-          if (!form.four) errors['four'] = 'Four is required'
-          if (!form.five) errors['five'] = 'Five is required'
-          return { errors }
+        validate={validate}
+        onSubmit={({ form }) => {
+          return validate(form)
         }}
-        onSubmit={({ form }) => console.log(form)}
         ref={form}
       >
         <Stack
@@ -205,8 +208,6 @@ const IndexedErrorForm = () => {
     </Stack>
   )
 }
-
-
 
 storiesOf('Form|Simple', module)
   .add('basic', () => {

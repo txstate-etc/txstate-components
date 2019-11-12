@@ -5,7 +5,6 @@ import uuid from 'uuid/v4'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 
-
 export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)
   const _id = useRef(uuid())
@@ -80,7 +79,6 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
       setDirty(true)
     }
   }, [setDirty])
-
 
   useEvent(`${formEvent}-form-ready`, handleFormReady)
   useEvent(`${formEvent}-update-state`, handleUpdateState)

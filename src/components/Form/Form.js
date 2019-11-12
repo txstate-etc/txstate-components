@@ -62,6 +62,7 @@ export const Form = React.forwardRef((props, ref) => {
   const broadcastValidateResults = useEvent(`${formEvent.current}-validate-result`)
   const notifyChildrenReady = useEvent(`${formEvent.current}-form-ready`)
   const updateChildState = useEvent(`${formEvent.current}-update-state`)
+  const broadcastIndexCheck = useEvent(`${formEvent.current}-index-check`)
 
   const handleChildRegister = useCallback((inputEvent) => {
     childCount.current += 1
@@ -82,6 +83,7 @@ export const Form = React.forwardRef((props, ref) => {
         const errorResults = get(results, 'errors')
         const successResults = get(results, 'success')
 
+        console.log('error results', errorResults)
         if (errorResults || successResults) {
           broadcastValidateResults({ errors: errorResults, success: successResults })
         }
@@ -89,6 +91,8 @@ export const Form = React.forwardRef((props, ref) => {
         const errors = get(results, 'errors')
         const success = get(results, 'success')
         broadcastValidateResults({ errors, success })
+      } finally {
+        broadcastIndexCheck(childCount.current)
       }
     }
   }, [onSubmit, broadcastValidateResults, form, errors])
