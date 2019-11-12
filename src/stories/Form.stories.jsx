@@ -166,10 +166,49 @@ const PathUpdateForm = () => {
   )
 }
 
+const IndexedErrorForm = () => {
+  const form = useRef()
+  return (
+    <Stack spacing={12}>
+      <Form
+        validate={(form) => {
+          console.log(form)
+          const errors = {}
+          if (!form.one) errors['one'] = 'One is required'
+          if (!form.two) errors['two'] = 'Two is required'
+          if (!form.three) errors['three'] = 'Three is required'
+          if (!form.four) errors['four'] = 'Four is required'
+          if (!form.five) errors['five'] = 'Five is required'
+          return { errors }
+        }}
+        onSubmit={({ form }) => console.log(form)}
+        ref={form}
+      >
+        <Stack
+          style={{ width: 500 }}
+          spacing={12}
+        >
+          <StyledInput label='One' path='one' />
+          <StyledInput label='Two' path='two' />
+          <StyledInput label='Three' path='three' />
+          <StyledInput label='Four' path='four' />
+          <StyledInput label='Five' path='five' />
+          <Button type='submit' label='Submit' />
+        </Stack>
+      </Form>
+    </Stack>
+  )
+}
+
+
+
 storiesOf('Form|Simple', module)
   .add('basic', () => {
     return <FormExample />
   })
   .add('path updates', () => {
     return <PathUpdateForm />
+  })
+  .add('indexed error tracking', () => {
+    return <IndexedErrorForm />
   })
