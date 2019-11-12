@@ -1,6 +1,6 @@
 {
   "name": "@txstate-mws/txstate-react",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
     "url": "https://github.com/txstate-etc/txstate-components"
@@ -36,7 +36,7 @@
   ],
   "scripts": {
     "prepublish": "yarn build",
-    "postpublish": "git push",
+    "postversion": "git push",
     "build": "rm -rf lib/ && npx babel src/ -d lib/ --copy-files && rm -rf lib/stories",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
