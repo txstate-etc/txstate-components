@@ -3,6 +3,7 @@ import { BaseTimePicker } from '../../BaseTimePicker'
 import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const TimePicker = props => {
   const {
@@ -19,6 +20,8 @@ export const TimePicker = props => {
 
   const {
     value,
+    error,
+    success,
     onChange
   } = useFormInput({
     path,
@@ -27,7 +30,7 @@ export const TimePicker = props => {
     transformer: time => time && time.format(format)
   })
 
-  return (
+  return <React.Fragment>
     <BaseTimePicker
       value={value}
       onChange={onChange}
@@ -38,7 +41,8 @@ export const TimePicker = props => {
       mask={mask}
       disabled={disabled}
     />
-  )
+    <ErrorMessage error={error} success={success} />
+  </React.Fragment>
 }
 
 TimePicker.defaultProps = {

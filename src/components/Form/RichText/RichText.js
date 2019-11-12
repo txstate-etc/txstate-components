@@ -4,11 +4,14 @@ import { convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import { Editor } from '../../Editor'
 import PropTypes from 'prop-types'
+import { ErrorMessage } from '../ErrorMessage'
 
 export const RichText = props => {
   const { path, className } = props
   const {
     value,
+    error,
+    success,
     onChange
   } = useFormInput({
     path,
@@ -18,13 +21,14 @@ export const RichText = props => {
     extractor: editorState => editorState
   })
 
-  return (
+  return <React.Fragment>
     <Editor
       className={className}
       value={value}
       onChange={onChange}
     />
-  )
+    <ErrorMessage error={error} success={success} />
+  </React.Fragment>
 }
 
 RichText.propTypes = {
