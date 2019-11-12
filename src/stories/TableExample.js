@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Button } from '../components'
 import axios from 'axios'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 const randomUser = axios.create({
   baseURL: 'https://randomuser.me/api'

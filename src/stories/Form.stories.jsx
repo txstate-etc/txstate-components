@@ -1,10 +1,10 @@
 import React, { useRef, useImperativeHandle } from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button, BasePicker } from '../components'
+import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
 import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
-import { get } from 'lodash'
+import get from 'lodash/get'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className } = props
@@ -74,7 +74,7 @@ const FormExample = props => {
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
-        onSubmit={({ form, errors }) => {
+        onSubmit={async ({ form, errors }) => {
           console.log('FORM: ', form)
           const lastName = get(form, 'name.last')
           if (lastName) {
@@ -100,6 +100,12 @@ const FormExample = props => {
               first: 'Great Job, phillip!'
             }
           }
+          if (form.swallowType && form.swallowType.key === 'european') {
+            errors.swallowType = 'European swallows can\'t carry coconuts!'
+          }
+          if (!form.agreement) {
+            errors.agreement = 'We just want you to express yourself.'
+          }
           return { errors, success }
         }}
       >
@@ -117,6 +123,7 @@ const FormExample = props => {
               { key: 'european', text: 'European' }
             ]}
           />
+          <Checkbox path='agreement' label='I have at least 16 pieces of flair.' />
           <StyledPicker
             ref={icecreamPicker}
             label='Favorite Ice Cream'
