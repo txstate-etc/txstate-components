@@ -39,6 +39,7 @@ export const Form = React.forwardRef((props, ref) => {
   const formEvent = useRef(id || uuid())
   const _initialState = useRef(initialValues || {})
   const firstValidationSkipped = useRef(false)
+  const childCount = useRef(0)
 
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
@@ -54,10 +55,16 @@ export const Form = React.forwardRef((props, ref) => {
     Subject.next(inputEvent, value)
   }, [formDispatch])
 
-  const broadcastValidateResults = useCallback(useEvent(`${formEvent.current}-validate-result`), [])
-  const notifyChildrenReady = useCallback(useEvent(`${formEvent.current}-form-ready`), [])
-  const updateChildState = useCallback(useEvent(`${formEvent.current}-update-state`), [])
+  const broadcastValidateResults = useEvent(`${formEvent.current}-validate-result`)
+  const notifyChildrenReady = useEvent(`${formEvent.current}-form-ready`)
+  const updateChildState = useEvent(`${formEvent.current}-update-state`)
 
+  const handleChildRegister = useCallback((inputEvent) => {
+    childCount.current += 1
+    Subject.next(`${inputEvent}-update-index`, childCount.current)
+  }, [])
+
+  useEvent(`${formEvent.current}-register-self`, handleChildRegister)
   useEvent(`${formEvent.current}-data`, handleChildData)
 
   useEffect(() => {

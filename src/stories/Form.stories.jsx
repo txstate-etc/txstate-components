@@ -172,7 +172,6 @@ const IndexedErrorForm = () => {
     <Stack spacing={12}>
       <Form
         validate={(form) => {
-          console.log(form)
           const errors = {}
           if (!form.one) errors['one'] = 'One is required'
           if (!form.two) errors['two'] = 'Two is required'
