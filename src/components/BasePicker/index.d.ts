@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface BasePickerItems {
   key: string;
@@ -25,5 +25,4 @@ export interface BasePickerProps {
   description?: string;
 }
 
-export const BasePicker: React.FC<BasePickerProps>;
-
+export const BasePicker: React.FC<BasePickerProps>
