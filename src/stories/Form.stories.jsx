@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
-  const { ariaLabel, label, path, itemLimit, items, className } = props
+  const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
 
   const {
     value,
@@ -26,6 +26,7 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
     <BasePicker
       className={className}
       value={value}
+      showSelectedItems={showSelectedItems}
       onChange={onChange}
       items={items}
       ariaLabel={ariaLabel}
@@ -129,6 +130,7 @@ const FormExample = props => {
             label='Favorite Ice Cream'
             ariaLabel='Ice Cream'
             path='icecream'
+            showSelectedItems={false}
             items={[
               { key: 'vanilla', name: 'Vanilla', data: { section: 'yogurt' } },
               { key: 'strawberry', name: 'Strawberry', data: { section: 'yogurt' } },

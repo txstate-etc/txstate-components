@@ -4,6 +4,10 @@ import { Label } from '../Label'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Theme } from '../Theme'
+import toString from 'lodash/toString'
+import get from 'lodash/get'
+import differenceBy from 'lodash/differenceBy'
+
 const Desc = styled.div`
   font-size: 12px;
   font-family: 'Univers W01', Helvetica, Calibri, Arial, sans-serif;
@@ -17,6 +21,16 @@ const listContainsDocument = (item, itemList) => {
     return false
   }
   return itemList.filter(compareTag => compareTag.key === item.key).length > 0
+}
+
+const searchByName = (items, value) => {
+  if (!Array.isArray(items) || !value) return items
+
+  const search = toString(value).toLowerCase()
+  return items.filter(item => {
+    const name = get(item, 'name', '')
+    return name.toLowerCase().includes(search)
+  })
 }
 
 export const BasePicker = props => {
@@ -40,18 +54,31 @@ export const BasePicker = props => {
   const tagPicker = useRef()
 
   const defaultOnResolveItems = useCallback((filteredText, selectedItems) => {
-    if (!filteredText) return items
-
-    if (showSelectedItems) {
-      return items.filter(item => item.name.includes(filteredText))
+    if (showSelectedItems && filteredText) {
+      return searchByName(items, filteredText)
+    } else if (!filteredText && !showSelectedItems) {
+      const newItems = differenceBy(items, selectedItems, 'key')
+      return newItems
+    } else if (!filteredText && showSelectedItems) {
+      return items
+    } else if (!showSelectedItems && filteredText) {
+      const search = toString(filteredText).toLowerCase()
+      return items.filter(item => {
+        const name = get(item, 'name', '').toLowerCase()
+        const searchMatch = name.includes(search)
+        const notSelected = selectedItems.findIndex(({ key }) => key === item.key) < 0
+        return searchMatch && notSelected
+      })
     }
-
-    return items.filter(item => {
-      const searchMatch = item.name.includes(filteredText)
-      const notSelected = selectedItems.findIndex(({ key }) => key === item.key) < 0
-      return searchMatch && notSelected
-    })
   }, [items, showSelectedItems])
+
+  const handleOnResolveSuggestions = useCallback((selectedItems) => {
+    if (onResolveItems) {
+      return onResolveItems(selectedItems)
+    } else {
+      return defaultOnResolveItems(null, selectedItems)
+    }
+  }, [defaultOnResolveItems, onResolveItems])
 
   const defaultOnItemSelected = useCallback((item) => {
     if (canSelectDuplicates) return item
@@ -70,7 +97,7 @@ export const BasePicker = props => {
         onChange={onChange}
         componentRef={tagPicker}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
-        onEmptyInputFocus={onResolveItems || defaultOnResolveItems}
+        onEmptyResolveSuggestions={handleOnResolveSuggestions}
         onItemSelected={onItemSelected || defaultOnItemSelected}
         getTextFromItem={getTextFromItem}
         pickerSuggestionsProps={{
