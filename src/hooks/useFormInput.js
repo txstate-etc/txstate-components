@@ -65,7 +65,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
   const handleUpdateState = useCallback(state => {
     const updatedValue = get(state, path)
-    if (updatedValue !== value) {
+    if (updatedValue && updatedValue !== value) {
       handleChange({ value: updatedValue, path, inputEvent, transformer })
     }
   }, [])

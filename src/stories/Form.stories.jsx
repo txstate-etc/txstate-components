@@ -165,9 +165,13 @@ const PathUpdateForm = () => {
       <Form
         onChange={({ form }) => console.log(form.name)}
         onSubmit={({ form }) => console.log(form)}
+        initialValues={{
+          age: 32
+        }}
         ref={form}
       >
         <StyledInput label='Name' path='name' />
+        <StyledInput label='Age' path='age' />
         <Button type='submit' label='Submit' />
       </Form>
       <Button label='Update Name' onClick={() => form.current.updatePath('name', 'Andrew')} />
