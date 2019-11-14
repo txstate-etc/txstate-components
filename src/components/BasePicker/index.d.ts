@@ -23,6 +23,7 @@ export interface BasePickerProps {
   value?: BasePickerValue[];
   onChange?: (...args: any[]) => any;
   description?: string;
+  onRenderItem?: (...args: any[]) => any;
 }
 
 export const BasePicker: React.FC<BasePickerProps>

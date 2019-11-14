@@ -48,7 +48,8 @@ export const BasePicker = props => {
     value,
     className,
     onChange,
-    description
+    description,
+    onRenderItem
   } = props
 
   const tagPicker = useRef()
@@ -95,6 +96,7 @@ export const BasePicker = props => {
         className={className}
         selectedItems={value}
         onChange={onChange}
+        onRenderItem={onRenderItem}
         componentRef={tagPicker}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
         onEmptyResolveSuggestions={handleOnResolveSuggestions}
@@ -135,5 +137,6 @@ BasePicker.propTypes = {
   canSelectDuplicates: PropTypes.bool,
   value: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
   onChange: PropTypes.func,
+  onRenderItem: PropTypes.func,
   description: PropTypes.string
 }

@@ -5,6 +5,7 @@ import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/In
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import get from 'lodash/get'
+import { TagItem } from 'office-ui-fabric-react/lib/Pickers'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
@@ -22,6 +23,13 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
     onChange
   }))
 
+  const onRenderItem = (props) => {
+    if (props.key === 'chocolate') {
+      return <TagItem {...props} styles={{ root: {background: 'hotpink' }}}>{props.key}</TagItem>
+    }
+    else return <TagItem {...props}>{props.key}</TagItem>
+  }
+
   return (
     <BasePicker
       className={className}
@@ -32,6 +40,7 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
       ariaLabel={ariaLabel}
       itemLimit={itemLimit}
       label={label}
+      onRenderItem={onRenderItem}
     />
   )
 })
@@ -139,7 +148,7 @@ const FormExample = props => {
               { key: 'cookie dough', name: 'Cookie dough', data: { section: 'yogurt' } },
               { key: 'mint', name: 'Mint', data: { section: 'yogurt' } },
               { key: 'coffee', name: 'Coffee', data: { section: 'yogurt' } },
-              { key: 'sherbert', name: 'Sherbert', data: { section: 'yogurt' } }
+              { key: 'sherbert', name: 'Sherbert', data: { section: 'yogurt' }, needsAuthorize: true }
             ]}
           />
           <StyledRichText
