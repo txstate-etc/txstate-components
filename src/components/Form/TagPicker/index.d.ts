@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface TagPickerItems {
   key?: string;
@@ -14,5 +14,4 @@ export interface TagPickerProps {
   items?: TagPickerItems[];
 }
 
-export const TagPicker: React.FC<TagPickerProps>;
-
+export const TagPicker: React.FC<TagPickerProps>
