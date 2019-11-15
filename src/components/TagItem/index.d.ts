@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { IStyle } from '@uifabric/styling'
 
 export interface ITag {
     name: string;
