@@ -1,4 +1,23 @@
 import * as React from 'react'
-export { ITag, ITagItemProps, ITagItemStyles, ITagItemStyleProps } from 'office-ui-fabric-react/lib/components/pickers/TagPicker/TagPicker.types'
+
+export interface ITag {
+    name: string;
+    key: string;
+}
+
+export interface ITagItemProps extends IPickerItemProps<ITag> {
+    className?: string;
+    enableTagFocusInDisabledPicker?: boolean;
+    styles?: IStyleFunctionOrObject<ITagItemStyleProps, ITagItemStyles>;
+    theme?: ITheme;
+}
+
+export declare type ITagItemStyleProps = Required<Pick<ITagItemProps, 'theme'>> & Pick<ITagItemProps, 'className' | 'selected' | 'disabled'> & {};
+
+export interface ITagItemStyles {
+    root: IStyle;
+    text: IStyle;
+    close: IStyle;
+}
 
 export const TagItem: React.FC<ITagItemProps>
