@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { IStyle } from '@uifabric/styling'
+import { IStyle, ITheme } from '@uifabric/styling'
+import { IPickerItemProps, IStyleFunctionOrObject } from 'office-ui-fabric-react'
 
 export interface ITag {
     name: string;
