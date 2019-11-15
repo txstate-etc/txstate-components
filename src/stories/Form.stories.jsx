@@ -5,7 +5,7 @@ import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/In
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import get from 'lodash/get'
-import { TagItem } from 'office-ui-fabric-react/lib/Pickers'
+import { TagItem } from '../components/TagItem'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
