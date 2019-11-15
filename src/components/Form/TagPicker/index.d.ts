@@ -12,6 +12,7 @@ export interface TagPickerProps {
   path: string;
   itemLimit?: number;
   items?: TagPickerItems[];
+  onRenderItem?: (...args: any[]) => any;
 }
 
 export const TagPicker: React.FC<TagPickerProps>
