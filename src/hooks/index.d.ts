@@ -49,6 +49,7 @@ export interface IUseTableArgs {
 export type UseTable = (arg: IUseTableArgs) => IUseTableResult
 export const useTable: UseTable
 
+/*** useSubject ***/
 export interface UsableSubject<StateType = any> {
   value:StateType
   subscribe (observer:(value:StateType) => void): Subscription
@@ -111,4 +112,69 @@ export function UseDerivedSubFromContext <Accessor extends keyof UsableSubjectSt
 export function UseDerivedSubFromContext <DerivedType, SubjectType extends UsableSubject = UsableSubject> (
   context:Context<SubjectType>,
   accessor:string
+): DerivedType
+
+/*** useStore ***/
+export interface UsableStore<StateType> {
+  value:StateType
+  subscribe (observer:(value:StateType) => void): Subscription
+  pipe(...operations: OperatorFunction<any, any>[]): Observable<any>
+}
+export type UsableStoreStateType<StoreType> = StoreType extends { value: infer StateType } ? StateType : never
+export function useAndUpdateStore <StoreType extends UsableStore>(subject: StoreType): [UsableStoreStateType<StoreType>, (state:UsableStoreStateType<StoreType>) => void]
+export function useStore <StoreType extends UsableStore>(subject: StoreType): UsableStoreStateType<StoreType>
+export function useStoreFromContext <StoreType extends UsableStore>(context: Context<StoreType>): UsableStoreStateType<StoreType>
+
+export function useAndUpdateDerivedStore <DerivedType, StoreType extends UsableStore> (
+  subject:StoreType,
+  getter:(state:UsableStoreStateType<StoreType>)=>DerivedType,
+  setter:(newvalue:DerivedType, state:UsableStoreStateType<StoreType>)=>UsableStoreStateType<StoreType>
+): [DerivedType, (state:DerivedType) => void]
+export function useAndUpdateDerivedStore <Selector extends keyof UsableStoreStateType<StoreType>, StoreType extends UsableStore> (
+  subject:StoreType,
+  selector:Selector,
+): [UsableStoreStateType<StoreType>[Selector], (state:UsableStoreStateType<StoreType>[Selector]) => void]
+export function useAndUpdateDerivedStore <DerivedType, StoreType extends UsableStore> (
+  subject:StoreType,
+  selector:string,
+): [DerivedType, (state:DerivedType) => void]
+
+export function useAndUpdateDerivedStoreFromContext <DerivedType, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  getter:(state:UsableStoreStateType<StoreType>)=>DerivedType,
+  setter:(newvalue:DerivedType, state:UsableStoreStateType<StoreType>)=>UsableStoreStateType<StoreType>
+): [DerivedType, (state:DerivedType) => void]
+export function useAndUpdateDerivedStoreFromContext <Selector extends keyof UsableStoreStateType<StoreType>, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  selector:Selector
+): [UsableStoreStateType<StoreType>[Selector], (state:UsableStoreStateType<StoreType>[Selector]) => void]
+export function useAndUpdateDerivedStoreFromContext <DerivedType, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  selector:string
+): [DerivedType, (state:DerivedType) => void]
+
+export function useDerivedStore <DerivedType, StoreType extends UsableStore> (
+  subject:StoreType,
+  getter:(state:UsableStoreStateType<StoreType>)=>DerivedType
+): DerivedType
+export function useDerivedStore <Selector extends keyof UsableStoreStateType<StoreType>, StoreType extends UsableStore> (
+  subject:StoreType,
+  selector:Selector
+): UsableStoreStateType<StoreType>[Selector]
+export function useDerivedStore <DerivedType, StoreType extends UsableStore> (
+  subject:StoreType,
+  selector:string
+): DerivedType
+
+export function UseDerivedStoreFromContext <DerivedType, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  getter:(state:UsableStoreStateType<StoreType>)=>DerivedType
+): DerivedType
+export function UseDerivedStoreFromContext <Selector extends keyof UsableStoreStateType<StoreType>, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  selector:Selector
+): UsableStoreStateType<StoreType>[Selector]
+export function UseDerivedStoreFromContext <DerivedType, StoreType extends UsableStore> (
+  context:Context<StoreType>,
+  selector:string
 ): DerivedType

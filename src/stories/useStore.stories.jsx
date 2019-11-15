@@ -1,41 +1,41 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { BehaviorSubject } from 'rxjs'
-import { useSubject, useDerivedSubject, useSubFromContext } from '../hooks'
+import { useStore, useStoreFromContext, useAndUpdateDerivedStore } from '../hooks'
 import { Button } from '../components'
+import { Store } from '../utils'
 
-const counterSubject = new BehaviorSubject(0)
+const counterSubject = new Store(0)
 function increment () {
   counterSubject.next(counterSubject.getValue() + 1)
 }
 
-const SubjectExample = (props) => {
-  const [counterValue] = useSubject(counterSubject)
+const StoreExample = (props) => {
+  const counterValue = useStore(counterSubject)
   console.log('rendering')
   return (<div style={{ marginBottom: '10px' }}>
     <Button label={String(counterValue)} onClick={increment} />
   </div>)
 }
 
-storiesOf('Hooks|useSubject', module)
+storiesOf('Hooks|useStore', module)
   .add('simple', () => {
     return <React.Fragment>
-      <SubjectExample />
-      <SubjectExample />
+      <StoreExample />
+      <StoreExample />
       <div>Clicking either button should increment both.</div>
     </React.Fragment>
   })
 
 const ExampleContext = React.createContext()
 const ContextExample = (props) => {
-  const counterValue = useSubFromContext(ExampleContext)
+  const counterValue = useStoreFromContext(ExampleContext)
   console.log('rendering')
   return (<div style={{ marginBottom: '10px' }}>
     <Button label={String(counterValue)} onClick={increment} />
   </div>)
 }
 
-storiesOf('Hooks|useSubject', module)
+storiesOf('Hooks|useStore', module)
   .add('context', () => {
     return <ExampleContext.Provider value={counterSubject}>
       <ContextExample />
@@ -44,9 +44,9 @@ storiesOf('Hooks|useSubject', module)
     </ExampleContext.Provider>
   })
 
-const parentSubject = new BehaviorSubject({ first: 0, second: 0 })
+const parentStore = new Store({ first: 0, second: 0 })
 const DerivedExample = props => {
-  const [counterValue, setCounter] = useDerivedSubject(parentSubject,
+  const [counterValue, setCounter] = useAndUpdateDerivedStore(parentStore,
     counters => counters[props.which],
     (value, counters) => ({ ...counters, [props.which]: value })
   )
@@ -56,7 +56,7 @@ const DerivedExample = props => {
   </div>)
 }
 
-storiesOf('Hooks|useSubject', module)
+storiesOf('Hooks|useStore', module)
   .add('derivation', () => {
     return <React.Fragment>
       <DerivedExample which='first' />
@@ -68,15 +68,15 @@ storiesOf('Hooks|useSubject', module)
   })
 
 const AccessorExample = props => {
-  const [counterValue, setCounter] = useDerivedSubject(parentSubject, props.which)
+  const [counterValue, setCounter] = useAndUpdateDerivedStore(parentStore, props.which)
   console.log('rendering', props.which)
   return (<div style={{ marginBottom: '10px' }}>
     <Button label={String(counterValue)} onClick={() => setCounter(counterValue + 1)} />
   </div>)
 }
 
-storiesOf('Hooks|useSubject', module)
-  .add('accessor', () => {
+storiesOf('Hooks|useStore', module)
+  .add('selector', () => {
     return <React.Fragment>
       <AccessorExample which='first' />
       <AccessorExample which='first' />
