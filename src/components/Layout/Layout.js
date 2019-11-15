@@ -1,11 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import './Layout.css'
 
 const Wrapper = styled.div`
   display: grid;
   background-color: #ffffff;
+
+  &.txst-wrapper-no-sidebar > .txst-sidebar-container {
+    display: none;
+  }
+
+  &.txst-wrapper-no-footer > .txst-footer-container {
+    display: none;
+  }
 
   &.txst-wrapper {
     grid-template-columns: ${({ sidebarSize }) => sidebarSize}px 1fr;
@@ -32,10 +39,16 @@ const Wrapper = styled.div`
   }
 `
 
+const HeaderContainer = styled.header`
+  &.txst-header-container {
+    grid-area: header;
+  }
+`
+
 const Header = props => {
   const { children, className, style } = props
   return (
-    <header className={`txst-header-container ${className}`} style={style}>{children}</header>
+    <HeaderContainer className={`txst-header-container ${className}`} style={style}>{children}</HeaderContainer>
   )
 }
 
@@ -43,19 +56,32 @@ Header.propTypes = {
   className: PropTypes.string
 }
 
+const SidebarContainer = styled.div`
+  &.txst-sidebar-container {
+    grid-area: sidebar;
+  }
+`
+
 const Sidebar = props => {
   const { children, className, style } = props
-  return <div className={`txst-sidebar-container ${className}`} style={style}>{children}</div>
+  return <SidebarContainer className={`txst-sidebar-container ${className}`} style={style}>{children}</SidebarContainer>
 }
 
 Sidebar.propTypes = {
   className: PropTypes.string
 }
 
+const ContentContainer = styled.main`
+  &.txst-content-container {
+    grid-area: content;
+    overflow: auto;
+  }
+`
+
 const Content = props => {
   const { children, className, style } = props
   return (
-    <main className={`txst-content-container ${className}`} style={style}>{children}</main>
+    <ContentContainer className={`txst-content-container ${className}`} style={style}>{children}</ContentContainer>
   )
 }
 
@@ -63,10 +89,16 @@ Content.propTypes = {
   className: PropTypes.string
 }
 
+const FooterContainer = styled.footer`
+  &.txst-footer-container {
+    grid-area: footer;
+  }
+`
+
 const Footer = props => {
   const { children, className, style } = props
   return (
-    <footer className={`txst-footer-container ${className}`} style={style}>{children}</footer>
+    <FooterContainer className={`txst-footer-container ${className}`} style={style}>{children}</FooterContainer>
   )
 }
 
