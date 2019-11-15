@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Column, ComponentDecoratorProps } from 'react-table';
+import * as React from 'react'
+import { Column, ComponentDecoratorProps } from 'react-table'
 
 export interface TableColumns {
   name?: string;
@@ -17,7 +17,7 @@ export interface TableColumns {
   button?: boolean;
   allowOverflow?: boolean;
   wrap?: boolean;
-  hide?: number | "sm" | "md" | "lg";
+  hide?: number | 'sm' | 'md' | 'lg';
 }
 
 interface WithSelectedAreaProps {
@@ -49,7 +49,7 @@ export interface TableProps {
   WithSelectedArea?: React.FC<WithSelectedAreaProps>;
 }
 
-export const Table: React.FC<TableProps>;
+export const Table: React.FC<TableProps>
 
 export declare enum SortOrder {
   ASCENDING = 'asc',
@@ -64,7 +64,7 @@ export interface ISort {
 
 export interface IDataResponse<T> {
   list: T[]
-  total: number
+  lastPage: number
 }
 
 export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort) => IDataResponse<T> | Promise<IDataResponse<T>>
@@ -98,4 +98,4 @@ export interface ReactTableProps {
   getResizerProps?: ComponentDecoratorProps.getResizerProps
 }
 
-export const ReactTable: React.FC<ReactTableProps>;
+export const ReactTable: React.FC<ReactTableProps>

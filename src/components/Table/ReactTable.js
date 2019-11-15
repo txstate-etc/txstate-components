@@ -6,13 +6,6 @@ import shortid from 'shortid'
 import get from 'lodash/get'
 import { useEvent } from '../../hooks'
 
-const getPageStartAndEnd = (page = 0, pageSize = 10) => {
-  return {
-    start: page * pageSize,
-    end: (page + 1) * pageSize
-  }
-}
-
 const dataReducer = (state, action) => {
   switch (action.type) {
     case 'load':
@@ -21,30 +14,15 @@ const dataReducer = (state, action) => {
         loading: true,
         error: null
       }
-    case 'next':
+    case 'success':
       return {
         ...state,
         loading: false,
         error: null,
         data: {
           ...action.data,
-          list: [...state.data.list, ...action.data.list]
+          list: action.data.list
         }
-      }
-    case 'sort': {
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        data: action.data
-      }
-    }
-    case 'success':
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        data: action.data
       }
     case 'failure':
       return {
@@ -57,31 +35,21 @@ const dataReducer = (state, action) => {
   }
 }
 
-const handleDataFetch = (page, pageSize) => async (promise, dispatch) => {
+const handleDataFetch = (page, pageSize, sort) => async (promise, dispatch) => {
   dispatch({ type: 'load' })
-  try {
-    const results = await promise(page, pageSize)
-    dispatch({ type: 'success', data: results })
-  } catch (error) {
-    dispatch({ type: 'failure', error })
+  if (page < 0) {
+    dispatch({ type: 'failure', error: new Error('Cannot fetch page below 1') })
+    return
   }
-}
 
-const handleNextData = (page, pageSize, sort) => async (promise, dispatch) => {
-  dispatch({ type: 'load' })
   try {
     const results = await promise(page, pageSize, sort)
-    dispatch({ type: 'next', data: results })
-  } catch (error) {
-    dispatch({ type: 'failure', error })
-  }
-}
-
-const handleSortData = (pageSize, sort) => async (promise, dispatch) => {
-  dispatch({ type: 'load' })
-  try {
-    const results = await promise(0, pageSize, sort)
-    dispatch({ type: 'sort', data: results })
+    const data = {
+      ...results,
+      page: page - 1,
+      pageSize
+    }
+    dispatch({ type: 'success', data })
   } catch (error) {
     dispatch({ type: 'failure', error })
   }
@@ -90,10 +58,13 @@ const handleSortData = (pageSize, sort) => async (promise, dispatch) => {
 const initialState = {
   loading: true,
   data: {
+    page: 0,
+    pages: 1,
+    pageSize: 10,
     list: [],
     next: () => null,
     prev: () => null,
-    total: 0
+    lastPage: 1
   },
   error: null
 }
@@ -103,7 +74,6 @@ export const ReactTable = props => {
     id,
     columns,
     fetchData,
-    pageSize,
     showPageSizeOptions,
     showPageJump,
     className,
@@ -128,35 +98,22 @@ export const ReactTable = props => {
     getResizerProps
   } = props
   const [state, dispatch] = useReducer(dataReducer, initialState)
-  const [page, setPage] = useState(0)
-  const [pages, setPages] = useState(1)
-  const [start, setStart] = useState(0)
-  const [end, setEnd] = useState(pageSize)
   const [sort, setSort] = useState({ order: 'none', column: '' })
   const _id = useRef(id || shortid.generate())
 
   const refetchData = useCallback((page) => {
-    handleDataFetch(page, pageSize)(fetchData, dispatch)
-  }, [pageSize, fetchData, dispatch])
+    handleDataFetch(page, state.data.pageSize, sort)(fetchData, dispatch)
+  }, [state.data.pageSize, fetchData, dispatch])
+
   useEvent(`refresh-${_id.current}`, refetchData)
 
   useEffect(() => {
-    handleDataFetch(page, pageSize)(fetchData, dispatch)
+    handleDataFetch(state.data.page + 1, state.data.pageSize, sort)(fetchData, dispatch)
   }, [fetchData, dispatch])
 
-  useEffect(() => {
-    const total = get(state, 'data.total', 0)
-    setPages(Math.ceil(total / pageSize))
-  }, [pageSize, setPages, state.data.total])
-
   const onPageChange = useCallback((pageId) => {
-    const { start, end } = getPageStartAndEnd(pageId, pageSize)
-    const itemsOnNextPage = state.data.list.slice(start, end).length
-    if (itemsOnNextPage < pageSize) {
-      handleNextData(pageId, pageSize, sort)(fetchData, dispatch)
-    }
-    setPage(pageId)
-  }, [state, pageSize, fetchData, dispatch, setPage])
+    handleDataFetch(pageId + 1, state.data.pageSize, sort)(fetchData, dispatch)
+  }, [state, state.data.pageSize, fetchData, dispatch])
 
   const onSortedChange = useCallback(sorted => {
     const column = get(sorted, '[0].id')
@@ -170,16 +127,12 @@ export const ReactTable = props => {
       currentSort = { order: 'none', column: '' }
       setSort(currentSort)
     }
+    handleDataFetch(state.data.page + 1, state.data.pageSize, currentSort)(fetchData, dispatch)
+  }, [sort, setSort, state.data.pageSize, fetchData, dispatch, handleDataFetch, state.data.page])
 
-    setPage(0)
-    handleSortData(pageSize, currentSort)(fetchData, dispatch)
-  }, [sort, setSort, pageSize, fetchData, dispatch, handleSortData])
-
-  useEffect(() => {
-    const { start, end } = getPageStartAndEnd(page, pageSize)
-    setStart(start)
-    setEnd(end)
-  }, [page, pageSize, setStart, setEnd])
+  const onPageSizeChange = useCallback((pageSize, pageIndex) => {
+    handleDataFetch(pageIndex + 1, pageSize, sort)(fetchData, dispatch)
+  }, [dispatch, fetchData, sort])
 
   return (
     <Table
@@ -187,11 +140,12 @@ export const ReactTable = props => {
       className={className}
       showPageSizeOptions={showPageSizeOptions}
       showPageJump={showPageJump}
-      page={page}
-      pages={pages}
-      pageSize={pageSize}
+      page={state.data.page}
+      pages={state.data.lastPage}
+      pageSize={state.data.pageSize}
+      onPageSizeChange={onPageSizeChange}
       loading={state.loading}
-      data={state.data.list.slice(start, end)}
+      data={state.data.list}
       onPageChange={onPageChange}
       onSortedChange={onSortedChange}
       columns={columns}
@@ -219,7 +173,7 @@ export const ReactTable = props => {
 }
 
 ReactTable.defaultProps = {
-  fetchData: () => ({ list: [], total: 0 }),
+  fetchData: () => ({ list: [], lastPage: 0 }),
   showPageSizeOptions: false,
   showPageJump: false,
   pageSize: 10,
