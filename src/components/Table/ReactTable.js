@@ -1,6 +1,5 @@
 import React, { useState, useReducer, useEffect, useCallback, useRef } from 'react'
 import Table from 'react-table'
-import './ReactTable.css'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import get from 'lodash/get'
