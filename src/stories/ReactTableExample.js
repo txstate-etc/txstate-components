@@ -9,11 +9,11 @@ const randomUser = axios.create({
 })
 
 const api = {
-  async getPeople (page = 0, pageSize = 10, sort = { order: 'none', column: '' }) {
+  async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }) {
     const totalResults = 24
     await new Promise(resolve => setTimeout(resolve, 1000))
-    const start = page * pageSize
-    let end = pageSize * (page + 1)
+    const start = (page - 1) * pageSize
+    let end = pageSize * page
     const isLastPage = end > totalResults
     if (isLastPage) {
       end = totalResults
@@ -30,7 +30,7 @@ const api = {
         ascendingResults.data.results = ascendingResults.data.results.slice(start, end)
         return {
           list: ascendingResults.data.results,
-          total: totalResults
+          lastPage: Math.ceil(totalResults / pageSize)
         }
       case 'desc':
         const descendingResults = await randomUser.get(`?results=${totalResults}&seed=potluck`)
@@ -42,7 +42,7 @@ const api = {
         descendingResults.data.results = descendingResults.data.results.slice(start, end)
         return {
           list: descendingResults.data.results,
-          total: totalResults
+          lastPage: Math.ceil(totalResults / pageSize)
         }
       default:
         const unsortedResults = await randomUser.get(`?page=${page + 1}&results=${pageSize}&seed=potluck`)
@@ -51,7 +51,7 @@ const api = {
         }
         return {
           list: unsortedResults.data.results,
-          total: totalResults
+          lastPage: Math.ceil(totalResults / pageSize)
         }
     }
   }
@@ -86,8 +86,9 @@ export const ReactTableExample = props => {
     <>
       <Button label='Refresh' onClick={handleRefresh} />
       <ReactTable
+        showPageSizeOptions
+        showPageJump
         id='example-table'
-        pageSize={10}
         fetchData={api.getPeople}
         columns={columns}
       />
