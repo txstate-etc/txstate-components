@@ -2,7 +2,8 @@ import { BehaviorSubject } from 'rxjs'
 import { skip } from 'rxjs/operators'
 import equal from 'fast-deep-equal'
 import get from 'lodash/get'
-import set from 'lodash/set'
+import setWith from 'lodash/setWith'
+import clone from 'lodash/clone'
 import cloneDeep from 'lodash/cloneDeep'
 
 // Extension of BehaviorSubject that only sends updates to subscribers when
@@ -40,15 +41,22 @@ export class Store extends BehaviorSubject {
     }
   }
 }
+function immutableSet (state, path, value) {
+  return setWith(clone(state), path, value, clone)
+}
 
 export class DerivedStore extends Store {
   constructor (store, getter, setter) {
+    const options = {
+      immutable: store.options.immutable
+    }
     if (typeof getter === 'string') {
       const accessor = getter
       getter = parentValue => get(parentValue, accessor)
-      setter = (value, parentValue) => set(parentValue, accessor, value)
+      setter = (value, parentValue) => immutableSet(parentValue, accessor, value)
+      options.immutable = true
     }
-    super(getter(store.value), store.options)
+    super(getter(store.value), options)
     this.parentStore = store
     this.setter = setter
     this.subscription = store.pipe(skip(1)).subscribe(newval => {
