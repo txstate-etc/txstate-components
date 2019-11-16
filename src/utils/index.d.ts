@@ -21,7 +21,12 @@ export interface IDerivedSubject<OutputType = any, InputType = any> extends Beha
 }
 export const DerivedSubject:IDerivedSubject
 
-export interface IStore<StateType> extends BehaviorSubject<StateType> {}
+export interface IStoreOptions {
+  immutable: boolean
+}
+export interface IStore<StateType> extends BehaviorSubject<StateType> {
+  new (initialValue:StateType, options:IStoreOptions): IStore<StateType>
+}
 export interface IDerivedStore<OutputType,InputType> extends IStore<OutputType> {
   new (store:UsableStore<OutputType>, getter:(state:InputType) => OutputType, setter?: (newvalue:OutputType, state:InputType) => InputType): IDerivedStore<OutputType, InputType>
   new <Selector extends keyof InputType>(store:UsableStore<InputType[Selector]>, selector:Selector): IDerivedStore<InputType[Selector], InputType>
