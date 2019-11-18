@@ -22,7 +22,7 @@ export interface IDerivedSubject<OutputType = any, InputType = any> extends Beha
 export const DerivedSubject:IDerivedSubject
 
 export interface IStoreOptions {
-  immutable: boolean
+  immutable?: boolean
 }
 export interface IStore<StateType> extends BehaviorSubject<StateType> {
   new (initialValue:StateType, options?:IStoreOptions): IStore<StateType>
