@@ -25,7 +25,7 @@ export interface IStoreOptions {
   immutable: boolean
 }
 export interface IStore<StateType> extends BehaviorSubject<StateType> {
-  new (initialValue:StateType, options:IStoreOptions): IStore<StateType>
+  new (initialValue:StateType, options?:IStoreOptions): IStore<StateType>
 }
 export interface IDerivedStore<OutputType,InputType> extends IStore<OutputType> {
   new (store:UsableStore<OutputType>, getter:(state:InputType) => OutputType, setter?: (newvalue:OutputType, state:InputType) => InputType): IDerivedStore<OutputType, InputType>
