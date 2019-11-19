@@ -16,6 +16,7 @@ export interface RadioGroupProps {
   options?: RadioGroupOptions[];
   styles?: ChoiceGroupStyle
   id?: string;
+  className?: string;
 }
 
 export const RadioGroup: React.FC<RadioGroupProps>

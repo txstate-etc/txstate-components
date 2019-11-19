@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { IBasePickerStyles } from 'office-ui-fabric-react/lib/Pickers'
 
 export interface TagPickerItems {
   key?: string;
@@ -12,6 +13,7 @@ export interface TagPickerProps {
   path: string;
   itemLimit?: number;
   items?: TagPickerItems[];
+  styles?: Partial<IBasePickerStyles>
   onRenderItem?: (...args: any[]) => any;
 }
 

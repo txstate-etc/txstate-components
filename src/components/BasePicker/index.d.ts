@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { IBasePickerStyles } from 'office-ui-fabric-react/lib/Pickers'
 
 export interface BasePickerItems {
   key: string;
@@ -10,6 +11,7 @@ export interface BasePickerValue {
 
 export interface BasePickerProps {
   className?: string;
+  styles?: Partial<IBasePickerStyles>
   label: string;
   items?: BasePickerItems[];
   ariaLabel: string;

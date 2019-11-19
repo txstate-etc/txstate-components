@@ -13,6 +13,7 @@ export interface DropdownProps {
   options?: DropdownOptions[];
   disabled?: boolean;
   styles?: Partial<IComboBoxStyles>;
+  className?: string;
   initialSelectedKey?: string;
 }
 

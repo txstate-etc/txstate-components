@@ -18,15 +18,20 @@ export const Checkbox = props => {
     path,
     extractor: e => e.target.checked
   })
-  return <React.Fragment>
-    <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} />
-    <ErrorMessage error={error} success={success} />
-  </React.Fragment>
+
+  return (
+    <React.Fragment>
+      <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} />
+      <ErrorMessage error={error} success={success} />
+    </React.Fragment>
+  )
 }
 
 Checkbox.propTypes = {
   path: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   ariaLabel: PropTypes.string,
-  name: PropTypes.string
+  name: PropTypes.string,
+  className: PropTypes.string,
+  styles: PropTypes.object
 }

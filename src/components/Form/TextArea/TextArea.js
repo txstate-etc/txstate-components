@@ -3,10 +3,12 @@ import { TextInput } from '../TextInput'
 import PropTypes from 'prop-types'
 
 export const TextArea = props => {
-  const { name, label, path, placeholder } = props
+  const { name, label, path, styles, placeholder, className } = props
 
   return (
     <TextInput
+      className={className}
+      styles={styles}
       placeholder={placeholder}
       name={name}
       label={label}
@@ -19,5 +21,7 @@ export const TextArea = props => {
 TextArea.propTypes = {
   label: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  name: PropTypes.string
+  name: PropTypes.string,
+  styles: PropTypes.object,
+  className: PropTypes.string
 }

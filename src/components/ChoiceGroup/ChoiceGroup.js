@@ -7,6 +7,7 @@ import shortid from 'shortid'
 export const ChoiceGroup = props => {
   const {
     label,
+    className,
     options,
     ariaLabel,
     required,
@@ -31,6 +32,7 @@ export const ChoiceGroup = props => {
       <Label htmlFor={_id.current}>{label}</Label>
       <OfficeChoiceGroup
         styles={{ ...styles }}
+        className={className}
         id={_id.current}
         role='radiogroup'
         ariaLabel={ariaLabel || label}
@@ -48,6 +50,7 @@ export const ChoiceGroup = props => {
 
 ChoiceGroup.propTypes = {
   label: PropTypes.string.isRequired,
+  className: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,

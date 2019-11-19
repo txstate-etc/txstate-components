@@ -7,7 +7,7 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
 initializeIcons()
 
 export const Dropdown = React.forwardRef((props, ref) => {
-  const { label, options, path, initialSelectedKey, disabled, styles } = props
+  const { label, className, options, path, initialSelectedKey, disabled, styles } = props
 
   const {
     value,
@@ -22,6 +22,7 @@ export const Dropdown = React.forwardRef((props, ref) => {
     <ComboBox
       ref={ref}
       styles={styles}
+      className={className}
       disabled={disabled}
       selectedKey={value.key}
       onChange={onChange}
@@ -46,5 +47,6 @@ Dropdown.propTypes = {
     text: PropTypes.string
   })),
   styles: PropTypes.any,
+  className: PropTypes.string,
   disabled: PropTypes.bool
 }

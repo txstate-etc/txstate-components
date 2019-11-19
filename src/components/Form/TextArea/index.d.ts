@@ -1,10 +1,12 @@
-import * as React from 'react';
+import * as React from 'react'
+import { ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField'
 
 export interface TextAreaProps {
   label: string;
   path: string;
   name?: string;
+  styles?: Partial<ITextFieldStyles>
+  className?: string
 }
 
-export const TextArea: React.FC<TextAreaProps>;
-
+export const TextArea: React.FC<TextAreaProps>

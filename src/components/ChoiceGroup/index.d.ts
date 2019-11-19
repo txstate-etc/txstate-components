@@ -6,7 +6,7 @@ interface IExtendedStyle {
   errorMessage: IStyle
 }
 
-export type ChoiceGroupStyle = IExtendedStyle & IChoiceGroupStyles
+export type ChoiceGroupStyle = Partial<IExtendedStyle & IChoiceGroupStyles>
 
 export interface IChoiceGroupOption {
   text?: string
@@ -16,6 +16,7 @@ export interface IChoiceGroupOption {
 
 export interface ChoiceGroupProps {
   ariaLabel: string;
+  className?: string;
   label?: string;
   options?: IChoiceGroupOption[];
   required?: boolean;

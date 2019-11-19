@@ -49,6 +49,7 @@ export const BasePicker = props => {
     className,
     onChange,
     description,
+    styles,
     onRenderItem
   } = props
 
@@ -93,6 +94,7 @@ export const BasePicker = props => {
       <Label>{label}</Label>
       <Desc show={description}>{description}</Desc>
       <TagPicker
+        styles={styles}
         className={className}
         selectedItems={value}
         onChange={onChange}
@@ -125,6 +127,7 @@ BasePicker.defaultProps = {
 
 BasePicker.propTypes = {
   className: PropTypes.string,
+  styles: PropTypes.object,
   label: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
   ariaLabel: PropTypes.string.isRequired,
