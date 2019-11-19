@@ -73,7 +73,8 @@ export interface ReactTableProps {
   id?: string
   className?: string
   fetchData: FetchFunction<T>
-  pageSize?: number
+  defaultPageSize?: number
+  pageSizeOptions?: number[]
   showPageSizeOptions?: boolean
   showPageJump?: boolean
   columns: Column<T>[]

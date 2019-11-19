@@ -54,24 +54,26 @@ const handleDataFetch = (page, pageSize, sort) => async (promise, dispatch) => {
   }
 }
 
-const initialState = {
+const initialState = (pageSize) => ({
   loading: true,
   data: {
     page: 0,
     pages: 1,
-    pageSize: 10,
+    pageSize,
     list: [],
     next: () => null,
     prev: () => null,
     lastPage: 1
   },
   error: null
-}
+})
 
 export const ReactTable = props => {
   const {
     id,
     columns,
+    defaultPageSize,
+    pageSizeOptions,
     fetchData,
     showPageSizeOptions,
     showPageJump,
@@ -96,7 +98,7 @@ export const ReactTable = props => {
     getNoDataProps,
     getResizerProps
   } = props
-  const [state, dispatch] = useReducer(dataReducer, initialState)
+  const [state, dispatch] = useReducer(dataReducer, initialState(defaultPageSize))
   const [sort, setSort] = useState({ order: 'none', column: '' })
   const _id = useRef(id || shortid.generate())
 
@@ -142,6 +144,7 @@ export const ReactTable = props => {
       page={state.data.page}
       pages={state.data.lastPage}
       pageSize={state.data.pageSize}
+      pageSizeOptions={pageSizeOptions}
       onPageSizeChange={onPageSizeChange}
       loading={state.loading}
       data={state.data.list}
@@ -175,19 +178,21 @@ ReactTable.defaultProps = {
   fetchData: () => ({ list: [], lastPage: 0 }),
   showPageSizeOptions: false,
   showPageJump: false,
-  pageSize: 10,
+  defaultPageSize: 25,
   columns: []
 }
 
 ReactTable.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
+  defaultPageSize: PropTypes.number,
   fetchData: PropTypes.func.isRequired,
   pageSize: PropTypes.number,
   showPageSizeOptions: PropTypes.bool,
   showPageJump: PropTypes.bool,
   /** https://www.npmjs.com/package/react-table#columns */
   columns: PropTypes.array,
+  pageSizeOptions: PropTypes.arrayOf(PropTypes.number),
   getProps: PropTypes.func,
   getTableProps: PropTypes.func,
   getTheadGroupProps: PropTypes.func,

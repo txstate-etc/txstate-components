@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import '../components/Table/ReactTable.css'
 import { ReactTable, Button } from '../components'
 import axios from 'axios'
 import get from 'lodash/get'
@@ -88,6 +89,8 @@ export const ReactTableExample = props => {
       <ReactTable
         showPageSizeOptions
         showPageJump
+        pageSizeOptions={[5, 10, 15, 20]}
+        defaultPageSize={15}
         id='example-table'
         fetchData={api.getPeople}
         columns={columns}
