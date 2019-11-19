@@ -141,7 +141,6 @@ export const ReactTable = props => {
       className={className}
       showPageSizeOptions={showPageSizeOptions}
       showPageJump={showPageJump}
-      defaultPageSize={defaultPageSize}
       page={state.data.page}
       pages={state.data.lastPage}
       pageSize={state.data.pageSize}
