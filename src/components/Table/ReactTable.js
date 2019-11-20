@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useEffect, useCallback, useRef, useMemo } from 'react'
 import Table, { ReactTableDefaults } from 'react-table'
-import { Header } from './TableComponents/Header'
+import { Header, Pagination } from './TableComponents'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import get from 'lodash/get'
@@ -153,21 +153,30 @@ export const ReactTable = props => {
       id: column.id,
       ...additionalThProps
     }
-  }, [])
+  }, [getTheadThProps])
 
   const handleGetTdProps = useCallback((state, rowInfo, column, instance) => {
     const lastRowIndex = get(state, 'pageSize', 0) - 1
     const currentRow = get(rowInfo, 'index', null)
+    let additionalTdProps = { style: {} }
+
+    if (typeof getTdProps === 'function') {
+      additionalTdProps = getTdProps(state, rowInfo, column, instance)
+    }
+
     const style = {
+      ...additionalTdProps.style,
       backgroundColor: '#F5F5F5',
       borderLeft: 'solid 1px white',
       borderRight: 'solid 1px white'
     }
+
     if (lastRowIndex !== -1 && currentRow !== null && lastRowIndex !== currentRow) {
       style.borderBottom = 'solid 2px white'
     }
-    return { style }
-  }, [])
+
+    return { ...additionalTdProps, style }
+  }, [getTdProps])
 
   return (
     <Table
@@ -205,6 +214,9 @@ export const ReactTable = props => {
       getLoadingProps={getLoadingProps}
       getNoDataProps={getNoDataProps}
       getResizerProps={getResizerProps}
+      PaginationComponent={Pagination}
+      showPaginationTop
+      showPaginationBottom
     />
   )
 }
