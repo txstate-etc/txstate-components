@@ -12,7 +12,7 @@ const randomUser = axios.create({
 const api = {
   async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }) {
     const totalResults = 24
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise(resolve => setTimeout(resolve, 300))
     const start = (page - 1) * pageSize
     let end = pageSize * page
     const isLastPage = end > totalResults
@@ -86,15 +86,17 @@ export const ReactTableExample = props => {
   return (
     <>
       <Button label='Refresh' onClick={handleRefresh} />
-      <ReactTable
-        showPageSizeOptions
-        showPageJump
-        pageSizeOptions={[5, 10, 15, 20]}
-        defaultPageSize={15}
-        id='example-table'
-        fetchData={api.getPeople}
-        columns={columns}
-      />
+      <div>
+        <ReactTable
+          showPageSizeOptions
+          showPageJump
+          pageSizeOptions={[5, 10, 15, 20]}
+          defaultPageSize={15}
+          id='example-table'
+          fetchData={api.getPeople}
+          columns={columns}
+        />
+      </div>
     </>
   )
 }
