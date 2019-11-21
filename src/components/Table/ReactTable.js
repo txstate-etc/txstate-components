@@ -155,29 +155,6 @@ export const ReactTable = props => {
     }
   }, [getTheadThProps])
 
-  const handleGetTdProps = useCallback((state, rowInfo, column, instance) => {
-    const lastRowIndex = get(state, 'pageSize', 0) - 1
-    const currentRow = get(rowInfo, 'index', null)
-    let additionalTdProps = { style: {} }
-
-    if (typeof getTdProps === 'function') {
-      additionalTdProps = getTdProps(state, rowInfo, column, instance)
-    }
-
-    const style = {
-      ...additionalTdProps.style,
-      backgroundColor: '#F5F5F5',
-      borderLeft: 'solid 1px white',
-      borderRight: 'solid 1px white'
-    }
-
-    if (lastRowIndex !== -1 && currentRow !== null && lastRowIndex !== currentRow) {
-      style.borderBottom = 'solid 2px white'
-    }
-
-    return { ...additionalTdProps, style }
-  }, [getTdProps])
-
   return (
     <Table
       manual
@@ -209,12 +186,13 @@ export const ReactTable = props => {
       getTbodyProps={getTbodyProps}
       getTrGroupProps={getTrGroupProps}
       getTrProps={getTrProps}
-      getTdProps={handleGetTdProps}
+      getTdProps={getTdProps}
       getPaginationProps={getPaginationProps}
       getLoadingProps={getLoadingProps}
       getNoDataProps={getNoDataProps}
       getResizerProps={getResizerProps}
       PaginationComponent={Pagination}
+      minRows={0}
       showPaginationTop
       showPaginationBottom
     />

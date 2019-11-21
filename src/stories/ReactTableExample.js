@@ -86,17 +86,15 @@ export const ReactTableExample = props => {
   return (
     <>
       <Button label='Refresh' onClick={handleRefresh} />
-      <div>
-        <ReactTable
-          showPageSizeOptions
-          showPageJump
-          pageSizeOptions={[5, 10, 15, 20]}
-          defaultPageSize={15}
-          id='example-table'
-          fetchData={api.getPeople}
-          columns={columns}
-        />
-      </div>
+      <ReactTable
+        showPageSizeOptions
+        showPageJump
+        pageSizeOptions={[5, 10, 15, 20]}
+        defaultPageSize={15}
+        id='example-table'
+        fetchData={api.getPeople}
+        columns={columns}
+      />
     </>
   )
 }
