@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { Theme } from '../../Theme'
+import get from 'lodash/get'
 
 const Dropdown = styled.div`
   position: relative;
@@ -13,6 +14,10 @@ const DropdownOptions = styled.div`
     padding: 8px 12px;
     text-decoration: none;
     display: block;
+  }
+
+  &.-reversed-options {
+    transform: translateY(calc(-100% - ${({ buttonHeight }) => buttonHeight}px));
   }
 
   display: ${({ visible }) => visible ? 'block' : 'none'};
@@ -30,7 +35,7 @@ const RowOption = styled.span`
   cursor: pointer;
 `
 
-const Rows = styled.div`
+const DropdownButton = styled.div`
   user-select: none;
   color: white;
   border-radius: 4px;
@@ -41,15 +46,16 @@ const Rows = styled.div`
 `
 
 export const RowsPicker = props => {
-  const { pageSizeOptions, pageSize, handlePageSizeChange } = props
+  const { pageSizeOptions, pageSize, handlePageSizeChange, isTop } = props
   const [dropdownVisible, _setDropdownVisible] = useState(false)
 
-  const dropdown = useRef()
-  const options = useRef()
+  const dropdownButton = useRef()
+  const dropdownOptions = useRef()
+
   const handleOuterClick = useCallback((e) => {
     const target = e.target
     if (dropdownVisible) {
-      if (target !== dropdown.current) {
+      if (target !== dropdownButton.current) {
         _setDropdownVisible(false)
       }
     }
@@ -68,11 +74,26 @@ export const RowsPicker = props => {
     handlePageSizeChange(size)
   }, [handlePageSizeChange])
 
+  const pageOptions = useMemo(() => {
+    if (!isTop) {
+      const rowOptions = [...pageSizeOptions]
+      return rowOptions.reverse()
+    } else {
+      return [...pageSizeOptions]
+    }
+  }, [isTop, pageSizeOptions])
+
+  const buttonHeight = useMemo(() => {
+    return get(dropdownButton, 'current.offsetHeight', 0)
+  }, [dropdownButton.current])
+
+  const optionsClassName = useMemo(() => isTop ? '' : '-reversed-options', [isTop])
+
   return (
     <Dropdown>
-      <Rows ref={dropdown} onClick={toggleDropdown}>{pageSize} rows</Rows>
-      <DropdownOptions ref={options} visible={dropdownVisible}>
-        {pageSizeOptions.map((size) => <RowOption key={size} onClick={handleSelection(size)}>{size} rows</RowOption>)}
+      <DropdownButton ref={dropdownButton} onClick={toggleDropdown}>{pageSize} rows</DropdownButton>
+      <DropdownOptions buttonHeight={buttonHeight} className={optionsClassName} ref={dropdownOptions} visible={dropdownVisible}>
+        {pageOptions.map((size) => <RowOption key={size} onClick={handleSelection(size)}>{size} rows</RowOption>)}
       </DropdownOptions>
     </Dropdown>
   )
