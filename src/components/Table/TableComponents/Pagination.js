@@ -30,7 +30,6 @@ const Pages = props => {
   const {
     page,
     lastPage,
-    pageText,
     handleNext,
     handlePrev,
     handlePageJump,
@@ -46,15 +45,20 @@ const Pages = props => {
     return disablePrevious ? '#c4c4c4' : '#363534'
   }, [disablePrevious])
 
+  const pageText = useMemo(() => {
+    if (lastPage === 1) return 'page'
+    return 'pages'
+  }, [lastPage])
+
   return (
     <PageContainer horizontal horizontalAlign='end' verticalAlign='center' spacing={6}>
-      <PageText>{pageText}</PageText>
       <CurrentPage
         handlePageJump={handlePageJump}
         page={page}
       />
       <OfText>of</OfText>
       <TotalPages>{lastPage}</TotalPages>
+      <PageText>{pageText}</PageText>
       <Stack horizontal spacing={8}>
         <Prev horizontalAlign='center' veritcalAlign='center' disabled={disablePrevious} onClick={handlePrev}>
           <SvgChevronIcon width={28} height={28} fill={prevColor} />

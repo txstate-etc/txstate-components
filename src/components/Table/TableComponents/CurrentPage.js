@@ -1,11 +1,13 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
+import { useEvent } from '../../../hooks/useEvent'
 import { Theme } from '../../Theme'
 
 const Hide = styled.span`
   font: inherit;
   margin: 0;
-  padding: 8px 12px;
+  min-width: 16px;
+  padding: 8px 4px;
   position: absolute;
   height: 0;
   overflow: hidden;
@@ -14,14 +16,14 @@ const Hide = styled.span`
 `
 
 const CurrentPageContainer = styled.input`
-  color: white;
-  background-color: ${Theme.maroon.hex()};
+  color: ${Theme.charcoal.hex()};
   border: none;
   outline: none;
-  padding: 8px 12px;
+  padding: 0 4px;
   font: inherit;
-  border-radius: 4px;
   font-size: 1rem;
+  min-width: 16px;
+  border-bottom: 1px solid ${Theme.charcoal.hex()};
 `
 
 export const CurrentPage = props => {
