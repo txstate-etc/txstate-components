@@ -89,7 +89,7 @@ export const ReactTableExample = props => {
       <ReactTable
         showPageSizeOptions
         showPageJump
-        pageSizeOptions={[5, 10, 15, 20]}
+        pageSizeOptions={[5, 10, 15, 20, 100, 200]}
         defaultPageSize={15}
         id='example-table'
         fetchData={api.getPeople}

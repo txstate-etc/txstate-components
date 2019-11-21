@@ -71,7 +71,12 @@ export const CurrentPage = props => {
   return (
     <form onSubmit={onSubmit}>
       <Hide id="hide"></Hide>
-      <CurrentPageContainer style={currentPageStyle} type='text' value={currentPage} onChange={handleCurrentPageChange} />
+      <CurrentPageContainer
+        autocomplete='off'
+        style={currentPageStyle}
+        value={currentPage}
+        onChange={handleCurrentPageChange}
+      />
     </form>
   )
 }
