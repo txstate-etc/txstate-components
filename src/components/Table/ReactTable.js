@@ -1,5 +1,6 @@
-import React, { useState, useReducer, useEffect, useCallback, useRef } from 'react'
-import Table from 'react-table'
+import React, { useState, useReducer, useEffect, useCallback, useRef, useMemo } from 'react'
+import Table, { ReactTableDefaults } from 'react-table'
+import { Header, Pagination } from './TableComponents'
 import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import get from 'lodash/get'
@@ -135,6 +136,25 @@ export const ReactTable = props => {
     handleDataFetch(pageIndex + 1, pageSize, sort)(fetchData, dispatch)
   }, [dispatch, fetchData, sort])
 
+  const extendedColumns = useMemo(() => {
+    return columns.map(column => ({
+      ...ReactTableDefaults,
+      ...column
+    }))
+  }, [columns])
+
+  const handleGetTheadThProps = useCallback((state, rowInfo, column, instance) => {
+    let additionalThProps = {}
+    if (typeof getTheadThProps === 'function') {
+      additionalThProps = getTheadProps(state, rowInfo, column, instance)
+    }
+    return {
+      sorted: get(state, 'sorted[0]', {}),
+      id: column.id,
+      ...additionalThProps
+    }
+  }, [getTheadThProps])
+
   return (
     <Table
       manual
@@ -150,7 +170,7 @@ export const ReactTable = props => {
       data={state.data.list}
       onPageChange={onPageChange}
       onSortedChange={onSortedChange}
-      columns={columns}
+      columns={extendedColumns}
       getProps={getProps}
       getTableProps={getTableProps}
       getTheadGroupProps={getTheadGroupProps}
@@ -158,7 +178,8 @@ export const ReactTable = props => {
       getTheadGroupThProps={getTheadGroupThProps}
       getTheadProps={getTheadProps}
       getTheadTrProps={getTheadTrProps}
-      getTheadThProps={getTheadThProps}
+      ThComponent={Header}
+      getTheadThProps={handleGetTheadThProps}
       getTheadFilterProps={getTheadFilterProps}
       getTheadFilterTrProps={getTheadFilterTrProps}
       getTheadFilterThProps={getTheadFilterThProps}
@@ -170,6 +191,10 @@ export const ReactTable = props => {
       getLoadingProps={getLoadingProps}
       getNoDataProps={getNoDataProps}
       getResizerProps={getResizerProps}
+      PaginationComponent={Pagination}
+      minRows={0}
+      showPaginationTop
+      showPaginationBottom
     />
   )
 }
