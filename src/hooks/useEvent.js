@@ -8,5 +8,5 @@ export const useEvent = (event, handler) => {
     return () => Subject.unsubscribe(event, handler)
   }, [event, handler])
 
-  return useCallback(value => Subject.next(event, value), [event])
+  return useCallback((...values) => Subject.next(event, ...values), [event])
 }

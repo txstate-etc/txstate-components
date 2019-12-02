@@ -78,25 +78,25 @@ export interface ReactTableProps {
   showPageSizeOptions?: boolean
   showPageJump?: boolean
   columns: Column<T>[]
-  getProps?: ComponentDecoratorProps.getProps
-  getTableProps?: ComponentDecoratorProps.getTableProps
-  getTheadGroupProps?: ComponentDecoratorProps.getTheadGroupProps
-  getTheadGroupTrProps?: ComponentDecoratorProps.getTheadGroupTrProps
-  getTheadGroupThProps?: ComponentDecoratorProps.getTheadGroupThProps
-  getTheadProps?: ComponentDecoratorProps.getTheadProps
-  getTheadTrProps?: ComponentDecoratorProps.getTheadTrProps
-  getTheadThProps?: ComponentDecoratorProps.getTheadThProps
-  getTheadFilterProps?: ComponentDecoratorProps.getTheadFilterProps
-  getTheadFilterTrProps?: ComponentDecoratorProps.getTheadFilterTrProps
-  getTheadFilterThProps?: ComponentDecoratorProps.getTheadFilterThProps
-  getTbodyProps?: ComponentDecoratorProps.getTbodyProps
-  getTrGroupProps?: ComponentDecoratorProps.getTrGroupProps
-  getTrProps?: ComponentDecoratorProps.getTrProps
-  getTdProps?: ComponentDecoratorProps.getTdProps
-  getPaginationProps?: ComponentDecoratorProps.getPaginationProps
-  getLoadingProps?: ComponentDecoratorProps.getLoadingProps
-  getNoDataProps?: ComponentDecoratorProps.getNoDataProps
-  getResizerProps?: ComponentDecoratorProps.getResizerProps
+  getProps?: ComponentDecoratorProps['getProps']
+  getTableProps?: ComponentDecoratorProps['getTableProps']
+  getTheadGroupProps?: ComponentDecoratorProps['getTheadGroupProps']
+  getTheadGroupTrProps?: ComponentDecoratorProps['getTheadGroupTrProps']
+  getTheadGroupThProps?: ComponentDecoratorProps['getTheadGroupThProps']
+  getTheadProps?: ComponentDecoratorProps['getTheadProps']
+  getTheadTrProps?: ComponentDecoratorProps['getTheadTrProps']
+  getTheadThProps?: ComponentDecoratorProps['getTheadThProps']
+  getTheadFilterProps?: ComponentDecoratorProps['getTheadFilterProps']
+  getTheadFilterTrProps?: ComponentDecoratorProps['getTheadFilterTrProps']
+  getTheadFilterThProps?: ComponentDecoratorProps['getTheadFilterThProps']
+  getTbodyProps?: ComponentDecoratorProps['getTbodyProps']
+  getTrGroupProps?: ComponentDecoratorProps['getTrGroupProps']
+  getTrProps?: ComponentDecoratorProps['getTrProps']
+  getTdProps?: ComponentDecoratorProps['getTdProps']
+  getPaginationProps?: ComponentDecoratorProps['getPaginationProps']
+  getLoadingProps?: ComponentDecoratorProps['getLoadingProps']
+  getNoDataProps?: ComponentDecoratorProps['getNoDataProps']
+  getResizerProps?: ComponentDecoratorProps['getResizerProps']
 }
 
 export const ReactTable: React.FC<ReactTableProps>
