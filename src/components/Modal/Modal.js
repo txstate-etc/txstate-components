@@ -42,9 +42,9 @@ Modal.defaultProps = {
 
 Modal.propTypes = {
   ariaLabel: PropTypes.string.isRequired,
-  ariaDescription: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  ariaDescription: PropTypes.string,
   backdropTimeout: PropTypes.number,
   centerContent: PropTypes.bool,
   disableEnforceFocus: PropTypes.bool
