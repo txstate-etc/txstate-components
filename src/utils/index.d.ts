@@ -1,5 +1,5 @@
-import { BehaviorSubject } from "rxjs"
-import { UsableSubject, UsableStore } from "../hooks"
+import { BehaviorSubject } from 'rxjs'
+import { UsableSubject, UsableStore } from '../hooks'
 
 export type HandlerFunction = (...args: any[]) => void
 export type SubscribeFunction = (event: string, handler: HandlerFunction) => void
@@ -27,7 +27,7 @@ export interface IStoreOptions {
 export interface IStore<StateType> extends BehaviorSubject<StateType> {
   new (initialValue:StateType, options?:IStoreOptions): IStore<StateType>
 }
-export interface IDerivedStore<OutputType,InputType> extends IStore<OutputType> {
+export interface IDerivedStore<OutputType, InputType> extends IStore<OutputType> {
   new (store:UsableStore<OutputType>, getter:(state:InputType) => OutputType, setter?: (newvalue:OutputType, state:InputType) => InputType): IDerivedStore<OutputType, InputType>
   new <Selector extends keyof InputType>(store:UsableStore<InputType[Selector]>, selector:Selector): IDerivedStore<InputType[Selector], InputType>
   new (store:UsableStore<OutputType>, selector:string): IDerivedStore<OutputType, InputType>
