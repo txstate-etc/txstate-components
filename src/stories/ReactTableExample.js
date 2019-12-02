@@ -88,6 +88,7 @@ export const ReactTableExample = props => {
       <Button label='Refresh' onClick={handleRefresh} />
       <ReactTable
         showPageSizeOptions
+        className='-highlight'
         showPageJump
         pageSizeOptions={[5, 10, 15, 20, 60, 200]}
         defaultPageSize={60}
