@@ -101,13 +101,16 @@ export const ReactTable = props => {
   } = props
   const [state, dispatch] = useReducer(dataReducer, initialState(defaultPageSize))
   const [sort, setSort] = useState({ order: 'none', column: '' })
+  const [_filter, setFilter] = useState({})
+
   const _id = useRef(id || shortid.generate())
 
   const refetchData = useCallback((page) => {
-    handleDataFetch(page, state.data.pageSize, sort)(fetchData, dispatch)
-  }, [state.data.pageSize, fetchData, dispatch, sort])
+    handleDataFetch(page, state.data.pageSize, sort, _filter)(fetchData, dispatch)
+  }, [state.data.pageSize, fetchData, dispatch, sort, _filter])
 
   const fetchFilteredData = useCallback((page, filter) => {
+    setFilter(filter)
     handleDataFetch(page, state.data.pageSize, sort, filter)(fetchData, dispatch)
   }, [state.data.pageSize, fetchData, dispatch, sort])
 
@@ -115,12 +118,12 @@ export const ReactTable = props => {
   useEvent(`filter-${_id.current}`, fetchFilteredData)
 
   useEffect(() => {
-    handleDataFetch(state.data.page + 1, state.data.pageSize, sort)(fetchData, dispatch)
-  }, [fetchData, dispatch])
+    handleDataFetch(state.data.page + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)
+  }, [fetchData, dispatch, _filter])
 
   const onPageChange = useCallback((pageId) => {
-    handleDataFetch(pageId + 1, state.data.pageSize, sort)(fetchData, dispatch)
-  }, [state, state.data.pageSize, fetchData, dispatch])
+    handleDataFetch(pageId + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)
+  }, [state, state.data.pageSize, fetchData, dispatch, _filter])
 
   const onSortedChange = useCallback(sorted => {
     const column = get(sorted, '[0].id')
@@ -134,12 +137,12 @@ export const ReactTable = props => {
       currentSort = { order: 'none', column: '' }
       setSort(currentSort)
     }
-    handleDataFetch(state.data.page + 1, state.data.pageSize, currentSort)(fetchData, dispatch)
-  }, [sort, setSort, state.data.pageSize, fetchData, dispatch, handleDataFetch, state.data.page])
+    handleDataFetch(state.data.page + 1, state.data.pageSize, currentSort, _filter)(fetchData, dispatch)
+  }, [sort, setSort, state.data.pageSize, fetchData, dispatch, handleDataFetch, state.data.page, _filter])
 
   const onPageSizeChange = useCallback((pageSize, pageIndex) => {
-    handleDataFetch(pageIndex + 1, pageSize, sort)(fetchData, dispatch)
-  }, [dispatch, fetchData, sort])
+    handleDataFetch(pageIndex + 1, pageSize, sort, _filter)(fetchData, dispatch)
+  }, [dispatch, fetchData, sort, _filter])
 
   const extendedColumns = useMemo(() => {
     return columns.map(column => ({

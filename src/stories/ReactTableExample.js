@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import '../components/Table/ReactTable.css'
 import { ReactTable, Button, Stack } from '../components'
 import axios from 'axios'
@@ -91,14 +91,28 @@ const columns = [
 export const ReactTableExample = props => {
   const refresh = useEvent('refresh-example-table')
   const filter = useEvent('filter-example-table')
+  const [filterState, setFilterState] = useState({})
 
   const handleRefresh = useCallback(() => {
     refresh(1)
   }, [refresh])
 
+  const toggleFilter = useCallback(() => {
+    if (filterState.gender === 'female') {
+      setFilterState({})
+      return {}
+    }
+
+    if (filterState.gender === undefined) {
+      setFilterState({ gender: 'female' })
+      return { gender: 'female' }
+    }
+  }, [filterState.gender])
+
   const handleFilter = useCallback(() => {
-    filter(1, { gender: 'female' })
-  }, [filter])
+    const newFilter = toggleFilter()
+    filter(1, newFilter)
+  }, [filter, toggleFilter])
 
   return (
     <>
