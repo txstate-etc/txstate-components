@@ -67,7 +67,7 @@ export interface IDataResponse<T> {
   lastPage: number
 }
 
-export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort) => IDataResponse<T> | Promise<IDataResponse<T>>
+export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort, filter: any) => IDataResponse<T> | Promise<IDataResponse<T>>
 
 export interface ReactTableProps {
   id?: string

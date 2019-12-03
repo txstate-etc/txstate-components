@@ -35,7 +35,7 @@ const dataReducer = (state, action) => {
   }
 }
 
-const handleDataFetch = (page, pageSize, sort) => async (promise, dispatch) => {
+const handleDataFetch = (page, pageSize, sort, filter) => async (promise, dispatch) => {
   dispatch({ type: 'load' })
   if (page < 0) {
     dispatch({ type: 'failure', error: new Error('Cannot fetch page below 1') })
@@ -43,7 +43,7 @@ const handleDataFetch = (page, pageSize, sort) => async (promise, dispatch) => {
   }
 
   try {
-    const results = await promise(page, pageSize, sort)
+    const results = await promise(page, pageSize, sort, filter)
     const data = {
       ...results,
       page: page - 1,
@@ -105,9 +105,14 @@ export const ReactTable = props => {
 
   const refetchData = useCallback((page) => {
     handleDataFetch(page, state.data.pageSize, sort)(fetchData, dispatch)
-  }, [state.data.pageSize, fetchData, dispatch])
+  }, [state.data.pageSize, fetchData, dispatch, sort])
+
+  const fetchFilteredData = useCallback((page, filter) => {
+    handleDataFetch(page, state.data.pageSize, sort, filter)(fetchData, dispatch)
+  }, [state.data.pageSize, fetchData, dispatch, sort])
 
   useEvent(`refresh-${_id.current}`, refetchData)
+  useEvent(`filter-${_id.current}`, fetchFilteredData)
 
   useEffect(() => {
     handleDataFetch(state.data.page + 1, state.data.pageSize, sort)(fetchData, dispatch)

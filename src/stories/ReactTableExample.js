@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import '../components/Table/ReactTable.css'
-import { ReactTable, Button } from '../components'
+import { ReactTable, Button, Stack } from '../components'
 import axios from 'axios'
 import get from 'lodash/get'
 import { useEvent } from '../hooks'
@@ -10,7 +10,9 @@ const randomUser = axios.create({
 })
 
 const api = {
-  async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }) {
+  async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }, filter = {}) {
+    const gender = filter.gender
+    console.log('Gender: ', gender)
     const totalResults = 59
     await new Promise(resolve => setTimeout(resolve, 300))
     const start = (page - 1) * pageSize
@@ -22,7 +24,7 @@ const api = {
 
     switch (sort.order) {
       case 'asc':
-        const ascendingResults = await randomUser.get(`?results=${totalResults}&seed=potluck`)
+        const ascendingResults = await randomUser.get(`?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
         ascendingResults.data.results.sort((a, b) => {
           if (get(a, sort.column) > get(b, sort.column)) return 1
           if (get(a, sort.column) < get(b, sort.column)) return -1
@@ -34,7 +36,7 @@ const api = {
           lastPage: Math.ceil(totalResults / pageSize)
         }
       case 'desc':
-        const descendingResults = await randomUser.get(`?results=${totalResults}&seed=potluck`)
+        const descendingResults = await randomUser.get(`?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
         descendingResults.data.results.sort((a, b) => {
           if (get(a, sort.column) > get(b, sort.column)) return -1
           if (get(a, sort.column) < get(b, sort.column)) return 1
@@ -46,7 +48,7 @@ const api = {
           lastPage: Math.ceil(totalResults / pageSize)
         }
       default:
-        const unsortedResults = await randomUser.get(`?page=${page + 1}&results=${pageSize}&seed=potluck`)
+        const unsortedResults = await randomUser.get(`?gender=${gender}&page=${page + 1}&results=${pageSize}${gender ? '' : '&seed=potluck'}`)
         if (isLastPage) {
           unsortedResults.data.results = unsortedResults.data.results.slice(0, totalResults % pageSize)
         }
@@ -72,20 +74,29 @@ const capitalize = (selector) => (value) => {
 const columns = [
   buildColumn('First Name', 'name.first', capitalize('name.first')),
   buildColumn('Last Name', 'name.last', capitalize('name.last')),
+  buildColumn('Gender', 'gender'),
   buildColumn('Age', 'dob.age'),
   buildColumn('Phone', 'phone')
 ]
 
 export const ReactTableExample = props => {
   const refresh = useEvent('refresh-example-table')
+  const filter = useEvent('filter-example-table')
 
   const handleRefresh = useCallback(() => {
     refresh(1)
   }, [refresh])
 
+  const handleFilter = useCallback(() => {
+    filter(1, { gender: 'female' })
+  }, [filter])
+
   return (
     <>
-      <Button label='Refresh' onClick={handleRefresh} />
+      <Stack horizontal spacing={16}>
+        <Button label='Refresh' onClick={handleRefresh} />
+        <Button label='Ladies Night' onClick={handleFilter} />
+      </Stack>
       <ReactTable
         showPageSizeOptions
         className='-highlight'
