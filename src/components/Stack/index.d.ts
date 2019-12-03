@@ -1,8 +1,8 @@
-import * as React from 'react';
+import * as React from 'react'
 
-export type StackVerticalAlign = "start" | "center" | "end" | "space-evenly" | "space-between" | "space-around" | "stretch" | "baseline";
+export type StackVerticalAlign = 'start' | 'center' | 'end' | 'space-evenly' | 'space-between' | 'space-around' | 'stretch' | 'baseline';
 
-export type StackHorizontalAlign = "start" | "center" | "end" | "space-evenly" | "space-between" | "space-around" | "stretch" | "baseline";
+export type StackHorizontalAlign = 'start' | 'center' | 'end' | 'space-evenly' | 'space-between' | 'space-around' | 'stretch' | 'baseline';
 
 export type StackRenderAs = string | React.ReactElement<any>;
 
@@ -24,7 +24,7 @@ export interface StackProps {
    */
   spacing?: number;
   /**
-   * If true, items in the stack will wrap 
+   * If true, items in the stack will wrap
    */
   wrap?: boolean;
   /**
@@ -32,7 +32,7 @@ export interface StackProps {
    */
   renderAs?: StackRenderAs;
   style?: any;
+  className?: string;
 }
 
-export const Stack: React.FC<StackProps>;
-
+export const Stack: React.FC<StackProps>

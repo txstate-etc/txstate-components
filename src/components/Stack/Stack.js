@@ -69,7 +69,8 @@ Stack.propTypes = {
   /** Spacing between children. Does not provide margin or padding in the stack itself. */
   spacing: PropTypes.number,
   /** Render the stack as a different html element */
-  renderAs: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+  renderAs: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  className: PropTypes.string
 }
 
 Stack.defaultProps = {

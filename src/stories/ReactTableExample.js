@@ -4,6 +4,15 @@ import { ReactTable, Button, Stack } from '../components'
 import axios from 'axios'
 import get from 'lodash/get'
 import { useEvent } from '../hooks'
+import styled from 'styled-components'
+
+const Buttons = styled(Stack)`
+  width: fit-content;
+  padding: 8px;
+  &.active {
+    background-color: tomato;
+  }
+`
 
 const randomUser = axios.create({
   baseURL: 'https://randomuser.me/api'
@@ -93,10 +102,10 @@ export const ReactTableExample = props => {
 
   return (
     <>
-      <Stack horizontal spacing={16}>
+      <Buttons horizontal spacing={16} className='active'>
         <Button label='Refresh' onClick={handleRefresh} />
         <Button label='Ladies Night' onClick={handleFilter} />
-      </Stack>
+      </Buttons>
       <ReactTable
         showPageSizeOptions
         className='-highlight'
