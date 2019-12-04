@@ -72,6 +72,8 @@ const initialState = (pageSize) => ({
 export const ReactTable = props => {
   const {
     id,
+    minRows,
+    noDataText,
     columns,
     defaultPageSize,
     pageSizeOptions,
@@ -200,7 +202,8 @@ export const ReactTable = props => {
       getNoDataProps={getNoDataProps}
       getResizerProps={getResizerProps}
       PaginationComponent={Pagination}
-      minRows={0}
+      minRows={minRows || 0}
+      noDataText={state.loading ? '' : noDataText}
       showPaginationTop
       showPaginationBottom
     />
@@ -217,6 +220,8 @@ ReactTable.defaultProps = {
 
 ReactTable.propTypes = {
   id: PropTypes.string,
+  minRows: PropTypes.number,
+  noDataText: PropTypes.string,
   className: PropTypes.string,
   defaultPageSize: PropTypes.number,
   fetchData: PropTypes.func.isRequired,

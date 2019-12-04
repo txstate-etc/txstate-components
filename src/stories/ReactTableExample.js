@@ -20,6 +20,13 @@ const randomUser = axios.create({
 
 const api = {
   async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }, filter = {}) {
+    if (filter.empty) {
+      return {
+        list: [],
+        lastPage: 1
+      }
+    }
+
     const gender = filter.gender
     console.log('Gender: ', gender)
     const totalResults = 59
@@ -91,6 +98,7 @@ const columns = [
 export const ReactTableExample = props => {
   const refresh = useEvent('refresh-example-table')
   const filter = useEvent('filter-example-table')
+  const [minRows, setMinRows] = useState(10)
   const [filterState, setFilterState] = useState({})
 
   const handleRefresh = useCallback(() => {
@@ -99,35 +107,66 @@ export const ReactTableExample = props => {
 
   const toggleFilter = useCallback(() => {
     if (filterState.gender === 'female') {
-      setFilterState({})
-      return {}
+      const newFilter = {
+        ...filterState
+      }
+      delete newFilter.gender
+      setFilterState(newFilter)
+      return newFilter
+    } else {
+      const newFilter = {
+        ...filterState,
+        gender: 'female'
+      }
+      setFilterState(newFilter)
+      return newFilter
     }
-
-    if (filterState.gender === undefined) {
-      setFilterState({ gender: 'female' })
-      return { gender: 'female' }
-    }
-  }, [filterState.gender])
+  }, [filterState])
 
   const handleFilter = useCallback(() => {
     const newFilter = toggleFilter()
     filter(1, newFilter)
   }, [filter, toggleFilter])
 
+  const handleEmptyFilter = useCallback(() => {
+    const newFilter = {
+      ...filterState
+    }
+
+    if (newFilter.empty === true) {
+      newFilter.empty = false
+    } else {
+      newFilter.empty = true
+    }
+    setFilterState(newFilter)
+    filter(1, newFilter)
+  }, [filter, filterState])
+
   return (
     <>
       <Buttons horizontal spacing={16} className='active'>
         <Button label='Refresh' onClick={handleRefresh} />
-        <Button label='Ladies Night' onClick={handleFilter} />
+        <Button variant={filterState.gender ? 'primary' : 'outline'} label='Ladies Night' onClick={handleFilter} />
+        <Button variant={filterState.empty ? 'primary' : 'outline'} label={filterState.empty ? 'Full' : 'Empty'} onClick={handleEmptyFilter} />
       </Buttons>
       <ReactTable
-        showPageSizeOptions
+        minRows={minRows}
+        noDataText={'We couldn\'t find any people'}
         className='-highlight'
+        showPageSizeOptions
         showPageJump
         pageSizeOptions={[5, 10, 15, 20, 60, 200]}
-        defaultPageSize={60}
+        defaultPageSize={20}
         id='example-table'
-        fetchData={api.getPeople}
+        fetchData={async (page, pageSize, sort, filter) => {
+          const results = await api.getPeople(page, pageSize, sort, filter)
+          if (results.list.length > 0) {
+            setMinRows(0)
+          } else {
+            setMinRows(10)
+          }
+          return results
+        }}
         columns={columns}
       />
     </>

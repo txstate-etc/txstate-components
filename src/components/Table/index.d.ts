@@ -71,6 +71,8 @@ export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort, fil
 
 export interface ReactTableProps {
   id?: string
+  minRows?: number
+  noDataText?: string
   className?: string
   fetchData: FetchFunction<T>
   defaultPageSize?: number
