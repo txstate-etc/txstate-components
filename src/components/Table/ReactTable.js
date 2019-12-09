@@ -121,7 +121,7 @@ export const ReactTable = props => {
 
   useEffect(() => {
     handleDataFetch(state.data.page + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)
-  }, [fetchData, dispatch, _filter])
+  }, [])
 
   const onPageChange = useCallback((pageId) => {
     handleDataFetch(pageId + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)

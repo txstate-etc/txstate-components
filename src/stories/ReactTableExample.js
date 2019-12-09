@@ -20,6 +20,7 @@ const randomUser = axios.create({
 
 const api = {
   async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }, filter = {}) {
+    console.log('Getting People')
     if (filter.empty) {
       return {
         list: [],
