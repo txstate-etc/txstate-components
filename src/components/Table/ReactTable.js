@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import shortid from 'shortid'
 import get from 'lodash/get'
 import { useEvent } from '../../hooks'
+import useComponentDidMount from '../../hooks/useComponentDidMount'
 
 const dataReducer = (state, action) => {
   switch (action.type) {
@@ -119,9 +120,9 @@ export const ReactTable = props => {
   useEvent(`refresh-${_id.current}`, refetchData)
   useEvent(`filter-${_id.current}`, fetchFilteredData)
 
-  useEffect(() => {
+  useComponentDidMount(() => {
     handleDataFetch(state.data.page + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)
-  }, [])
+  })
 
   const onPageChange = useCallback((pageId) => {
     handleDataFetch(pageId + 1, state.data.pageSize, sort, _filter)(fetchData, dispatch)
