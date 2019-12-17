@@ -1,4 +1,11 @@
-import * as React from 'react';
+import * as React from 'react'
+import { EditorState } from 'draft-js'
 
-export const Editor: React.FC;
+interface IEditorProps {
+  onChange?: (value: any) => any
+  value?: EditorState,
+  customOptions?: React.ElementType[]
+}
+
+export const Editor: React.FC<IEditorProps>
 

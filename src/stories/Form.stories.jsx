@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, useCallback } from 'react'
+import React, { useRef, useState, useImperativeHandle, useCallback } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
 import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import get from 'lodash/get'
 import { TagItem } from '../components/TagItem'
 import { TagPicker } from '../components/Form/TagPicker/TagPicker'
+import { Editor, Modifier, EditorState } from 'draft-js'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
@@ -32,7 +33,6 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
 
 const FormInputs = styled(Stack)`
   width: 400px;
-  height: 800px;
   display: flex;
   flex-direction: column;
 `
@@ -198,6 +198,80 @@ const IndexedErrorForm = () => {
   )
 }
 
+const CustomRichText = styled(RichText)`
+  &.editor {
+    max-height: 400px;
+  }
+`
+
+const Preview = styled.div`
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  width: 100%;
+  font-family: 'sans-serif';
+`
+
+const Tokens = styled(Stack)``
+const Token = styled.span`
+  border: solid 1px #808080;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #363534;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #DADADA;
+  }
+`
+
+const OptionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 6px;
+`
+
+const CustomOption = props => {
+  const addStar = () => {
+    const { onChange, editorState } = props
+
+    const contentState = Modifier.replaceText(
+      editorState.getCurrentContent(),
+      editorState.getSelection(),
+      '⭐',
+      editorState.getCurrentInlineStyle()
+    )
+    onChange(EditorState.push(editorState, contentState, 'insert-characters'))
+  }
+
+  return (
+    <OptionContainer onClick={addStar}>⭐</OptionContainer>
+  )
+}
+
+const EmailTokenInsert = () => {
+  const [html, setHtml] = useState('')
+  const tokens = [
+    { name: 'Overdue' },
+    { name: 'Needs Review' },
+    { name: 'Borked' },
+    { name: 'F*$#@d' }
+  ]
+  return (
+    <Form onChange={({form}) => setHtml(form.email)}>
+      <Stack spacing={16}>
+        <Tokens horizontal wrap spacing={12}>
+          {tokens.map(token => <Token>{token.name}</Token>)}
+        </Tokens>
+        <CustomRichText path='email' customOptions={[CustomOption]}/>
+        <Preview dangerouslySetInnerHTML={{__html: html}} />
+      </Stack>
+    </Form>
+  )
+}
+
 storiesOf('Form|Simple', module)
   .add('basic', () => {
     return <FormExample />
@@ -207,4 +281,7 @@ storiesOf('Form|Simple', module)
   })
   .add('indexed error tracking', () => {
     return <IndexedErrorForm />
+  })
+  .add('email token insertion', () => {
+    return <EmailTokenInsert />
   })

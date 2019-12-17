@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { ErrorMessage } from '../ErrorMessage'
 
 export const RichText = props => {
-  const { path, className } = props
+  const { path, className, customOptions } = props
   const {
     value,
     error,
@@ -21,16 +21,20 @@ export const RichText = props => {
     extractor: editorState => editorState
   })
 
-  return <React.Fragment>
-    <Editor
-      className={className}
-      value={value}
-      onChange={onChange}
-    />
-    <ErrorMessage error={error} success={success} />
-  </React.Fragment>
+  return (
+    <React.Fragment>
+      <Editor
+        className={className}
+        customOptions={customOptions}
+        value={value}
+        onChange={onChange}
+      />
+      <ErrorMessage error={error} success={success} />
+    </React.Fragment>
+  )
 }
 
 RichText.propTypes = {
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
+  customOptions: PropTypes.arrayOf(PropTypes.elementType)
 }
