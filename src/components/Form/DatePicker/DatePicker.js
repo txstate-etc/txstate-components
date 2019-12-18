@@ -67,5 +67,6 @@ DatePicker.propTypes = {
   mask: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
+  label: PropTypes.string
 }

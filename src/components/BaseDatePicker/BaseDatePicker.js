@@ -88,5 +88,6 @@ BaseDatePicker.propTypes = {
   format: PropTypes.string,
   value: PropTypes.instanceOf(dayjs),
   onChange: PropTypes.func,
-  mask: PropTypes.string
+  mask: PropTypes.string,
+  label: PropTypes.string
 }

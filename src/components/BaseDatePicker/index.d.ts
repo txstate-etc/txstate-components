@@ -8,6 +8,7 @@ export interface BaseDatePickerProps {
   variant?: BaseDatePickerVariant;
   minDate?: Date;
   maxDate?: Date;
+  label?: string;
   emptyLabel?: string;
   format?: string;
   value?: Dayjs;
