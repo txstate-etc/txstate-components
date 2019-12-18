@@ -3,6 +3,7 @@ import * as React from 'react';
 export type DatePickerVariant = "dialog" | "inline" | "static";
 
 export interface DatePickerProps {
+  path: string;
   variant?: DatePickerVariant;
   minDate?: Date;
   maxDate?: Date;

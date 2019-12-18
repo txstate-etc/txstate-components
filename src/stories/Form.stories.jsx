@@ -1,7 +1,7 @@
 import React, { useRef, useState, useImperativeHandle, useCallback } from 'react'
 import { storiesOf } from '@storybook/react'
 import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
-import { TextInput, RichText, Dropdown, RadioGroup } from '../components/Form/Inputs'
+import { TextInput, RichText, Dropdown, RadioGroup, DatePicker } from '../components/Form/Inputs'
 import { useFormInput } from '../hooks'
 import styled from 'styled-components'
 import get from 'lodash/get'
@@ -95,7 +95,7 @@ const FormExample = props => {
           return { errors, success }
         }}
       >
-        <FormInputs>
+        <FormInputs spacing={12}>
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
           <Dropdown styles={{ container: { display: 'none' } }} label='Temperature' path='temperature' options={[{ key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
@@ -110,22 +110,27 @@ const FormExample = props => {
             ]}
           />
           <Checkbox path='agreement' label='I have at least 16 pieces of flair.' />
-          <StyledPicker
-            label='Favorite Ice Cream'
-            ariaLabel='Ice Cream'
-            path='icecream'
-            showSelectedItems={false}
-            items={[
-              { key: 'vanilla', name: 'Vanilla', data: { section: 'yogurt' } },
-              { key: 'strawberry', name: 'Strawberry', data: { section: 'yogurt' } },
-              { key: 'chocolate', name: 'Chocolate', data: { section: 'yogurt' } },
-              { key: 'butter pecan', name: 'Butter pecan', data: { section: 'yogurt' } },
-              { key: 'cookie dough', name: 'Cookie dough', data: { section: 'yogurt' } },
-              { key: 'mint', name: 'Mint', data: { section: 'yogurt' } },
-              { key: 'coffee', name: 'Coffee', data: { section: 'yogurt' } },
-              { key: 'sherbert', name: 'Sherbert', data: { section: 'yogurt' } }
-            ]}
-          />
+          <div>
+            <DatePicker label='Delivery Date' path='date' variant='inline' />
+          </div>
+          <div>
+            <StyledPicker
+              label='Favorite Ice Cream'
+              ariaLabel='Ice Cream'
+              path='icecream'
+              showSelectedItems={false}
+              items={[
+                { key: 'vanilla', name: 'Vanilla', data: { section: 'yogurt' } },
+                { key: 'strawberry', name: 'Strawberry', data: { section: 'yogurt' } },
+                { key: 'chocolate', name: 'Chocolate', data: { section: 'yogurt' } },
+                { key: 'butter pecan', name: 'Butter pecan', data: { section: 'yogurt' } },
+                { key: 'cookie dough', name: 'Cookie dough', data: { section: 'yogurt' } },
+                { key: 'mint', name: 'Mint', data: { section: 'yogurt' } },
+                { key: 'coffee', name: 'Coffee', data: { section: 'yogurt' } },
+                { key: 'sherbert', name: 'Sherbert', data: { section: 'yogurt' } }
+              ]}
+            />
+          </div>
           <StyledRichText
             path='email.html'
           />
