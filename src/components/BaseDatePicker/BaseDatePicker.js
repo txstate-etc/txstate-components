@@ -55,6 +55,7 @@ export const BaseDatePicker = props => {
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         <Label>{label}</Label>
         <KeyboardDatePicker
+          autoOk
           mask={mask}
           format={format}
           placeholder={placeholder}
