@@ -9,10 +9,17 @@ import { Label } from 'office-ui-fabric-react/lib/Label'
 import DayjsUtils from '@date-io/dayjs'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
-import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
+
+// This is the available style options for the date picker
+// import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
 
 const datePickerTheme = createMuiTheme({
   overrides: {
+    MuiFormControl: {
+      root: {
+        width: '100%'
+      }
+    },
     MuiPickersYear: {
       yearSelected: {
         color: '#000000DD'

@@ -32,7 +32,7 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
 })
 
 const FormInputs = styled(Stack)`
-  width: 400px;
+  width: 800px;
   display: flex;
   flex-direction: column;
 `
@@ -110,9 +110,14 @@ const FormExample = props => {
             ]}
           />
           <Checkbox path='agreement' label='I have at least 16 pieces of flair.' />
-          <div>
-            <DatePicker label='Delivery Date' path='date' variant='inline' />
-          </div>
+          <Stack horizontal horizontalAlign='space-between' spacing={12}>
+            <div style={{flex: 1}}>
+              <DatePicker label='Delivery Date' path='date.delivery' variant='inline' />
+            </div>
+            <div style={{flex: 1}}>
+              <DatePicker label='Pickup Date' path='date.pickup' variant='inline' />
+            </div>
+          </Stack>
           <div>
             <StyledPicker
               label='Favorite Ice Cream'
