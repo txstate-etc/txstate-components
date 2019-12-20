@@ -21,6 +21,7 @@ export const TextArea = props => {
 TextArea.propTypes = {
   label: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   name: PropTypes.string,
   styles: PropTypes.object,
   className: PropTypes.string
