@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useFormInput } from '../../../hooks'
 import { BaseDatePicker } from '../../BaseDatePicker'
 import PropTypes from 'prop-types'
@@ -21,9 +21,15 @@ export const DatePicker = props => {
     variant
   } = props
 
+  const initialDate = useMemo(() => {
+    if (initialValue === null) return null
+    if (initialValue === undefined) return dayjs()
+    return initialValue
+  }, [initialValue])
+
   const { value, error, success, onChange } = useFormInput({
     path,
-    initialValue: initialValue || dayjs(),
+    initialValue: initialDate,
     extractor: date => date,
     transformer: date => date && date.format(format)
   })

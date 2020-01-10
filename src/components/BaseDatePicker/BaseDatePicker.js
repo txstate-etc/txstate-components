@@ -72,6 +72,7 @@ export const BaseDatePicker = props => {
           minDate={minDate}
           variant={variant}
           value={value}
+          invalidDateMessage=''
           onChange={onChange}
         />
       </MuiPickersUtilsProvider>
