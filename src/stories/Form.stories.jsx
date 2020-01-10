@@ -8,6 +8,7 @@ import get from 'lodash/get'
 import { TagItem } from '../components/TagItem'
 import { TagPicker } from '../components/Form/TagPicker/TagPicker'
 import { Editor, Modifier, EditorState } from 'draft-js'
+import dayjs from 'dayjs'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
@@ -115,7 +116,7 @@ const FormExample = props => {
               <DatePicker label='Delivery Date' path='date.delivery' variant='inline' initialValue={null} />
             </div>
             <div style={{flex: 1}}>
-              <DatePicker label='Pickup Date' path='date.pickup' variant='inline' />
+              <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24').toDate()} />
             </div>
           </Stack>
           <div>

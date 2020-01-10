@@ -13,6 +13,7 @@ export interface DatePickerProps {
   mask?: string;
   disabled?: boolean;
   placeholder?: string;
+  initialValue?: Date
   label?: string
 }
 
