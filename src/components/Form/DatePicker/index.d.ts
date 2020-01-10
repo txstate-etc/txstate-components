@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+type Maybe<T> = T | null
+
 export type DatePickerVariant = "dialog" | "inline" | "static";
 
 export interface DatePickerProps {
@@ -13,7 +15,7 @@ export interface DatePickerProps {
   mask?: string;
   disabled?: boolean;
   placeholder?: string;
-  initialValue?: Date
+  initialValue?: Maybe<Date>
   label?: string
 }
 
