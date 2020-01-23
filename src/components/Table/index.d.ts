@@ -29,7 +29,7 @@ export interface TableDataSourceResponse<ReturnType = any> {
   total: number
 }
 
-enum SortDirection {
+export enum SortDirection {
   NONE = 'none',
   ASC = 'asc',
   DESC = 'desc'
@@ -67,19 +67,20 @@ export interface IDataResponse<T> {
   lastPage: number
 }
 
-export type FetchFunction<T> = (page: number, pageSize: number, sort: ISort, filter: any) => IDataResponse<T> | Promise<IDataResponse<T>>
+export type FetchFunction = <T>(page: number, pageSize: number, sort: ISort, filter: any) => IDataResponse<T> | Promise<IDataResponse<T>>
 
 export interface ReactTableProps {
   id?: string
   minRows?: number
   noDataText?: string
   className?: string
-  fetchData: FetchFunction<T>
+  fetchData: FetchFunction
+  ButtonRow?: React.FC
   defaultPageSize?: number
   pageSizeOptions?: number[]
   showPageSizeOptions?: boolean
   showPageJump?: boolean
-  columns: Column<T>[]
+  columns: Column[]
   getProps?: ComponentDecoratorProps['getProps']
   getTableProps?: ComponentDecoratorProps['getTableProps']
   getTheadGroupProps?: ComponentDecoratorProps['getTheadGroupProps']

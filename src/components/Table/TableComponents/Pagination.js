@@ -12,7 +12,8 @@ export const Pagination = props => {
     canNext,
     canPrevious,
     onPageChange,
-    onPageSizeChange
+    onPageSizeChange,
+    ButtonRow
   } = props
 
   const currentPage = useMemo(() => {
@@ -41,6 +42,11 @@ export const Pagination = props => {
     }
   }, [pageSize, pageSizeOptions, onPageSizeChange])
 
+  const ButtonRowComponent = useMemo(() => {
+    if (ButtonRow) return () => <ButtonRow isTop={isTop} />
+    return () => null
+  }, [isTop, ButtonRow])
+
   return (
     <Pages
       pageText={pageText}
@@ -55,6 +61,7 @@ export const Pagination = props => {
       handlePageSizeChange={handlePageSizeChange}
       disableNext={!canNext}
       disablePrevious={!canPrevious}
+      ButtonRow={ButtonRowComponent}
     />
   )
 }
