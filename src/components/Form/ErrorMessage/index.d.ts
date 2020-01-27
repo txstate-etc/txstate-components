@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface ErrorProps {
   error?: string,
@@ -7,4 +7,4 @@ export interface ErrorProps {
   SuccessComponent?: React.ElementType
 }
 
-export const ErrorMessage: React.FC<ErrorProps>;
+export const ErrorMessage: React.FC<ErrorProps>

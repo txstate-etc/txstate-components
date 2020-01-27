@@ -4,6 +4,7 @@ import { Theme } from '../../Theme'
 import styled from 'styled-components'
 import { Stack } from '../../Stack'
 import { SvgExclamation, SvgCheckmarkIcon } from '../../Svg'
+import { Announced } from 'office-ui-fabric-react/lib/Announced'
 
 const ErrorContainer = styled(Stack)`
   border-radius: 3px;
@@ -23,14 +24,16 @@ export const ErrorMessage = ({ error, success, ErrorComponent, SuccessComponent 
   if (error && ErrorComponent) return ErrorComponent
   if (success && SuccessComponent) return SuccessComponent
   return (
-    <ErrorContainer horizontal verticalAlign='center' horizontalAlign='space-between' error={error ? 1 : undefined}>
-      <Text variant='small' styles={{ root: { color: error ? Theme.input.error : Theme.input.success } }}>{error || success}</Text>
-      <Square horizontalAlign='center' verticalAlign='center' error={error ? 1 : undefined}>
-        {error
-          ? <SvgExclamation color='#FFF' width={16} height={16} />
-          : <SvgCheckmarkIcon color='#FFF' width={16} height={16} />
-        }
-      </Square>
-    </ErrorContainer>
+    <Announced aria-live="polite" message={error || undefined}>
+      <ErrorContainer horizontal verticalAlign='center' horizontalAlign='space-between' error={error ? 1 : undefined}>
+        <Text variant='small' styles={{ root: { color: error ? Theme.input.error : Theme.input.success } }}>{error || success}</Text>
+        <Square horizontalAlign='center' verticalAlign='center' error={error ? 1 : undefined}>
+          {error
+            ? <SvgExclamation color='#FFF' width={16} height={16} />
+            : <SvgCheckmarkIcon color='#FFF' width={16} height={16} />
+          }
+        </Square>
+      </ErrorContainer>
+    </Announced>
   )
 }
