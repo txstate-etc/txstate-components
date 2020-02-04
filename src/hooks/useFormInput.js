@@ -35,7 +35,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     return isDirty ? {
       error: _error,
       errClass: _error ? 'txst-form-error' : undefined
-    } : { error: '', errClass: '' }
+    } : { error: '', errClass: undefined }
   }, [_error, isDirty])
 
   const _broadcastChange = useEvent(`${formEvent}-data`)
