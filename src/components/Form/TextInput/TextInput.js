@@ -26,7 +26,8 @@ export const TextInput = props => {
     value,
     error,
     success,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     extractor: (e) => e.target.value
@@ -72,8 +73,7 @@ export const TextInput = props => {
   return (
     <>
       <TextField
-        required={required}
-        className={className}
+        className={[className, errClass].join(' ')}
         multiline={multiline}
         autoAdjustHeight={multiline}
         iconProps={iconProps}

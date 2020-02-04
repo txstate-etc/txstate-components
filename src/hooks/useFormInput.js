@@ -117,6 +117,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     isDirty,
     value,
     error,
-    success
+    success,
+    errClass: !!error && 'txst-form-error'
   }
 }

@@ -9,7 +9,8 @@ export const RadioGroup = props => {
   const {
     value,
     error,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     extractor: (event, value) => value
@@ -19,7 +20,7 @@ export const RadioGroup = props => {
     <ChoiceGroup
       id={id}
       options={options}
-      className={className}
+      className={[className, errClass].join(' ')}
       ariaLabel={ariaLabel}
       label={label}
       required={required}

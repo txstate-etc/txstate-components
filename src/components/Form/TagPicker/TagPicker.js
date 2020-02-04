@@ -11,7 +11,8 @@ export const TagPicker = props => {
     value,
     error,
     success,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     initialValue: [],
@@ -22,7 +23,7 @@ export const TagPicker = props => {
 
   return <React.Fragment>
     <BasePicker
-      className={className}
+      className={[className, errClass].join(' ')}
       value={value}
       onChange={onChange}
       items={items}

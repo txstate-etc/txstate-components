@@ -12,7 +12,8 @@ export const RichText = props => {
     value,
     error,
     success,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     transformer: (editorState) => {
@@ -24,7 +25,7 @@ export const RichText = props => {
   return (
     <React.Fragment>
       <Editor
-        className={className}
+        className={[className, errClass].join(' ')}
         customOptions={customOptions}
         value={value}
         onChange={onChange}

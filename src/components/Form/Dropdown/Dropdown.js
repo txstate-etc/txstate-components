@@ -12,7 +12,8 @@ export const Dropdown = React.forwardRef((props, ref) => {
   const {
     value,
     error,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     initialValue: options.find(({ key }) => key === initialSelectedKey)
@@ -22,7 +23,7 @@ export const Dropdown = React.forwardRef((props, ref) => {
     <ComboBox
       ref={ref}
       styles={styles}
-      className={className}
+      className={[className, errClass].join(' ')}
       disabled={disabled}
       selectedKey={value.key}
       onChange={onChange}
