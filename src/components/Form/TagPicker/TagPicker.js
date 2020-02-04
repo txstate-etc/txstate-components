@@ -5,7 +5,7 @@ import { useFormInput } from '../../../hooks'
 import { ErrorMessage } from '../ErrorMessage'
 
 export const TagPicker = props => {
-  const { ariaLabel, label, styles, path, itemLimit, items, className, onRenderItem } = props
+  const { ariaLabel, label, styles, path, itemLimit, items, className, onRenderItem, description } = props
 
   const {
     value,
@@ -31,6 +31,7 @@ export const TagPicker = props => {
       label={label}
       onRenderItem={onRenderItem}
       styles={styles}
+      description={description}
     />
     <ErrorMessage error={error} success={success} />
   </React.Fragment>
@@ -48,5 +49,6 @@ TagPicker.propTypes = {
   itemLimit: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string, name: PropTypes.string })),
   onRenderItem: PropTypes.func,
+  description: PropTypes.string,
   styles: PropTypes.object
 }
