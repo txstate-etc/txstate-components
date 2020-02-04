@@ -31,7 +31,12 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     if (updatedValue !== value) _setValue(updatedValue)
   }, [_setValue, value])
 
-  const error = useMemo(() => isDirty ? _error : '', [_error, isDirty])
+  const { error, errClass } = useMemo(() => {
+    return isDirty ? {
+      error: _error,
+      errClass: _error ? 'txst-form-error' : undefined
+    } : { error: '', errClass: '' }
+  }, [_error, isDirty])
 
   const _broadcastChange = useEvent(`${formEvent}-data`)
   const _broadcastIndexCheck = useEvent(`${formEvent}-index-check`)
@@ -118,6 +123,6 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     value,
     error,
     success,
-    errClass: !!error && 'txst-form-error'
+    errClass
   }
 }

@@ -93,8 +93,8 @@ export const Form = React.forwardRef((props, ref) => {
         setTimeout(() => broadcastValidateResults({ errors: errorResults, success: successResults }), 0)
       } finally {
         broadcastIndexCheck(childCount.current)
-        const firstErrComponent = document.getElementsByClassName('txst-form-error')[0]
-        firstErrComponent && firstErrComponent.getElementsByTagName('input')[0].focus()
+        const firstErrComponent = document.querySelector('.txst-form-error input')
+        firstErrComponent && firstErrComponent.focus()
       }
     }
   }, [onSubmit, broadcastValidateResults, form, errors])
