@@ -25,7 +25,7 @@ export const ErrorMessage = ({ error, success, ErrorComponent, SuccessComponent 
   if (success && SuccessComponent) return SuccessComponent
   return (
     <div>
-      <Announced aria-live="polite" message={error || undefined} />
+      <Announced aria-live="assertive" message={error ? 'Error: ' + error : undefined} />
       <ErrorContainer horizontal verticalAlign='center' horizontalAlign='space-between' error={error ? 1 : undefined}>
         <Text variant='small' styles={{ root: { color: error ? Theme.input.error : Theme.input.success } }}>{error || success}</Text>
         <Square horizontalAlign='center' verticalAlign='center' error={error ? 1 : undefined}>

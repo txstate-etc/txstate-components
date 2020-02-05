@@ -82,16 +82,19 @@ export const Form = React.forwardRef((props, ref) => {
         const results = await onSubmit({ form, errors })
         const errorResults = get(results, 'errors')
         const successResults = get(results, 'success')
-
         if (errorResults || successResults) {
-          broadcastValidateResults({ errors: errorResults, success: successResults })
+          broadcastValidateResults({ errors: {}, success: {} })
+          setTimeout(() => broadcastValidateResults({ errors: errorResults, success: successResults }), 0)
         }
       } catch (results) {
-        const errors = get(results, 'errors')
-        const success = get(results, 'success')
+        const errorResults = get(results, 'errors')
+        const successResults = get(results, 'success')
         broadcastValidateResults({ errors, success })
+        setTimeout(() => broadcastValidateResults({ errors: errorResults, success: successResults }), 0)
       } finally {
         broadcastIndexCheck(childCount.current)
+        const firstErrComponent = document.querySelector('.txst-form-error input')
+        firstErrComponent && firstErrComponent.focus()
       }
     }
   }, [onSubmit, broadcastValidateResults, form, errors])

@@ -22,7 +22,8 @@ export const TimePicker = props => {
     value,
     error,
     success,
-    onChange
+    onChange,
+    errClass
   } = useFormInput({
     path,
     initialValue,
@@ -33,6 +34,7 @@ export const TimePicker = props => {
   return <React.Fragment>
     <BaseTimePicker
       value={value}
+      className={errClass}
       onChange={onChange}
       variant={variant}
       emptyLabel={emptyLabel}

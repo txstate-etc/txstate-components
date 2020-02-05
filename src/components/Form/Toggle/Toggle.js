@@ -10,7 +10,8 @@ export const Toggle = props => {
   const {
     onChange,
     error,
-    success
+    success,
+    errClass
   } = useFormInput({
     path,
     extractor: value => value
@@ -19,6 +20,7 @@ export const Toggle = props => {
   return <React.Fragment>
     <Switch
       size={size}
+      className={ errClass}
       label={label}
       onValueChange={onChange}
       on={defaultOn}
