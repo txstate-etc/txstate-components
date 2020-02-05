@@ -82,6 +82,7 @@ export const ReactTable = props => {
     showPageSizeOptions,
     showPageJump,
     className,
+    ButtonRow,
     getProps,
     getTableProps,
     getTheadGroupProps,
@@ -202,7 +203,7 @@ export const ReactTable = props => {
       getLoadingProps={getLoadingProps}
       getNoDataProps={getNoDataProps}
       getResizerProps={getResizerProps}
-      PaginationComponent={Pagination}
+      PaginationComponent={(props) => <Pagination {...props} ButtonRow={ButtonRow} />}
       minRows={minRows || 0}
       noDataText={state.loading ? '' : noDataText}
       showPaginationTop
@@ -226,6 +227,7 @@ ReactTable.propTypes = {
   className: PropTypes.string,
   defaultPageSize: PropTypes.number,
   fetchData: PropTypes.func.isRequired,
+  ButtonRow: PropTypes.elementType,
   pageSize: PropTypes.number,
   showPageSizeOptions: PropTypes.bool,
   showPageJump: PropTypes.bool,

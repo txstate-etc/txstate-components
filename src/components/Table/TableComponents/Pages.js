@@ -39,7 +39,8 @@ export const Pages = props => {
     handlePageJump,
     handlePageSizeChange,
     disableNext,
-    disablePrevious
+    disablePrevious,
+    ButtonRow
   } = props
 
   const nextColor = useMemo(() => disableNext ? '#c4c4c4' : '#363534', [disableNext])
@@ -47,27 +48,32 @@ export const Pages = props => {
   const pageText = useMemo(() => lastPage === 1 ? 'page' : 'pages', [lastPage])
 
   return (
-    <PageContainer horizontal horizontalAlign='end' verticalAlign='center' spacing={6}>
-      <RowsPicker
-        isTop={isTop}
-        pageSize={pageSize}
-        pageSizeOptions={pageSizeOptions}
-        handlePageSizeChange={handlePageSizeChange}
-      />
-      <CurrentPage
-        handlePageJump={handlePageJump}
-        page={page}
-      />
-      <OfText>of</OfText>
-      <TotalPages>{lastPage}</TotalPages>
-      <PageText>{pageText}</PageText>
-      <Stack horizontal spacing={8}>
-        <Prev horizontalAlign='center' veritcalAlign='center' disabled={disablePrevious} onClick={handlePrev}>
-          <SvgChevronIcon width={28} height={28} fill={prevColor} />
-        </Prev>
-        <Next disabled={disableNext} onClick={handleNext} horizontalAlign='center' veritcalAlign='center' >
-          <SvgChevronIcon width={28} height={28} fill={nextColor} />
-        </Next>
+    <PageContainer horizontal horizontalAlign='space-between' verticalAlign='center' spacing={6}>
+      <Stack horizontal horizontalAlign='end' style={{flex: 1}}>
+        {ButtonRow && <ButtonRow />}
+      </Stack>
+      <Stack horizontal horizontalAlign='end' verticalAlign='center' spacing={6}>
+        <RowsPicker
+          isTop={isTop}
+          pageSize={pageSize}
+          pageSizeOptions={pageSizeOptions}
+          handlePageSizeChange={handlePageSizeChange}
+        />
+        <CurrentPage
+          handlePageJump={handlePageJump}
+          page={page}
+        />
+        <OfText>of</OfText>
+        <TotalPages>{lastPage}</TotalPages>
+        <PageText>{pageText}</PageText>
+        <Stack horizontal spacing={8}>
+          <Prev horizontalAlign='center' veritcalAlign='center' disabled={disablePrevious} onClick={handlePrev}>
+            <SvgChevronIcon width={28} height={28} fill={prevColor} />
+          </Prev>
+          <Next disabled={disableNext} onClick={handleNext} horizontalAlign='center' veritcalAlign='center' >
+            <SvgChevronIcon width={28} height={28} fill={nextColor} />
+          </Next>
+        </Stack>
       </Stack>
     </PageContainer>
   )

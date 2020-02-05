@@ -11,15 +11,14 @@ import { Editor, Modifier, EditorState } from 'draft-js'
 import dayjs from 'dayjs'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
-  const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems } = props
+  const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems, description } = props
 
   const onRenderItem = (props) => {
     if (props.key === 'chocolate') {
-      return <TagItem {...props} styles={{ root: { selectors: { ':hover': { background: 'salmon' } }, background: 'hotpink' }}}>{props.key}</TagItem>
-    }
-    else return <TagItem {...props}>{props.key}</TagItem>
+      return <TagItem {...props} styles={{ root: { selectors: { ':hover': { background: 'salmon' } }, background: 'hotpink' } }}>{props.key}</TagItem>
+    } else return <TagItem {...props}>{props.key}</TagItem>
   }
-  
+
   return (
     <TagPicker
       path={path}
@@ -28,6 +27,7 @@ const MetaDataTagPicker = React.forwardRef((props, ref) => {
       itemLimit={itemLimit}
       label={label}
       onRenderItem={onRenderItem}
+      description={description}
     />
   )
 })
@@ -51,6 +51,11 @@ const StyledRichText = styled(RichText)`
 `
 
 const FormExample = props => {
+  const handleSubmit = useCallback(async ({ form, errors }) => {
+    errors.name.first = 'test'
+    return { errors }
+  })
+
   return (
     <Stack spacing={12}>
       <Form
@@ -61,19 +66,7 @@ const FormExample = props => {
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
           ]
         }}
-        onSubmit={async ({ form, errors }) => {
-          console.log('FORM: ', form)
-          const lastName = get(form, 'name.last')
-          if (lastName) {
-            return {
-              success: {
-                name: {
-                  last: 'This is a great last name!'
-                }
-              }
-            }
-          }
-        }}
+        onSubmit={handleSubmit}
         validate={async (form) => {
           const errors = {}
           const success = {}
@@ -99,7 +92,6 @@ const FormExample = props => {
         <FormInputs spacing={12}>
           <StyledInput label='First Name' path='name.first' />
           <StyledInput label='Last Name' path='name.last' />
-          <Dropdown styles={{ container: { display: 'none' } }} label='Temperature' path='temperature' options={[{ key: 'hot', text: 'Hot' }, { key: 'cold', text: 'Cold' }]} />
           <RadioGroup
             path='swallowType'
             label='Swallow Type'
@@ -110,12 +102,13 @@ const FormExample = props => {
               { key: 'european', text: 'European' }
             ]}
           />
+          <Dropdown path='test' label='test' options={[{ key: 'test', text: 'test' }]} className='test123' />
           <Checkbox path='agreement' label='I have at least 16 pieces of flair.' />
           <Stack horizontal horizontalAlign='space-between' spacing={12}>
-            <div style={{flex: 1}}>
+            <div style={{ flex: 1 }}>
               <DatePicker label='Delivery Date' path='date.delivery' variant='inline' initialValue={null} />
             </div>
-            <div style={{flex: 1}}>
+            <div style={{ flex: 1 }}>
               <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24').toDate()} />
             </div>
           </Stack>
@@ -125,6 +118,7 @@ const FormExample = props => {
               ariaLabel='Ice Cream'
               path='icecream'
               showSelectedItems={false}
+              description='sometimes i like to describe things'
               items={[
                 { key: 'vanilla', name: 'Vanilla', data: { section: 'yogurt' } },
                 { key: 'strawberry', name: 'Strawberry', data: { section: 'yogurt' } },
@@ -271,13 +265,13 @@ const EmailTokenInsert = () => {
     { name: 'F*$#@d' }
   ]
   return (
-    <Form onChange={({form}) => setHtml(form.email)}>
+    <Form onChange={({ form }) => setHtml(form.email)}>
       <Stack spacing={16}>
         <Tokens horizontal wrap spacing={12}>
           {tokens.map(token => <Token>{token.name}</Token>)}
         </Tokens>
         <CustomRichText path='email' customOptions={[CustomOption]}/>
-        <Preview dangerouslySetInnerHTML={{__html: html}} />
+        <Preview dangerouslySetInnerHTML={{ __html: html }} />
       </Stack>
     </Form>
   )

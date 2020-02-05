@@ -96,6 +96,16 @@ const columns = [
   buildColumn('Phone', 'phone')
 ]
 
+const MyAwesomeButtonRow = ({ isTop }) => {
+  console.log('Is Top: ', isTop)
+  return isTop ? (
+    <Stack horizontal horizontalAlign='end' spacing={8} style={{ flex: 1 }}>
+      <Button label='Download CSV' />
+      <Button label='Upload CSV' />
+    </Stack>
+  ) : null
+}
+
 export const ReactTableExample = props => {
   const refresh = useEvent('refresh-example-table')
   const filter = useEvent('filter-example-table')
@@ -152,6 +162,7 @@ export const ReactTableExample = props => {
       </Buttons>
       <ReactTable
         minRows={minRows}
+        ButtonRow={MyAwesomeButtonRow}
         noDataText={'We couldn\'t find any people'}
         className='-highlight'
         showPageSizeOptions
