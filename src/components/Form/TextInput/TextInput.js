@@ -73,6 +73,7 @@ export const TextInput = props => {
   return (
     <>
       <TextField
+        required={required}
         className={[className, errClass].join(' ')}
         multiline={multiline}
         autoAdjustHeight={multiline}
