@@ -129,7 +129,7 @@ export const Form = React.forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
 
-  const validateOnChange = useCallback(async (form, submit?) => {
+  const validateOnChange = useCallback(async (form, submit = false) => {
     try {
       if (typeof validate !== 'function') return
       const results = await validate(form)
