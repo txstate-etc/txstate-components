@@ -99,7 +99,6 @@ export const Form = React.forwardRef((props, ref) => {
   }, [notifyChildrenReady])
 
   const submitForm = useCallback(async () => {
-    console.log(runValidateOnSubmit)
     if (runValidateOnSubmit) {
       broadcastSetAllDirty()
       const { errors, success } = await validateOnChange(form, true)
