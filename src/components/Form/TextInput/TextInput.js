@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, useEffect, useRef } from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import PropTypes from 'prop-types'
-import { useFormInput } from '../../../hooks'
+import { useFormInput, useEvent } from '../../../hooks'
 import { Theme } from '../../Theme'
 import { ErrorMessage } from '../ErrorMessage'
 
@@ -27,11 +27,15 @@ export const TextInput = props => {
     error,
     success,
     onChange,
-    errClass
+    errClass,
+    focus
   } = useFormInput({
     path,
     extractor: (e) => e.target.value
   })
+
+  const ref = useRef()
+  useEffect(() => { focus && ref.current.focus() }, [focus])
 
   const onRenderDescription = useCallback((props) => {
     return <ErrorMessage error={error} ErrorComponent={ErrorComponent} success={success} SuccessComponent={SuccessComponent} />
@@ -88,6 +92,7 @@ export const TextInput = props => {
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
+        componentRef={ref}
       />
     </>
   )

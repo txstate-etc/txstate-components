@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BasePicker } from '../../BasePicker'
 import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'
@@ -12,7 +12,8 @@ export const TagPicker = props => {
     error,
     success,
     onChange,
-    errClass
+    errClass,
+    focus
   } = useFormInput({
     path,
     initialValue: [],
@@ -20,6 +21,9 @@ export const TagPicker = props => {
       return e
     }
   })
+
+  const ref = useRef()
+  useEffect(() => { ref.current.focusInput() }, [focus])
 
   return <React.Fragment>
     <BasePicker
@@ -33,6 +37,7 @@ export const TagPicker = props => {
       onRenderItem={onRenderItem}
       styles={styles}
       description={description}
+      componentRef={ref}
     />
     <ErrorMessage error={error} success={success} />
   </React.Fragment>

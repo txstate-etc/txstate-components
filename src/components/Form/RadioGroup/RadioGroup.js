@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { ChoiceGroup } from '../../ChoiceGroup'
 import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
@@ -10,11 +10,15 @@ export const RadioGroup = props => {
     value,
     error,
     onChange,
-    errClass
+    errClass,
+    focus
   } = useFormInput({
     path,
     extractor: (event, value) => value
   })
+
+  const ref = useRef()
+  useEffect(() => { focus && ref.current.focus() }, [focus])
 
   return (
     <ChoiceGroup
@@ -29,6 +33,7 @@ export const RadioGroup = props => {
       initialSelectedKey={initialSelectedKey}
       styles={styles}
       error={error}
+      componentRef={ref}
     />
   )
 }

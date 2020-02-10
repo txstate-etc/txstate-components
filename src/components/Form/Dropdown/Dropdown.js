@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useFormInput } from '../../../hooks'
 import { ComboBox } from 'office-ui-fabric-react/lib/ComboBox'
 import PropTypes from 'prop-types'
@@ -13,12 +13,16 @@ export const Dropdown = React.forwardRef((props, ref) => {
     value,
     error,
     onChange,
-    errClass
+    errClass,
+    focus
   } = useFormInput({
     path,
     initialValue: options.find(({ key }) => key === initialSelectedKey)
   })
 
+  const componentRef = useRef()
+
+  useEffect(() => { focus && componentRef.current.focus() }, [focus])
   return (
     <ComboBox
       ref={ref}
@@ -32,6 +36,8 @@ export const Dropdown = React.forwardRef((props, ref) => {
       options={options}
       errorMessage={error}
       useComboBoxAsMenuWidth
+      focus={focus}
+      componentRef={componentRef}
     />
   )
 })

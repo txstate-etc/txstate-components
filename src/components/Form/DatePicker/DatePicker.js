@@ -27,7 +27,7 @@ export const DatePicker = props => {
     return initialValue
   }, [initialValue])
 
-  const { value, error, success, onChange } = useFormInput({
+  const { value, error, success, onChange, focus } = useFormInput({
     path,
     initialValue: initialDate,
     extractor: date => date,

@@ -16,6 +16,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   })
   const [_error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [focus, setFocus] = useState(false)
 
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
@@ -51,6 +52,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   }, [_broadcastChange, isDirty, setDirty])
 
   const registerSelf = useEvent(`${formEvent}-register-self`)
+  const errorReport = useEvent(`${formEvent}-error-report`)
 
   const handleFormReady = useCallback((initialState) => {
     const initialValue = get(initialState, path)
@@ -63,9 +65,11 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   const handleValidation = useCallback(result => {
     const errorMessage = get(result, `errors.${path}`)
     const successMessage = get(result, `success.${path}`)
+    const submit = get(result, 'submit')
 
     setError(errorMessage || '')
     setSuccess(successMessage || '')
+    submit && errorReport({ inputEvent, error: !!errorMessage })
   }, [setError, setSuccess])
 
   const handleUpdateState = useCallback(state => {
@@ -85,11 +89,23 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     }
   }, [setDirty])
 
+  const handleSetAllDirty = useCallback(() => {
+    setDirty(true)
+  }, [setDirty])
+
+  // Trigger useEffect in component that focuses input. Don't leave it on so that it can be set again
+  const handleFocus = useCallback(() => {
+    setFocus(true)
+    setFocus(false)
+  }, [])
+
   useEvent(`${formEvent}-form-ready`, handleFormReady)
   useEvent(`${formEvent}-update-state`, handleUpdateState)
   useEvent(`${formEvent}-validate-result`, handleValidation)
   useEvent(`${inputEvent}-update-index`, handleUpdateIndex)
   useEvent(`${formEvent}-index-check`, handleIndexCheck)
+  useEvent(`${formEvent}-set-all-dirty`, handleSetAllDirty)
+  useEvent(`${inputEvent}-go-focus-yourself`, handleFocus)
 
   const updateFormValue = useCallback((updatedValue) => {
     setValue(updatedValue)
@@ -123,6 +139,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     value,
     error,
     success,
-    errClass
+    errClass,
+    focus
   }
 }

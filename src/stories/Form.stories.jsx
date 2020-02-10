@@ -52,7 +52,6 @@ const StyledRichText = styled(RichText)`
 
 const FormExample = props => {
   const handleSubmit = useCallback(async ({ form, errors }) => {
-    errors.name.first = 'test'
     return { errors }
   })
 
@@ -67,6 +66,7 @@ const FormExample = props => {
           ]
         }}
         onSubmit={handleSubmit}
+        runValidateOnSubmit
         validate={async (form) => {
           const errors = {}
           const success = {}
