@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useEffect, useRef } from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import PropTypes from 'prop-types'
-import { useFormInput, useEvent } from '../../../hooks'
+import { useFormInput } from '../../../hooks'
 import { Theme } from '../../Theme'
 import { ErrorMessage } from '../ErrorMessage'
 
