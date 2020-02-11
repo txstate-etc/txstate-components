@@ -17,7 +17,6 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   })
   const [_error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [focus, setFocus] = useState(false)
 
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
