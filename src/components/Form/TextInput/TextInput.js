@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect, useRef } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { TextField } from 'office-ui-fabric-react/lib/TextField'
 import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'
