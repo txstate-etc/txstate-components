@@ -13,7 +13,7 @@ export const TagPicker = props => {
     success,
     onChange,
     errClass,
-    focus
+    componentRef
   } = useFormInput({
     path,
     initialValue: [],
@@ -21,9 +21,6 @@ export const TagPicker = props => {
       return e
     }
   })
-
-  const ref = useRef()
-  useEffect(() => { ref.current.focusInput() }, [focus])
 
   return <React.Fragment>
     <BasePicker
@@ -37,7 +34,7 @@ export const TagPicker = props => {
       onRenderItem={onRenderItem}
       styles={styles}
       description={description}
-      componentRef={ref}
+      componentRef={componentRef}
     />
     <ErrorMessage error={error} success={success} />
   </React.Fragment>

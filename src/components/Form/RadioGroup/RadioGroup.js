@@ -11,14 +11,12 @@ export const RadioGroup = props => {
     error,
     onChange,
     errClass,
-    focus
+    focus,
+    componentRef
   } = useFormInput({
     path,
     extractor: (event, value) => value
   })
-
-  const ref = useRef()
-  useEffect(() => { focus && ref.current.focus() }, [focus])
 
   return (
     <ChoiceGroup
@@ -33,7 +31,7 @@ export const RadioGroup = props => {
       initialSelectedKey={initialSelectedKey}
       styles={styles}
       error={error}
-      componentRef={ref}
+      componentRef={componentRef}
     />
   )
 }

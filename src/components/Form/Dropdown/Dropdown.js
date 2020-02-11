@@ -14,15 +14,12 @@ export const Dropdown = React.forwardRef((props, ref) => {
     error,
     onChange,
     errClass,
-    focus
+    componentRef
   } = useFormInput({
     path,
     initialValue: options.find(({ key }) => key === initialSelectedKey)
   })
 
-  const componentRef = useRef()
-
-  useEffect(() => { focus && componentRef.current.focus() }, [focus])
   return (
     <ComboBox
       ref={ref}
@@ -36,7 +33,6 @@ export const Dropdown = React.forwardRef((props, ref) => {
       options={options}
       errorMessage={error}
       useComboBoxAsMenuWidth
-      focus={focus}
       componentRef={componentRef}
     />
   )

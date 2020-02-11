@@ -9,6 +9,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   const formEvent = useContext(FormContext)
   const _id = useRef(uuid())
   const _index = useRef(null)
+  const componentRef = useRef()
 
   const [value, _setValue] = useState(() => {
     if (initialValue || initialValue === null) return initialValue
@@ -95,8 +96,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
   // Trigger useEffect in component that focuses input. Don't leave it on so that it can be set again
   const handleFocus = useCallback(() => {
-    setFocus(true)
-    setFocus(false)
+    if (typeof componentRef.current.focus === 'function') { componentRef.current.focus() }
   }, [])
 
   useEvent(`${formEvent}-form-ready`, handleFormReady)
@@ -140,6 +140,6 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     error,
     success,
     errClass,
-    focus
+    componentRef
   }
 }

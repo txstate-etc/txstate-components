@@ -28,14 +28,11 @@ export const TextInput = props => {
     success,
     onChange,
     errClass,
-    focus
+    componentRef
   } = useFormInput({
     path,
     extractor: (e) => e.target.value
   })
-
-  const ref = useRef()
-  useEffect(() => { focus && ref.current.focus() }, [focus])
 
   const onRenderDescription = useCallback((props) => {
     return <ErrorMessage error={error} ErrorComponent={ErrorComponent} success={success} SuccessComponent={SuccessComponent} />
@@ -92,7 +89,7 @@ export const TextInput = props => {
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
-        componentRef={ref}
+        componentRef={componentRef}
       />
     </>
   )
