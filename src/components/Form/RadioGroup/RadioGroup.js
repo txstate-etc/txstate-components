@@ -11,7 +11,6 @@ export const RadioGroup = props => {
     error,
     onChange,
     errClass,
-    focus,
     componentRef
   } = useFormInput({
     path,
