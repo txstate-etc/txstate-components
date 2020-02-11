@@ -12,7 +12,8 @@ export const TagPicker = props => {
     error,
     success,
     onChange,
-    errClass
+    errClass,
+    componentRef
   } = useFormInput({
     path,
     initialValue: [],
@@ -33,6 +34,7 @@ export const TagPicker = props => {
       onRenderItem={onRenderItem}
       styles={styles}
       description={description}
+      componentRef={componentRef}
     />
     <ErrorMessage error={error} success={success} />
   </React.Fragment>

@@ -10,7 +10,8 @@ export const RadioGroup = props => {
     value,
     error,
     onChange,
-    errClass
+    errClass,
+    componentRef
   } = useFormInput({
     path,
     extractor: (event, value) => value
@@ -29,6 +30,7 @@ export const RadioGroup = props => {
       initialSelectedKey={initialSelectedKey}
       styles={styles}
       error={error}
+      componentRef={componentRef}
     />
   )
 }

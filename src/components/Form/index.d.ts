@@ -34,6 +34,8 @@ export interface FormProps {
      * The amount of time to wait, in milliseconds, before calling the validation function
      */
     validationDelay?: number;
+    /** Would you like the validation function to run and pass with no errors before running submit function? */
+    runValidateOnSubmit?: boolean
 }
 
 export const Form: React.FC<FormProps>

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useEffect } from 'react'
 import { TagPicker } from 'office-ui-fabric-react/lib/Pickers'
 import { Label } from '../Label'
 import PropTypes from 'prop-types'
@@ -50,10 +50,9 @@ export const BasePicker = props => {
     onChange,
     description,
     styles,
-    onRenderItem
+    onRenderItem,
+    componentRef
   } = props
-
-  const tagPicker = useRef()
 
   const defaultOnResolveItems = useCallback((filteredText, selectedItems) => {
     if (showSelectedItems && filteredText) {
@@ -84,10 +83,10 @@ export const BasePicker = props => {
 
   const defaultOnItemSelected = useCallback((item) => {
     if (canSelectDuplicates) return item
-    if (listContainsDocument(item, tagPicker.current.items)) return null
+    if (listContainsDocument(item, componentRef.current.items)) return null
 
     return item
-  }, [items, tagPicker.current, canSelectDuplicates])
+  }, [items, componentRef.current, canSelectDuplicates])
 
   return (
     <>
@@ -99,7 +98,7 @@ export const BasePicker = props => {
         selectedItems={value}
         onChange={onChange}
         onRenderItem={onRenderItem}
-        componentRef={tagPicker}
+        componentRef={componentRef}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
         onEmptyResolveSuggestions={handleOnResolveSuggestions}
         onItemSelected={onItemSelected || defaultOnItemSelected}
@@ -141,5 +140,7 @@ BasePicker.propTypes = {
   value: PropTypes.arrayOf(PropTypes.shape({ key: PropTypes.string.isRequired })),
   onChange: PropTypes.func,
   onRenderItem: PropTypes.func,
-  description: PropTypes.string
+  description: PropTypes.string,
+  componentRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.any })
+  ])
 }

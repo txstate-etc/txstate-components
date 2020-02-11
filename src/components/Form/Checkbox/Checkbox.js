@@ -13,7 +13,8 @@ export const Checkbox = props => {
     onChange,
     error,
     success,
-    errClass
+    errClass,
+    componentRef
   } = useFormInput({
     path,
     extractor: e => e.target.checked
@@ -21,7 +22,7 @@ export const Checkbox = props => {
 
   return (
     <React.Fragment>
-      <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} className={[className, errClass].join(' ')} />
+      <OfficeCheckbox id={_id.current} label={label} ariaLabel={ariaLabel} name={name} checked={value} onChange={onChange} className={[className, errClass].join(' ')} componentRef={componentRef} />
       <ErrorMessage error={error} success={success} />
     </React.Fragment>
   )

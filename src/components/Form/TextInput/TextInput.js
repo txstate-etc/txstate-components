@@ -27,7 +27,8 @@ export const TextInput = props => {
     error,
     success,
     onChange,
-    errClass
+    errClass,
+    componentRef
   } = useFormInput({
     path,
     extractor: (e) => e.target.value
@@ -88,6 +89,7 @@ export const TextInput = props => {
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
+        componentRef={componentRef}
       />
     </>
   )

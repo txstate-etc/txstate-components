@@ -38,12 +38,14 @@ export const Form = React.forwardRef((props, ref) => {
     validate,
     validationDelay = 300,
     initialValues,
-    id
+    id,
+    runValidateOnSubmit
   } = props
   const formEvent = useRef(id || uuid())
   const _initialState = useRef(initialValues || {})
   const firstValidationSkipped = useRef(false)
   const childCount = useRef(0)
+  const _childErrReport = useRef([])
 
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
@@ -63,38 +65,58 @@ export const Form = React.forwardRef((props, ref) => {
   const notifyChildrenReady = useEvent(`${formEvent.current}-form-ready`)
   const updateChildState = useEvent(`${formEvent.current}-update-state`)
   const broadcastIndexCheck = useEvent(`${formEvent.current}-index-check`)
+  const broadcastSetAllDirty = useEvent(`${formEvent.current}-set-all-dirty`)
 
   const handleChildRegister = useCallback((inputEvent) => {
     childCount.current += 1
     Subject.next(`${inputEvent}-update-index`, childCount.current)
   }, [])
 
+  const handleErrorReport = useCallback((report) => {
+    _childErrReport.current.push(report)
+    if (_childErrReport.current.length === childCount.current) {
+      const childrenWithErrors = _childErrReport.current.filter(child => child.error)
+      if (childrenWithErrors.length > 0) {
+        let min = childrenWithErrors[0]
+
+        for (let i = 1, len = childrenWithErrors.length; i < len; i++) {
+          const v = childrenWithErrors[i]._index
+          min = (v < min) ? v : min
+        }
+        Subject.next(`${min.inputEvent}-go-focus-yourself`)
+        while (_childErrReport.current.length) { _childErrReport.current.pop() }
+      } else { while (_childErrReport.current.length) { _childErrReport.current.pop() } }
+    }
+  }, [_childErrReport, childCount])
+
   useEvent(`${formEvent.current}-register-self`, handleChildRegister)
   useEvent(`${formEvent.current}-data`, handleChildData)
+  useEvent(`${formEvent.current}-error-report`, handleErrorReport)
 
   useEffect(() => {
     notifyChildrenReady(_initialState.current)
   }, [notifyChildrenReady])
 
   const submitForm = useCallback(async () => {
+    if (runValidateOnSubmit) {
+      broadcastSetAllDirty()
+      const { errors, success } = await validateOnChange(form, true)
+      if ((Object.entries(errors).length > 0)) return
+    }
     if (onSubmit && typeof onSubmit === 'function') {
       try {
         const results = await onSubmit({ form, errors })
         const errorResults = get(results, 'errors')
         const successResults = get(results, 'success')
         if (errorResults || successResults) {
-          broadcastValidateResults({ errors: {}, success: {} })
-          setTimeout(() => broadcastValidateResults({ errors: errorResults, success: successResults }), 0)
+          broadcastValidateResults({ errors: errorResults, success: successResults, submit: 'true' })
         }
       } catch (results) {
         const errorResults = get(results, 'errors')
         const successResults = get(results, 'success')
-        broadcastValidateResults({ errors, success })
-        setTimeout(() => broadcastValidateResults({ errors: errorResults, success: successResults }), 0)
+        broadcastValidateResults({ errors: errorResults, success: successResults, submit: 'true' })
       } finally {
         broadcastIndexCheck(childCount.current)
-        const firstErrComponent = document.querySelector('.txst-form-error input')
-        firstErrComponent && firstErrComponent.focus()
       }
     }
   }, [onSubmit, broadcastValidateResults, form, errors])
@@ -106,23 +128,24 @@ export const Form = React.forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
 
-  const validateOnChange = useCallback(debounce(async (form) => {
+  const validateOnChange = useCallback(async (form, submit = false) => {
     try {
       if (typeof validate !== 'function') return
       const results = await validate(form)
       const errors = get(results, 'errors')
       const success = get(results, 'success')
-
       errorDispatch({ type: 'validation', payload: errors })
       successDispatch({ type: 'validation', payload: success })
-
       if (errors || success) {
-        broadcastValidateResults({ errors, success })
+        broadcastValidateResults({ errors, success, submit: !!submit })
       }
+      return { errors, success }
     } catch (err) {
       console.log(err)
     }
-  }, validationDelay), [validate, broadcastValidateResults])
+  }, [broadcastValidateResults, validate])
+
+  const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
   useEffect(() => {
     if (onChange && typeof onChange === 'function') {
@@ -131,13 +154,13 @@ export const Form = React.forwardRef((props, ref) => {
   }, [form, onChange, errors, success])
 
   useEffect(() => {
-    validateOnChange.cancel()
+    debouncedValidate.cancel()
     if (!firstValidationSkipped.current) {
       firstValidationSkipped.current = true
       return
     }
-    validateOnChange(form)
-  }, [validateOnChange, form])
+    debouncedValidate(form)
+  }, [debouncedValidate, form])
 
   return (
     <FormContext.Provider value={formEvent.current}>
@@ -163,5 +186,7 @@ Form.propTypes = {
   /** An optional ID which will be used instead of a randomly generated id */
   id: PropTypes.string,
   /** The amount of time to wait, in milliseconds, before calling the validation function */
-  validationDelay: PropTypes.number
+  validationDelay: PropTypes.number,
+  /** Would you like the validation function to run and pass with no errors before running submit function? */
+  runValidateOnSubmit: PropTypes.bool
 }
