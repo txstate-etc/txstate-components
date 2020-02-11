@@ -10,7 +10,6 @@ const outline = css`
 const ButtonBase = styled(PrimaryButton)`
   width: fit-content;
   padding: 0.5rem 2rem;
-  border-radius: 5px;
   cursor: pointer;
   transition: all 200ms ease;
   border-radius: 3px;
@@ -51,16 +50,17 @@ interface ButtonProps {
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   className?: string
+  id?: string
 }
 
 type Button = React.FunctionComponent<ButtonProps>
 
 export const Button: Button = props => {
-  const { label, variant, onClick, ariaLabel, className, disabled, type } = props
+  const { label, variant, onClick, ariaLabel, className, disabled, type, id } = props
 
   return (
     <ButtonBase
-      role='button'
+      id={id}
       aria-label={ariaLabel || label}
       onClick={onClick}
       type={type}
@@ -77,6 +77,6 @@ export const Button: Button = props => {
 }
 
 Button.defaultProps = {
-  onClick: () => null,
+  onClick: () => {},
   variant: 'primary'
 }

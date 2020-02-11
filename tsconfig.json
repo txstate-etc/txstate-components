@@ -63,7 +63,7 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["lib/"],
+  "exclude": ["lib/", "src/*.test.*"],
   "tsLoaderOptions": {
     "ignoreDiagnostics": [7005]
   }

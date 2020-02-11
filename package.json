@@ -83,6 +83,8 @@
     "@storybook/preset-typescript": "^1.2.0",
     "@storybook/react": "^5.3.12",
     "@svgr/cli": "^4.3.3",
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^9.4.0",
     "@types/color": "^3.0.1",
     "@types/jest": "^25.1.2",
     "@types/lodash": "^4.14.149",
@@ -106,8 +108,10 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.3.0",
     "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
     "react-docgen-typescript-loader": "^3.6.0",
     "standard": "^14.3.1",
+    "ts-jest": "^25.2.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5"
   }
