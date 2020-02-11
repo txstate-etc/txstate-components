@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import { ChoiceGroup } from '../../ChoiceGroup'
 import { useFormInput } from '../../../hooks'
 import PropTypes from 'prop-types'
