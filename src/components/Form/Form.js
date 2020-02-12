@@ -78,7 +78,7 @@ export const Form = React.forwardRef((props, ref) => {
     _childErrReport.current.push(report)
     if (_childErrReport.current.length === childCount.current) {
       const childrenWithErrors = filter(_childErrReport.current, { error: true })
-      const minError = minBy(childrenWithErrors, '_index') ?? {}
+      const minError = minBy(childrenWithErrors, '_index') || {}
       minError && Subject.next(`${minError.inputEvent}-go-focus-yourself`)
       _childErrReport.current = []
     }
