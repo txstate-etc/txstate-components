@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useFormInput } from '../../../hooks'
 import { ComboBox } from 'office-ui-fabric-react/lib/ComboBox'
 import PropTypes from 'prop-types'

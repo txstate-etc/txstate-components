@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { BasePicker } from '../../BasePicker'
 import PropTypes from 'prop-types'
 import { useFormInput } from '../../../hooks'

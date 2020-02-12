@@ -35,7 +35,7 @@ export interface FormProps {
      */
     validationDelay?: number;
     /** Would you like the validation function to run and pass with no errors before running submit function? */
-    runValidateOnSubmit: Boolean
+    runValidateOnSubmit?: boolean
 }
 
 export const Form: React.FC<FormProps>
