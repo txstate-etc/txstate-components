@@ -1,15 +1,23 @@
-const _handlers = {}
+type HandlerMap = {
+  [key: string]: HandlerFunc[]
+}
+
+export type SubjectEvent = string
+
+export type HandlerFunc = (...args: any[]) => void
+
+const _handlers: HandlerMap = {}
 
 export const Subject = {
-  subscribe (event, handler) {
+  subscribe (event: SubjectEvent, handler: HandlerFunc) {
     if (!_handlers[event]) _handlers[event] = []
     _handlers[event].push(handler)
   },
-  unsubscribe (event, handler) {
+  unsubscribe (event: SubjectEvent, handler: HandlerFunc) {
     if (!_handlers[event]) return
     _handlers[event] = _handlers[event].filter(func => func !== handler)
   },
-  next (event, ...args) {
+  next (event: SubjectEvent, ...args: any[]) {
     if (!_handlers[event]) return
     _handlers[event].forEach(handler => {
       if (typeof handler === 'function') {
