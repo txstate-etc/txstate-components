@@ -8,7 +8,8 @@ import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
 import PropTypes from 'prop-types'
-import { useState } from '@storybook/addons'
+import filter from 'lodash/filter'
+import minBy from 'lodash/minBy'
 
 export const FormContext = React.createContext({})
 
@@ -76,17 +77,10 @@ export const Form = React.forwardRef((props, ref) => {
   const handleErrorReport = useCallback((report) => {
     _childErrReport.current.push(report)
     if (_childErrReport.current.length === childCount.current) {
-      const childrenWithErrors = _childErrReport.current.filter(child => child.error)
-      if (childrenWithErrors.length > 0) {
-        let min = childrenWithErrors[0]
-
-        for (let i = 1, len = childrenWithErrors.length; i < len; i++) {
-          const v = childrenWithErrors[i]._index
-          min = (v < min) ? v : min
-        }
-        Subject.next(`${min.inputEvent}-go-focus-yourself`)
-        while (_childErrReport.current.length) { _childErrReport.current.pop() }
-      } else { while (_childErrReport.current.length) { _childErrReport.current.pop() } }
+      const childrenWithErrors = filter(_childErrReport.current, { error: true })
+      const minError = minBy(childrenWithErrors, '_index') ?? {}
+      minError && Subject.next(`${minError.inputEvent}-go-focus-yourself`)
+      _childErrReport.current = []
     }
   }, [_childErrReport, childCount])
 
