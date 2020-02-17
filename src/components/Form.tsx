@@ -4,23 +4,28 @@ import { Subject } from '../utils/Subject'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import clone from 'lodash/clone'
+import minBy from 'lodash/minBy'
+import filter from 'lodash/filter'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import shortid from 'shortid'
 
 export const FormContext = React.createContext({})
 
-type Action<T = any> = { payload: T, path: string, type: string }
+type ActionType = 'set' | 'remove' | 'validation'
+type Action<T = any> = { payload: T, path?: string, type: ActionType }
 
 const immutableReducer = <T extends Object>(state: T, action: Action) => {
   let localState = null
   let localValue = null
   switch (action.type) {
     case 'set':
+      if (!action.path) throw new Error(`Tried to set value ${JSON.stringify(action.payload)} without a path`)
       localState = clone(state)
       localValue = clone(action.payload)
       return set(localState, action.path, localValue)
     case 'remove':
+      if (!action.path) throw new Error('Tried to remove value without a path')
       localState = clone(state)
       unset(localState, action.path)
       return localState
@@ -31,27 +36,49 @@ const immutableReducer = <T extends Object>(state: T, action: Action) => {
   }
 }
 
-type Errors = {
-  [key: string]: string
+export type Optional<T> = T | undefined
+export type Maybe<T> = T | null
+
+type FormArgs<T> = {
+  [key in keyof T]: T[keyof T]
 }
 
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>
+}
 interface FormProps<T> {
-  onSubmit?: ({ form, errors }: { form: T, errors: T }) => Errors | void
+  setup: T
+  initialValues?: RecursivePartial<T>
+  onSubmit?: ({ form, errors }: { form: T, errors: RecursivePartial<T> }) => Promise<void>
   onChange?: Function
   validate?: Function
   validationDelay?: number
-  initialValues: T
+  forwardRef?: React.Ref<FormRef>
   id?: string
   runValidateOnSubmit?: boolean
   children?: React.ReactNode
 }
 
-export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>) => {
+export interface FormRef {
+  submit: () => Promise<void>
+  updatePath: (path: string, value: any) => void
+}
+
+export type ErrorReport = {
+  inputEvent: string
+  error: boolean
+  _index: number
+}
+
+type Form = <T>(props: FormProps<T>) => JSX.Element
+
+export const Form: Form = (props) => {
   const {
     children,
     onSubmit,
     onChange,
     validate,
+    forwardRef,
     validationDelay = 300,
     initialValues,
     id,
@@ -61,7 +88,7 @@ export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>
   const _initialState = useRef(initialValues || {})
   const firstValidationSkipped = useRef(false)
   const childCount = useRef(0)
-  const _childErrReport = useRef([])
+  const _childErrReport = useRef<ErrorReport[]>([])
 
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
@@ -88,20 +115,15 @@ export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>
     Subject.next(`${inputEvent}-update-index`, childCount.current)
   }, [])
 
-  const handleErrorReport = useCallback((report) => {
+  const handleErrorReport = useCallback((report: ErrorReport) => {
     _childErrReport.current.push(report)
     if (_childErrReport.current.length === childCount.current) {
-      const childrenWithErrors = _childErrReport.current.filter(child => child.error)
-      if (childrenWithErrors.length > 0) {
-        let min = childrenWithErrors[0]
-
-        for (let i = 1, len = childrenWithErrors.length; i < len; i++) {
-          const v = childrenWithErrors[i]._index
-          min = (v < min) ? v : min
-        }
-        Subject.next(`${min.inputEvent}-go-focus-yourself`)
-        while (_childErrReport.current.length) { _childErrReport.current.pop() }
-      } else { while (_childErrReport.current.length) { _childErrReport.current.pop() } }
+      const childrenWithErrors = filter(_childErrReport.current, { error: true })
+      const firstError = minBy(childrenWithErrors, '_index')
+      if (firstError) {
+        Subject.next(`${firstError.inputEvent}-go-focus-yourself`)
+      }
+      _childErrReport.current = []
     }
   }, [_childErrReport, childCount])
 
@@ -113,10 +135,30 @@ export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>
     notifyChildrenReady(_initialState.current)
   }, [notifyChildrenReady])
 
+  const validateOnChange = useCallback(async (form, submit = false) => {
+    try {
+      if (typeof validate !== 'function') {
+        return { errors: {}, success: {} }
+      }
+      const results = await validate(form)
+      const errors = get(results, 'errors')
+      const success = get(results, 'success')
+      errorDispatch({ type: 'validation', payload: errors })
+      successDispatch({ type: 'validation', payload: success })
+      if (errors || success) {
+        broadcastValidateResults({ errors, success, submit: !!submit })
+      }
+      return { errors, success }
+    } catch (err) {
+      console.log(err)
+      return { errors: {}, success: {} }
+    }
+  }, [broadcastValidateResults, validate])
+
   const submitForm = useCallback(async () => {
     if (runValidateOnSubmit) {
       broadcastSetAllDirty()
-      const { errors, success } = await validateOnChange(form, true)
+      const { errors } = await validateOnChange(form, true)
       if ((Object.entries(errors).length > 0)) return
     }
     if (onSubmit && typeof onSubmit === 'function') {
@@ -140,26 +182,12 @@ export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>
   const updatePath = useCallback((path, value) => {
     const updatedState = set({}, path, value)
     updateChildState(updatedState)
-  })
+  }, [updateChildState])
 
-  useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
-
-  const validateOnChange = useCallback(async (form, submit = false) => {
-    try {
-      if (typeof validate !== 'function') return
-      const results = await validate(form)
-      const errors = get(results, 'errors')
-      const success = get(results, 'success')
-      errorDispatch({ type: 'validation', payload: errors })
-      successDispatch({ type: 'validation', payload: success })
-      if (errors || success) {
-        broadcastValidateResults({ errors, success, submit: !!submit })
-      }
-      return { errors, success }
-    } catch (err) {
-      console.log(err)
-    }
-  }, [broadcastValidateResults, validate])
+  useImperativeHandle(forwardRef, () => ({
+    submit: submitForm,
+    updatePath
+  }))
 
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
@@ -188,4 +216,4 @@ export const Form = <T extends Object, K>(props: FormProps<T>, ref: React.Ref<K>
       </form>
     </FormContext.Provider>
   )
-})
+}

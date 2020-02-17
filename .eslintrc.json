@@ -37,6 +37,9 @@
         "files": ["*.ts", "*.tsx"],
         "rules": {
           "@typescript-eslint/no-unused-vars": [2, { "args": "none" }],
+          "space-infix-ops": "error",
+          "object-curly-spacing": "error",
+          "no-unused-expressions": "off",
           "react/prop-types": "off"
         }
       }

@@ -1,42 +1,67 @@
 import { useContext, useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { FormContext } from '../components/Form'
 import { useEvent } from './useEvent'
-import uuid from 'uuid/v4'
+import shortid from 'shortid'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
+import isNil from 'lodash/isNil'
 
-export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
+interface UseFormInputArgs {
+  path: string
+  extractor?: Function
+  transformer?: Function
+  initialValue?: any
+}
+
+interface UseFormReturn {
+  onChange: (event: React.ChangeEvent) => void,
+  onBlur: Function,
+  isDirty: boolean,
+  value: any,
+  error: string,
+  success: string,
+  errClass?: string,
+  focus: boolean
+}
+
+type UseFormInput = (args: UseFormInputArgs) => UseFormReturn
+
+export const useFormInput: UseFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)
-  const _id = useRef(uuid())
-  const _index = useRef(null)
+  const _id = useRef(shortid.generate())
+  const _index = useRef<number>()
+  const _error = useRef<string>()
 
   const [value, _setValue] = useState(() => {
     if (initialValue || initialValue === null) return initialValue
     return ''
   })
-  const [_error, setError] = useState('')
+  const [, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [focus, setFocus] = useState(false)
 
   const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
 
-  const [isDirty, setIsDirty] = useState(false)
+  const [isDirty, _setDirty] = useState(false)
 
-  const setDirty = useCallback(debounce((value) => {
+  const setDirty = useCallback(debounce((value: boolean) => {
     if (value !== isDirty) {
-      setIsDirty(value)
+      _setDirty(value)
     }
-  }, 400), [setIsDirty, isDirty])
+  }, 400), [_setDirty, isDirty])
 
   const setValue = useCallback((updatedValue) => {
     if (updatedValue !== value) _setValue(updatedValue)
   }, [_setValue, value])
 
   const { error, errClass } = useMemo(() => {
-    return isDirty ? {
-      error: _error,
-      errClass: _error ? 'txst-form-error' : undefined
-    } : { error: '', errClass: undefined }
+    if (isDirty) {
+      return {
+        error: _error.current ?? '',
+        errClass: _error.current ?? 'txst-form-error'
+      }
+    }
+    return { error: '' }
   }, [_error, isDirty])
 
   const _broadcastChange = useEvent(`${formEvent}-data`)
@@ -79,12 +104,13 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     }
   }, [handleChange, inputEvent, path, transformer, value])
 
-  const handleUpdateIndex = useCallback((index) => {
+  const handleUpdateIndex = useCallback((index: number) => {
     _index.current = index
   }, [])
 
-  const handleIndexCheck = useCallback((index) => {
-    if (_index.current !== null && _index.current <= index && !isDirty) {
+  const handleIndexCheck = useCallback((index: number) => {
+    const currentIndex = _index.current
+    if (!isNil(currentIndex) && currentIndex <= index && !isDirty) {
       setDirty(true)
     }
   }, [isDirty, setDirty])
@@ -119,9 +145,8 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
   const notifyFormValueChange = useCallback((...args) => {
     let value = get(args, '[1]')
-    const hasExtractor = extractor && typeof extractor === 'function'
 
-    if (hasExtractor) {
+    if (extractor && typeof extractor === 'function') {
       value = extractor(...args)
     }
 
