@@ -69,7 +69,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
     setError(errorMessage || '')
     setSuccess(successMessage || '')
-    submit && errorReport({ inputEvent, error: !!errorMessage })
+    submit && errorReport({ inputEvent, _index, error: !!errorMessage })
   }, [setError, setSuccess])
 
   const handleUpdateState = useCallback(state => {
