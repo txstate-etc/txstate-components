@@ -32,5 +32,5 @@ export interface IDerivedStore<OutputType, InputType> extends IStore<OutputType>
   new <Selector extends keyof InputType>(store:UsableStore<InputType[Selector]>, selector:Selector): IDerivedStore<InputType[Selector], InputType>
   new (store:UsableStore<OutputType>, selector:string): IDerivedStore<OutputType, InputType>
 }
-export const Store:IStore
-export const DerivedStore:IDerivedStore
+export declare class Store implements IStore {}
+export declare class DerivedStore implements IDerivedStore {}
