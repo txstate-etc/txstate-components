@@ -21,16 +21,14 @@ export interface IDerivedSubject<OutputType = any, InputType = any> extends Beha
 }
 export const DerivedSubject:IDerivedSubject
 
-export interface IStoreOptions {
+export interface StoreOptions {
   immutable?: boolean
 }
-export interface IStore<StateType> extends BehaviorSubject<StateType> {
-  new (initialValue:StateType, options?:IStoreOptions): IStore<StateType>
+export declare class Store<StateType> extends BehaviorSubject<StateType> {
+  new (initialValue:StateType, options?:StoreOptions): Store<StateType>
 }
-export interface IDerivedStore<OutputType, InputType> extends IStore<OutputType> {
-  new (store:UsableStore<OutputType>, getter:(state:InputType) => OutputType, setter?: (newvalue:OutputType, state:InputType) => InputType): IDerivedStore<OutputType, InputType>
-  new <Selector extends keyof InputType>(store:UsableStore<InputType[Selector]>, selector:Selector): IDerivedStore<InputType[Selector], InputType>
-  new (store:UsableStore<OutputType>, selector:string): IDerivedStore<OutputType, InputType>
+export declare class DerivedStore<OutputType, InputType> extends BehaviorSubject<OutputType> {
+  new (store:UsableStore<OutputType>, getter:(state:InputType) => OutputType, setter?: (newvalue:OutputType, state:InputType) => InputType): DerivedStore<OutputType, InputType>
+  new <Selector extends keyof InputType>(store:UsableStore<InputType[Selector]>, selector:Selector): DerivedStore<InputType[Selector], InputType>
+  new (store:UsableStore<OutputType>, selector:string): DerivedStore<OutputType, InputType>
 }
-export const Store:IStore
-export const DerivedStore:IDerivedStore
