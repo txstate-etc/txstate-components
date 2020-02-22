@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { TagPicker } from 'office-ui-fabric-react/lib/Pickers'
 import { Label } from '../Label'
 import PropTypes from 'prop-types'
@@ -13,7 +13,7 @@ const Desc = styled.div`
   font-family: 'Univers W01', Helvetica, Calibri, Arial, sans-serif;
   color: ${Theme.charcoal.lighten(1).hex()};
   line-height: 20px;
-  margin-bottom: ${({ show }) => (show ? '10px' : '')};
+  margin-bottom: 10px;
 `
 
 const listContainsDocument = (item, itemList) => {
@@ -91,7 +91,7 @@ export const BasePicker = props => {
   return (
     <>
       <Label>{label}</Label>
-      <Desc show={description}>{description}</Desc>
+      {description && <Desc>{description}</Desc>}
       <TagPicker
         styles={styles}
         className={className}
