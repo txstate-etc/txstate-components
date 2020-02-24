@@ -63,6 +63,8 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
   }, [setValue, inputEvent, registerSelf])
 
   const handleValidation = useCallback(result => {
+    setError('') // reset error / success so that aria-live re-read the error if it still exists
+    setSuccess('')
     const errorMessage = get(result, `errors.${path}`)
     const successMessage = get(result, `success.${path}`)
     const submit = get(result, 'submit')
