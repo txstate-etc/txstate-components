@@ -9,6 +9,7 @@ import { TagItem } from '../components/TagItem'
 import { TagPicker } from '../components/Form/TagPicker/TagPicker'
 import { Editor, Modifier, EditorState } from 'draft-js'
 import dayjs from 'dayjs'
+import axios from 'axios'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems, description } = props
@@ -52,6 +53,15 @@ const StyledRichText = styled(RichText)`
 
 const FormExample = props => {
   const handleSubmit = useCallback(async ({ form, errors }) => {
+    const res = await axios({
+      method: 'get',
+      url: 'https://swapi.co/api/people/21'
+    })
+    const lastName = get(form, 'name.last')
+    console.log(res.data.name)
+    if (lastName !== get(res.data, 'name')) {
+      errors.name = { last: 'Thats not big daddy Sheev' }
+    }
     return { errors }
   })
 
@@ -171,11 +181,11 @@ const IndexedErrorForm = () => {
   const form = useRef()
   const validate = useCallback((form) => {
     const errors = {}
-    if (!form.one) errors['one'] = 'One is required'
-    if (!form.two) errors['two'] = 'Two is required'
-    if (!form.three) errors['three'] = 'Three is required'
-    if (!form.four) errors['four'] = 'Four is required'
-    if (!form.five) errors['five'] = 'Five is required'
+    if (!form.one) errors.one = 'One is required'
+    if (!form.two) errors.two = 'Two is required'
+    if (!form.three) errors.three = 'Three is required'
+    if (!form.four) errors.four = 'Four is required'
+    if (!form.five) errors.five = 'Five is required'
     return { errors }
   }, [])
   return (
