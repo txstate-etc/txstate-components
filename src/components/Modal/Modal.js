@@ -2,7 +2,6 @@ import BaseModal from '@material-ui/core/Modal'
 import Fade from '@material-ui/core/Fade'
 import Backdrop from '@material-ui/core/Backdrop'
 import PropTypes from 'prop-types'
-
 import React from 'react'
 
 export const Modal = props => {
@@ -23,6 +22,7 @@ export const Modal = props => {
       BackdropProps={{
         timeout: props.backdropTimeout
       }}
+      disableRestoreFocus={props.disableRestoreFocus}
     >
       <Fade in={props.isOpen}>
         <div style={surroundStyles}>
@@ -47,7 +47,8 @@ Modal.propTypes = {
   ariaDescription: PropTypes.string,
   backdropTimeout: PropTypes.number,
   centerContent: PropTypes.bool,
-  disableEnforceFocus: PropTypes.bool
+  disableEnforceFocus: PropTypes.bool,
+  disableRestoreFocus: PropTypes.bool
 }
 
 export default Modal

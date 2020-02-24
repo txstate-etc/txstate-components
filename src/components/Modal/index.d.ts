@@ -8,6 +8,7 @@ export interface ModalProps {
   backdropTimeout?: number
   centerContent?: boolean
   disableEnforceFocus?: boolean
+  disableRestoreFocus?: boolean
 }
 
 export const Modal: React.FC<ModalProps>
