@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { TagPicker } from 'office-ui-fabric-react/lib/Pickers'
 import { Label } from '../Label'
 import PropTypes from 'prop-types'
@@ -54,6 +54,8 @@ export const BasePicker = props => {
     componentRef
   } = props
 
+  const tagPicker = componentRef || useRef()
+
   const defaultOnResolveItems = useCallback((filteredText, selectedItems) => {
     if (showSelectedItems && filteredText) {
       return searchByName(items, filteredText)
@@ -83,10 +85,10 @@ export const BasePicker = props => {
 
   const defaultOnItemSelected = useCallback((item) => {
     if (canSelectDuplicates) return item
-    if (listContainsDocument(item, componentRef.current.items)) return null
+    if (listContainsDocument(item, tagPicker.current.items)) return null
 
     return item
-  }, [items, componentRef.current, canSelectDuplicates])
+  }, [items, tagPicker.current, canSelectDuplicates])
 
   return (
     <>
@@ -98,7 +100,7 @@ export const BasePicker = props => {
         selectedItems={value}
         onChange={onChange}
         onRenderItem={onRenderItem}
-        componentRef={componentRef}
+        componentRef={tagPicker}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
         onEmptyResolveSuggestions={handleOnResolveSuggestions}
         onItemSelected={onItemSelected || defaultOnItemSelected}
