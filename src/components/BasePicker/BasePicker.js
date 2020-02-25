@@ -98,7 +98,6 @@ export const BasePicker = props => {
         selectedItems={value}
         onChange={onChange}
         onRenderItem={onRenderItem}
-        removeButtonAriaLabel='Remove'
         componentRef={componentRef}
         onResolveSuggestions={onResolveItems || defaultOnResolveItems}
         onEmptyResolveSuggestions={handleOnResolveSuggestions}
