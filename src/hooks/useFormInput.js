@@ -95,9 +95,8 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     setDirty(true)
   }, [setDirty])
 
-  // Trigger useEffect in component that focuses input. Don't leave it on so that it can be set again
   const handleFocus = useCallback(() => {
-    if (typeof componentRef.current.focus === 'function') { componentRef.current.focus() }
+    if (typeof componentRef.current.focusInput === 'function') { componentRef.current.focusInput() } else if (typeof componentRef.current.focus === 'function') { componentRef.current.focus() }
   }, [])
 
   useEvent(`${formEvent}-form-ready`, handleFormReady)
