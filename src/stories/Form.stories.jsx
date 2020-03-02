@@ -116,7 +116,7 @@ const FormExample = props => {
           <Checkbox path='agreement' label='I have at least 16 pieces of flair.' />
           <Stack horizontal horizontalAlign='space-between' spacing={12}>
             <div style={{ flex: 1 }}>
-              <DatePicker label='Delivery Date' path='date.delivery' variant='inline' initialValue={null} />
+              <DatePicker label='Delivery Date' path='date.delivery' variant='inline' initialValue={null} minDateMessage='Too soon!' />
             </div>
             <div style={{ flex: 1 }}>
               <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24').toDate()} />

@@ -1,13 +1,15 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs'
 
-export type BaseDatePickerVariant = "dialog" | "inline" | "static";
+export type BaseDatePickerVariant = 'dialog' | 'inline' | 'static';
 
 export interface BaseDatePickerProps {
   variant?: BaseDatePickerVariant;
   minDate?: Date;
   maxDate?: Date;
+  minDateMessage?: string;
+  maxDateMessage?: string;
   label?: string;
   emptyLabel?: string;
   format?: string;
@@ -16,5 +18,4 @@ export interface BaseDatePickerProps {
   mask?: string;
 }
 
-export const BaseDatePicker: React.FC<BaseDatePickerProps>;
-
+export const BaseDatePicker: React.FC<BaseDatePickerProps>
