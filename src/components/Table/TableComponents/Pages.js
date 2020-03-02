@@ -49,7 +49,7 @@ export const Pages = props => {
 
   return (
     <PageContainer horizontal horizontalAlign='space-between' verticalAlign='center' spacing={6}>
-      <Stack horizontal horizontalAlign='end' style={{flex: 1}}>
+      <Stack horizontal horizontalAlign='end' style={{ flex: 1 }}>
         {ButtonRow && <ButtonRow />}
       </Stack>
       <Stack horizontal horizontalAlign='end' verticalAlign='center' spacing={6}>

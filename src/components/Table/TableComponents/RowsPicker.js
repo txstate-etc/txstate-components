@@ -32,6 +32,7 @@ const RowOption = styled.span`
   &:hover {
     background-color: #c4c4c4;
   }
+  white-space: nowrap;
   cursor: pointer;
 `
 
@@ -41,7 +42,7 @@ const DropdownButton = styled.div`
   border-radius: 4px;
   background-color: ${Theme.maroon.hex()};
   margin-right: 8px;
-  padding: 8px 12px;
+  padding: 8px 16px;
   cursor: pointer;
 `
 
