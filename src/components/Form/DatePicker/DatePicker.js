@@ -12,6 +12,8 @@ export const DatePicker = props => {
     mask,
     minDate,
     maxDate,
+    minDateMessage,
+    maxDateMessage,
     displayFormat,
     placeholder,
     label,
@@ -46,6 +48,8 @@ export const DatePicker = props => {
       placeholder={placeholder}
       minDate={minDate}
       maxDate={maxDate}
+      minDateMessage={minDateMessage}
+      maxDateMessage={maxDateMessage}
       disabled={disabled}
     />
     <ErrorMessage error={error} success={success} />
@@ -67,6 +71,8 @@ DatePicker.propTypes = {
   variant: PropTypes.oneOf(['dialog', 'inline', 'static']),
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
+  minDateMessage: PropTypes.string,
+  maxDateMessage: PropTypes.string,
   initialValue: PropTypes.instanceOf(Date),
   emptyLabel: PropTypes.string,
   displayFormat: PropTypes.string,

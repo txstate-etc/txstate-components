@@ -1,14 +1,16 @@
-import * as React from 'react';
+import * as React from 'react'
 
 type Maybe<T> = T | null
 
-export type DatePickerVariant = "dialog" | "inline" | "static";
+export type DatePickerVariant = 'dialog' | 'inline' | 'static';
 
 export interface DatePickerProps {
   path: string;
   variant?: DatePickerVariant;
   minDate?: Date;
   maxDate?: Date;
+  minDateMessage?: string;
+  maxDateMessage?: string;
   emptyLabel?: string;
   displayFormat?: string;
   format?: string;
@@ -19,5 +21,4 @@ export interface DatePickerProps {
   label?: string
 }
 
-export const DatePicker: React.FC<DatePickerProps>;
-
+export const DatePicker: React.FC<DatePickerProps>

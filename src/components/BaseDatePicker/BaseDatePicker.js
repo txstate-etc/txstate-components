@@ -55,7 +55,7 @@ const datePickerTheme = createMuiTheme({
 })
 
 export const BaseDatePicker = props => {
-  const { value, placeholder, disabled, onChange, mask, format, variant, emptyLabel, label, maxDate, minDate } = props
+  const { value, placeholder, disabled, onChange, mask, format, variant, emptyLabel, label, maxDate, minDate, minDateMessage, maxDateMessage } = props
 
   return (
     <ThemeProvider theme={datePickerTheme}>
@@ -73,6 +73,8 @@ export const BaseDatePicker = props => {
           variant={variant}
           value={value}
           invalidDateMessage=''
+          minDateMessage={minDateMessage || `Date should not be before ${dayjs(minDate).format(format)}`}
+          maxDateMessage={maxDateMessage || `Date should not be after ${dayjs(maxDate).format(format)}`}
           onChange={onChange}
         />
       </MuiPickersUtilsProvider>
@@ -82,8 +84,8 @@ export const BaseDatePicker = props => {
 
 BaseDatePicker.defaultProps = {
   variant: 'dialog',
-  minDate: new Date('1900-01-01'),
-  maxDate: new Date('2100-01-01'),
+  minDate: dayjs('1900-01-01').toDate(),
+  maxDate: dayjs('2100-01-01').toDate(),
   format: 'MM/DD/YYYY',
   mask: '__/__/____',
   placeholder: '10/31/2019'
@@ -93,6 +95,8 @@ BaseDatePicker.propTypes = {
   variant: PropTypes.oneOf(['dialog', 'inline', 'static']),
   minDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
+  minDateMessage: PropTypes.string,
+  maxDateMessage: PropTypes.string,
   emptyLabel: PropTypes.string,
   format: PropTypes.string,
   value: PropTypes.instanceOf(dayjs),
