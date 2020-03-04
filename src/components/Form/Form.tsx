@@ -1,13 +1,13 @@
 import React, { useRef, useImperativeHandle, useCallback, useEffect, useReducer } from 'react'
-import { useEvent } from '../hooks/useEvent'
-import { Subject } from '../utils/Subject'
+import { useEvent } from '../../hooks/useEvent'
+import { Subject } from '../../utils/Subject'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import nanoid from 'nanoid'
 import produce from 'immer'
-import { minBy, filter } from '../utils/helpers'
+import { minBy, filter } from '../../utils/helpers'
 import { ErrorReport, Action, RecursivePartial, OnSubmit, OnChange, OnValidate, FormRef } from './Form.types'
 
 export const FormContext = React.createContext({})

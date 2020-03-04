@@ -31,3 +31,9 @@ test('allows overriding styles with inline styles object', () => {
   const domNode = getByRole('button')
   expect(domNode).toHaveStyle('background-color: tomato;')
 })
+
+test('font size is correct for a given size', () => {
+  const { getByRole } = render(<Button label='My Button' size='xs' />)
+
+  expect(getByRole('button')).toHaveStyle('font-size: 0.7rem')
+})

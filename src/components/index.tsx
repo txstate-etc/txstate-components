@@ -1,3 +1,3 @@
-export * from './Button'
-export * from './Stack'
-export * from './Form'
+export * from './Button/Button'
+export * from './Stack/Stack'
+export * from './Form/Form'

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { storiesOf } from '@storybook/react'
-import { FormRef } from '../components/Form.types'
+import { FormRef } from '../components/Form/Form.types'
 import { useFormInput } from '../hooks/useFormInput'
 import nanoid from 'nanoid'
 import { Button, Stack, Form } from '../components'

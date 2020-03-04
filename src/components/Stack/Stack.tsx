@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useMemo } from 'react'
 import { StackComponent, StackItem } from './Stack.types'
-import { Dictionary } from '../utils/helper.types'
+import { Dictionary } from '../../utils/helper.types'
 import { css, jsx } from '@emotion/core'
 
 const alignmentMap: Dictionary<string> = {

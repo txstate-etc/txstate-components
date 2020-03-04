@@ -1,10 +1,13 @@
-.tomato-primary.button-container {
-  background-color: tomato;
+.tomato-primary.txst-button.primary {
+  background-color: papayawhip;
+  border-color: tomato;
 }
 
-.white-label.button-label {
-  background-color: white;
+.tomato-primary:focus {
+  box-shadow: 0px 0px 10px -2px tomato;
+  outline: none;
+}
+
+.white-label.txst-button.primary {
   color: tomato;
-  font-weight: bold;
-  padding: 4px;
 }

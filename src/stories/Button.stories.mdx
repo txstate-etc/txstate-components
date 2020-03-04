@@ -17,20 +17,30 @@ import { Button } from 'txstate-react/lib/components'
 ## Variants
 
 <Preview>
-  <Story name="primary button">
-    <Button label='Primary' ariaLabel='Primary' />
-  </Story>
-  <Story name="outline button">
-    <Button label='Outline' variant='outline' ariaLabel='Outline' />
-  </Story>
-  <Story name="transparent button">
-    <div style={{ backgroundColor: '#bababa', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Button label='Transparent' variant='transparent' ariaLabel='Transparent' />
+    <Story name='variants'>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: '#DADADA', padding: 6}}>
+        <Button label='Primary' ariaLabel='Primary' />
+        <Button label='Outline' variant='outline' ariaLabel='Outline' />
+        <Button label='Transparent' variant='transparent' ariaLabel='Transparent' />
+      </div>
+    </Story>
+</Preview>
+
+## Sizes
+
+<Preview>
+  <Story name='sizes'>
+    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: '#DADADA', padding: 6}}>
+      <Button label='Extra Small' ariaLabel='extra small' variant='primary' size='xs' />
+      <Button label='Small' ariaLabel='extra small' variant='primary' size='sm' />
+      <Button label='Medium' ariaLabel='extra small' variant='primary' size='md' />
+      <Button label='Large' ariaLabel='extra small' variant='primary' size='lg' />
+      <Button label='Extra Large' ariaLabel='extra small' variant='primary' size='xl' />
     </div>
   </Story>
 </Preview>
 
-### Interaction
+## Interaction
 
 Passing an onClick handler to the buttons will let you receive mouse clicks. The event is not a native browser event. 
 It's a <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticEvent</a> from React.
@@ -41,27 +51,35 @@ It's a <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticE
   </Story>
 </Preview>
 
-### Styling
+## Styling
 
 You can customize the styling of a button by passing in a `className`. 
-The button component has two unused class names applied to the container and the label. 
-These are `button-container` and `button-label`.
+The button has a spare class name `txst-button` applied to it. It also uses the variant names as
+class names: `primary`, `outline`, and `transparent`.
 
 ```css
-.tomato-primary.button-container {
-  background-color: tomato;
+.tomato-primary.txst-button.primary {
+  background-color: papayawhip;
+  border-color: tomato;
 }
 
-.white-label.button-label {
-  background-color: white;
+.tomato-primary:focus {
+  box-shadow: 0px 0px 10px -2px tomato;
+  outline: none;
+}
+
+.white-label.txst-button.primary {
   color: tomato;
-  font-weight: bold;
-  padding: 4px;
 }
 ```
 
 <Preview>
   <Story name="styled">
-    <Button label='Styled' ariaLabel='styled button' className='white-label tomato-primary' />
+    <div>
+      <Button label='CSS File' ariaLabel='styled button' className='white-label tomato-primary' />
+      <Button label='Inline Style' ariaLabel='inline styled button' style={{ marginLeft: 16, backgroundColor: 'mediumpurple', border: 'solid mediumpurple 1px', color: 'white'}} />
+    </div>
   </Story>
 </Preview>
+
+
