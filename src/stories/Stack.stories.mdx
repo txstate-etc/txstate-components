@@ -1,0 +1,53 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
+import  { Stack } from '../components' 
+
+<Meta title="Components/Stack" component={Stack} />
+
+# Stack
+
+```typescript
+import { Stack } from '@txstate-mws/txstate-react/Stack'
+```
+
+## Props
+
+<Props of={Stack} />
+
+### Horizontal
+---
+<Preview>
+  <Story name='horizontal'>
+    <Stack horizontal horizontalAlign='space-between' spacing={12}>
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+    </Stack>
+  </Story>
+</Preview>
+
+### Vertical
+---
+<Preview>
+  <Story name='vertical'>
+    <Stack verticalAlign='space-between' horizontalAlign='center' spacing={12}>
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ width: 50, height: 50, backgroundColor: '#501214' }} />
+    </Stack>
+  </Story>
+</Preview>
+
+### Wrap
+---
+<Preview>
+  <Story name='wrap'>
+    <Stack horizontal horizontalAlign='start' spacing={12} wrap style={{ width: 150 }}>
+      <div style={{ border: 'solid 6px #6a5638', width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ border: 'solid 6px #6a5638', width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ border: 'solid 6px #6a5638', width: 50, height: 50, backgroundColor: '#501214' }} />
+      <div style={{ border: 'solid 6px #6a5638', width: 50, height: 50, backgroundColor: '#501214' }} />
+    </Stack>
+  </Story>
+</Preview>

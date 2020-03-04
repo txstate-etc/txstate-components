@@ -29,6 +29,7 @@ export const Stack: StackComponent = ({
   horizontalAlign = 'start',
   verticalAlign = 'start',
   className,
+  wrap,
   children
 }) => {
   const classNames = []
@@ -44,9 +45,10 @@ export const Stack: StackComponent = ({
   const stackStyle = useMemo(() => {
     const hAlign = alignmentMap[horizontalAlign] ?? horizontalAlign
     const vAlign = alignmentMap[verticalAlign] ?? verticalAlign
-
+    const flexWrap = wrap ? 'flex-wrap: wrap;' : ''
     return css`
       display: flex;
+      ${flexWrap}
       &.horizontal {
         justify-content: ${hAlign};
         align-items: ${vAlign};
@@ -73,7 +75,7 @@ export const Stack: StackComponent = ({
         }
       }
     `
-  }, [horizontalAlign, verticalAlign, spacing])
+  }, [horizontalAlign, verticalAlign, wrap, spacing])
 
   const stackChildren = React.Children.map(children, addClassName('stack-item'))
 
