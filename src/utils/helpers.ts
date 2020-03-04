@@ -32,3 +32,51 @@ export const filter = <T>(collection: Iterable<T>, comp: { [key in keyof Partial
 
   return filteredCollection
 }
+
+export const isNumber = (value: any): value is number => {
+  return typeof value === 'number'
+}
+
+export const isString = (value: any): value is string => {
+  return typeof value === 'string'
+}
+
+export const isArray = <T>(value: any): value is Array<T> => {
+  return Array.isArray(value)
+}
+
+export const isBooleanObject = (value: any): value is { [key: string]: boolean, [key: number]: boolean } => {
+  let isObject = true
+  if (typeof value === 'object' && value !== null && !isArray(value)) {
+    for (const key of Object.keys(value)) {
+      if (typeof value[key] !== 'boolean') {
+        isObject = false
+      }
+    }
+  }
+  return isObject
+}
+
+export const classNames = (...args: any[]) => {
+  const classes: (string | number)[] = []
+  for (const className of args) {
+    if (!className) continue
+
+    if (isNumber(className) || isString(className)) {
+      classes.push(className)
+    } else if (isArray(className) && className.length > 0) {
+      const joinedClassNames = classNames(...className)
+      if (joinedClassNames) {
+        classes.push(joinedClassNames)
+      }
+    } else if (isBooleanObject(className)) {
+      for (const key of Object.keys(className)) {
+        if (className[key]) {
+          classes.push(key)
+        }
+      }
+    }
+  }
+
+  return classes.join(' ')
+}

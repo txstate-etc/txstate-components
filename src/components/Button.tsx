@@ -1,46 +1,7 @@
+/** @jsx jsx */
 import React from 'react'
-import styled, { css } from 'styled-components'
-import { PrimaryButton } from 'office-ui-fabric-react'
-import Color from 'color'
-
-const outline = css`
-  background-color: #ffffff;
-`
-
-const ButtonBase = styled(PrimaryButton)`
-  width: fit-content;
-  padding: 0.5rem 2rem;
-  cursor: pointer;
-  transition: all 200ms ease;
-  border-radius: 3px;
-  border: 1px solid #501214;
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-
-  &.primary {
-    background-color: ${({ disabled }) =>
-    disabled ? Color('#501214').lighten(0.5).hex() : '#501214'};
-  }
-
-  &.outline {
-    ${outline}
-  }
-
-  &.transparent {
-    ${outline}
-    background-color: transparent;
-  }
-`
-
-const ButtonLabel = styled.span`
-  user-select: none;
-  color: #ffffff;
-  transition: all 200ms ease;
-
-  &.outline,
-  &.transparent {
-    color: #501214;
-  }
-`
+import { css, jsx } from '@emotion/core'
+import { classNames } from '../utils/helpers'
 
 interface ButtonProps {
   label: string
@@ -60,21 +21,20 @@ export const Button: Button = props => {
   const { label, variant, style, onClick, ariaLabel, className, disabled, type, id } = props
 
   return (
-    <ButtonBase
+    <button
       id={id}
-      aria-label={ariaLabel || label}
-      onClick={onClick}
-      type={type}
       style={style}
+      onClick={onClick}
+      aria-label={ariaLabel ?? label}
+      className={classNames(className, variant, 'button-container', 'button-label')}
       disabled={disabled}
-      className={[variant, className, 'button-container'].join(' ')}
+      type={type ?? 'submit'}
+      css={css`
+        all: unset;
+      `}
     >
-      <ButtonLabel
-        className={[variant, className, 'button-label'].join(' ')}
-      >
-        {label}
-      </ButtonLabel>
-    </ButtonBase>
+      {label}
+    </button>
   )
 }
 
