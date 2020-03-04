@@ -80,7 +80,7 @@ const FormExample = () => {
   )
 }
 
-storiesOf('Form|Simple', module)
-  .add('basic', () => {
+storiesOf('Form', module)
+  .add('Simple', () => {
     return <FormExample />
   })
