@@ -1,7 +1,7 @@
 import { useContext, useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { FormContext } from '../components/Form'
 import { useEvent } from './useEvent'
-import shortid from 'shortid'
+import nanoid from 'nanoid'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import isNil from 'lodash/isNil'
@@ -28,9 +28,9 @@ type UseFormInput = (args: UseFormInputArgs) => UseFormReturn
 
 export const useFormInput: UseFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)
-  const _id = useRef(shortid.generate())
-  const _index = useRef<number>()
-  const _error = useRef<string>()
+  const inputId = useRef(nanoid(10))
+  const inputIndex = useRef<number>()
+  const inputError = useRef<string>()
 
   const [value, _setValue] = useState(() => {
     if (initialValue || initialValue === null) return initialValue
@@ -40,7 +40,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   const [success, setSuccess] = useState('')
   const [focus, setFocus] = useState(false)
 
-  const [inputEvent, setInputEvent] = useState(`${formEvent}_${_id.current}`)
+  const [inputEvent, setInputEvent] = useState(`${formEvent}_${inputId.current}`)
 
   const [isDirty, _setDirty] = useState(false)
 
@@ -57,12 +57,12 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   const { error, errClass } = useMemo(() => {
     if (isDirty) {
       return {
-        error: _error.current ?? '',
-        errClass: _error.current ?? 'txst-form-error'
+        error: inputError.current ?? '',
+        errClass: inputError.current ?? 'txst-form-error'
       }
     }
     return { error: '' }
-  }, [_error, isDirty])
+  }, [inputError, isDirty])
 
   const _broadcastChange = useEvent(`${formEvent}-data`)
   const _broadcastIndexCheck = useEvent(`${formEvent}-index-check`)
@@ -72,7 +72,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
     if (!isDirty) {
       setDirty.cancel()
       setDirty(true)
-      _broadcastIndexCheck(_index.current)
+      _broadcastIndexCheck(inputIndex.current)
     }
   }, [_broadcastChange, _broadcastIndexCheck, isDirty, setDirty])
 
@@ -94,7 +94,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
 
     setError(errorMessage || '')
     setSuccess(successMessage || '')
-    submit && errorReport({ inputEvent, error: !!errorMessage, _index })
+    submit && errorReport({ inputEvent, error: !!errorMessage, _index: inputIndex })
   }, [errorReport, inputEvent, path])
 
   const handleUpdateState = useCallback(state => {
@@ -105,11 +105,11 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   }, [handleChange, inputEvent, path, transformer, value])
 
   const handleUpdateIndex = useCallback((index: number) => {
-    _index.current = index
+    inputIndex.current = index
   }, [])
 
   const handleIndexCheck = useCallback((index: number) => {
-    const currentIndex = _index.current
+    const currentIndex = inputIndex.current
     if (!isNil(currentIndex) && currentIndex <= index && !isDirty) {
       setDirty(true)
     }
@@ -140,7 +140,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   useEvent(inputEvent, updateFormValue)
 
   useEffect(() => {
-    setInputEvent(`${formEvent}_${_id.current}`)
+    setInputEvent(`${formEvent}_${inputId.current}`)
   }, [formEvent])
 
   const notifyFormValueChange = useCallback((...args) => {

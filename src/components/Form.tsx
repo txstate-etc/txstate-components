@@ -3,55 +3,44 @@ import { useEvent } from '../hooks/useEvent'
 import { Subject } from '../utils/Subject'
 import set from 'lodash/set'
 import unset from 'lodash/unset'
-import clone from 'lodash/clone'
-import minBy from 'lodash/minBy'
-import filter from 'lodash/filter'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
-import shortid from 'shortid'
+import nanoid from 'nanoid'
+import produce from 'immer'
+import { minBy, filter } from '../utils/helpers'
+import { ErrorReport, Action, RecursivePartial, OnSubmit, OnChange, OnValidate, FormRef } from './Form.types'
 
 export const FormContext = React.createContext({})
 
-type ActionType = 'set' | 'remove' | 'validation'
-type Action<T = any> = { payload: T, path?: string, type: ActionType }
-
-const immutableReducer = <T extends Object>(state: T, action: Action) => {
-  let localState = null
-  let localValue = null
+const formStateReducer = produce((draft, action: Action) => {
   switch (action.type) {
     case 'set':
       if (!action.path) throw new Error(`Tried to set value ${JSON.stringify(action.payload)} without a path`)
-      localState = clone(state)
-      localValue = clone(action.payload)
-      return set(localState, action.path, localValue)
+      set(draft, action.path, action.payload)
+      break
     case 'remove':
       if (!action.path) throw new Error('Tried to remove value without a path')
-      localState = clone(state)
-      unset(localState, action.path)
-      return localState
-    case 'validation':
-      return action.payload
-    default:
-      return state
+      unset(draft, action.path)
+      break
   }
-}
+})
 
-export type Optional<T> = T | undefined
-export type Maybe<T> = T | null
+const validationReducer = produce((draft, action: Action) => {
+  switch (action.type) {
+    case 'errors':
+      draft.errors = action.payload
+      break
+    case 'success':
+      draft.success = action.payload
+  }
+})
 
-type FormArgs<T> = {
-  [key in keyof T]: T[keyof T]
-}
-
-type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>
-}
 interface FormProps<T> {
-  setup: T
+  setup?: T
   initialValues?: RecursivePartial<T>
-  onSubmit?: ({ form, errors }: { form: T, errors: RecursivePartial<T> }) => Promise<void>
-  onChange?: Function
-  validate?: Function
+  onSubmit?: OnSubmit<T>
+  onChange?: OnChange<T>
+  onValidate?: OnValidate<T>
   validationDelay?: number
   forwardRef?: React.Ref<FormRef>
   id?: string
@@ -59,40 +48,34 @@ interface FormProps<T> {
   children?: React.ReactNode
 }
 
-export interface FormRef {
-  submit: () => Promise<void>
-  updatePath: (path: string, value: any) => void
-}
+type Form = <T = any>(props: FormProps<T>) => JSX.Element
 
-export type ErrorReport = {
-  inputEvent: string
-  error: boolean
-  _index: number
-}
-
-type Form = <T>(props: FormProps<T>) => JSX.Element
-
-export const Form: Form = (props) => {
+export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
   const {
     children,
     onSubmit,
     onChange,
-    validate,
+    onValidate,
     forwardRef,
     validationDelay = 300,
     initialValues,
     id,
     runValidateOnSubmit
   } = props
-  const formEvent = useRef(id || shortid.generate())
-  const _initialState = useRef(initialValues || {})
+
+  const formId = useRef(id || nanoid(10))
   const firstValidationSkipped = useRef(false)
   const childCount = useRef(0)
-  const _childErrReport = useRef<ErrorReport[]>([])
+  const childErrorReports = useRef<ErrorReport[]>([])
 
-  const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
-  const [errors, errorDispatch] = useReducer(immutableReducer, {})
-  const [success, successDispatch] = useReducer(immutableReducer, {})
+  const [form, formDispatch] = useReducer(formStateReducer, initialValues ?? {})
+  const [{ errors, success }, validationDispatch] = useReducer(validationReducer, { errors: {}, success: {} })
+
+  const broadcastValidateResults = useEvent(`${formId.current}-validate-result`)
+  const notifyChildrenReady = useEvent(`${formId.current}-form-ready`)
+  const updateChildState = useEvent(`${formId.current}-update-state`)
+  const broadcastIndexCheck = useEvent(`${formId.current}-index-check`)
+  const broadcastSetAllDirty = useEvent(`${formId.current}-set-all-dirty`)
 
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
@@ -104,47 +87,41 @@ export const Form: Form = (props) => {
     Subject.next(inputEvent, value)
   }, [formDispatch])
 
-  const broadcastValidateResults = useEvent(`${formEvent.current}-validate-result`)
-  const notifyChildrenReady = useEvent(`${formEvent.current}-form-ready`)
-  const updateChildState = useEvent(`${formEvent.current}-update-state`)
-  const broadcastIndexCheck = useEvent(`${formEvent.current}-index-check`)
-  const broadcastSetAllDirty = useEvent(`${formEvent.current}-set-all-dirty`)
-
   const handleChildRegister = useCallback((inputEvent) => {
     childCount.current += 1
     Subject.next(`${inputEvent}-update-index`, childCount.current)
   }, [])
 
   const handleErrorReport = useCallback((report: ErrorReport) => {
-    _childErrReport.current.push(report)
-    if (_childErrReport.current.length === childCount.current) {
-      const childrenWithErrors = filter(_childErrReport.current, { error: true })
+    childErrorReports.current.push(report)
+    if (childErrorReports.current.length === childCount.current) {
+      const childrenWithErrors = filter(childErrorReports.current, { error: true })
       const firstError = minBy(childrenWithErrors, '_index')
       if (firstError) {
         Subject.next(`${firstError.inputEvent}-go-focus-yourself`)
       }
-      _childErrReport.current = []
+      childErrorReports.current = []
     }
-  }, [_childErrReport, childCount])
+  }, [])
 
-  useEvent(`${formEvent.current}-register-self`, handleChildRegister)
-  useEvent(`${formEvent.current}-data`, handleChildData)
-  useEvent(`${formEvent.current}-error-report`, handleErrorReport)
+  useEvent(`${formId.current}-register-self`, handleChildRegister)
+  useEvent(`${formId.current}-data`, handleChildData)
+  useEvent(`${formId.current}-error-report`, handleErrorReport)
 
   useEffect(() => {
-    notifyChildrenReady(_initialState.current)
-  }, [notifyChildrenReady])
+    notifyChildrenReady(initialValues ?? {})
+  }, [notifyChildrenReady, initialValues])
 
   const validateOnChange = useCallback(async (form, submit = false) => {
     try {
-      if (typeof validate !== 'function') {
-        return { errors: {}, success: {} }
+      if (!onValidate) {
+        return {}
       }
-      const results = await validate(form)
+      const results = await onValidate(form)
       const errors = get(results, 'errors')
       const success = get(results, 'success')
-      errorDispatch({ type: 'validation', payload: errors })
-      successDispatch({ type: 'validation', payload: success })
+      validationDispatch({ type: 'errors', payload: errors })
+      validationDispatch({ type: 'success', payload: success })
       if (errors || success) {
         broadcastValidateResults({ errors, success, submit: !!submit })
       }
@@ -153,13 +130,13 @@ export const Form: Form = (props) => {
       console.log(err)
       return { errors: {}, success: {} }
     }
-  }, [broadcastValidateResults, validate])
+  }, [broadcastValidateResults, onValidate])
 
   const submitForm = useCallback(async () => {
     if (runValidateOnSubmit) {
       broadcastSetAllDirty()
       const { errors } = await validateOnChange(form, true)
-      if ((Object.entries(errors).length > 0)) return
+      if (errors && (Object.entries(errors).length > 0)) return
     }
     if (onSubmit && typeof onSubmit === 'function') {
       try {
@@ -189,7 +166,7 @@ export const Form: Form = (props) => {
     updatePath
   }))
 
-  const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
+  const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, onValidate])
 
   useEffect(() => {
     if (onChange && typeof onChange === 'function') {
@@ -207,7 +184,7 @@ export const Form: Form = (props) => {
   }, [debouncedValidate, form])
 
   return (
-    <FormContext.Provider value={formEvent.current}>
+    <FormContext.Provider value={formId.current}>
       <form onSubmit={e => {
         e.preventDefault()
         submitForm && submitForm()

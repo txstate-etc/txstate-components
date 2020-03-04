@@ -51,12 +51,13 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset'
   className?: string
   id?: string
+  style?: React.CSSProperties
 }
 
 type Button = React.FunctionComponent<ButtonProps>
 
 export const Button: Button = props => {
-  const { label, variant, onClick, ariaLabel, className, disabled, type, id } = props
+  const { label, variant, style, onClick, ariaLabel, className, disabled, type, id } = props
 
   return (
     <ButtonBase
@@ -64,6 +65,7 @@ export const Button: Button = props => {
       aria-label={ariaLabel || label}
       onClick={onClick}
       type={type}
+      style={style}
       disabled={disabled}
       className={[variant, className, 'button-container'].join(' ')}
     >

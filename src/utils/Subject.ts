@@ -10,6 +10,9 @@ const _handlers: HandlerMap = {}
 
 export const Subject = {
   subscribe (event: SubjectEvent, handler: HandlerFunc) {
+    if (!handler || typeof handler !== 'function') {
+      throw new Error(`Subscribing to event ${event} requires a handler function.`)
+    }
     if (!_handlers[event]) _handlers[event] = []
     _handlers[event].push(handler)
   },

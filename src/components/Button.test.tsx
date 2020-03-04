@@ -24,3 +24,10 @@ test('loads outline variant with white backgorund', () => {
   const domNode = getByRole('button')
   expect(domNode).toHaveStyle('background-color: #ffffff; border-radius: 3px')
 })
+
+test('allows overriding styles with inline styles object', () => {
+  const { getByRole } = render(<Button label='My Button' variant='outline' style={{ backgroundColor: 'tomato' }} />)
+
+  const domNode = getByRole('button')
+  expect(domNode).toHaveStyle('background-color: tomato;')
+})

@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, FormRef } from '../components/Form'
+import { FormRef } from '../components/Form.types'
 import { useFormInput } from '../hooks/useFormInput'
-import shortid from 'shortid'
+import nanoid from 'nanoid'
+import { Button, Stack, Form } from '../components'
 
 interface TextProps {
   path: string
@@ -11,7 +12,7 @@ interface TextProps {
 }
 
 const TextInput = (props: TextProps) => {
-  const { path, label, id = shortid.generate() } = props
+  const { path, label, id = nanoid(10) } = props
 
   const {
     error,
@@ -34,8 +35,9 @@ const TextInput = (props: TextProps) => {
 const initialValues = {
   person: {
     name: {
-      first: 'Andrew',
-      last: 'James',
+      first: 'Phillip',
+      middle: 'J',
+      last: 'Fry',
       hair: 'Blue'
     }
   },
@@ -61,14 +63,19 @@ const FormExample = () => {
       forwardRef={ref}
       setup={formSetup}
       initialValues={initialValues}
-      onSubmit={async ({ form, errors }) => {
-        console.log(form.person.name.first)
-        console.log(form.age)
-        console.log(errors.person?.name?.last)
-      }}
     >
-      <TextInput path='name.first' label='First Name' />
-      <TextInput path='name.last' label='Last Name' />
+      <Stack spacing={8}>
+        <Stack.Item>
+          <TextInput path='person.name.first' label='First Name' />
+        </Stack.Item>
+        <Stack.Item>
+          <TextInput path='person.name.last' label='Last Name' />
+        </Stack.Item>
+        <Stack horizontal spacing={8}>
+          <Button type='button' variant='outline' label='Cancel' />
+          <Button type='submit' label='Submit' />
+        </Stack>
+      </Stack>
     </Form>
   )
 }
