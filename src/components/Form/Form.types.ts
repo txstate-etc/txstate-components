@@ -16,9 +16,9 @@ export type FormSuccess<T> = {
   success?: RecursivePartial<T>
 }
 
-export type OnSubmit<T> = (args: FormObject<T> & FormErrors<T>) => Promise<FormErrors<T>> | Promise<void>
-export type OnValidate<T> = (form: T) => Promise<FormErrors<T> & FormSuccess<T>> | Promise<void>
-export type OnChange<T> = (args: FormObject<T> & FormErrors<T> & FormSuccess<T>) => Promise<void>
+export type OnSubmit<T> = (args: FormObject<T> & FormErrors<T>) => Promise<FormErrors<T>> | Promise<void> | void | FormErrors<T>
+export type OnValidate<T> = (form: T) => Promise<FormErrors<T> & FormSuccess<T>> | Promise<void> | void | FormErrors<T> & FormSuccess<T>
+export type OnChange<T> = (args: FormObject<T> & FormErrors<T> & FormSuccess<T>) => Promise<void> | void
 
 export type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>

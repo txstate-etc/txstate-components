@@ -37,6 +37,7 @@ const validationReducer = produce((draft, action: Action) => {
 
 interface FormProps<T> {
   setup?: T
+  webForm?: boolean
   initialValues?: RecursivePartial<T>
   onSubmit?: OnSubmit<T>
   onChange?: OnChange<T>
@@ -59,6 +60,7 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
     forwardRef,
     validationDelay = 300,
     initialValues,
+    webForm = true,
     id,
     runValidateOnSubmit
   } = props
@@ -183,14 +185,16 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
     debouncedValidate(form)
   }, [debouncedValidate, form])
 
+  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    submitForm && submitForm()
+  }, [submitForm])
+
+  const WebForm = useCallback(() => <form onSubmit={handleSubmit}>{children}</form>, [handleSubmit, children])
+
   return (
     <FormContext.Provider value={formId.current}>
-      <form onSubmit={e => {
-        e.preventDefault()
-        submitForm && submitForm()
-      }}>
-        {children}
-      </form>
+      {webForm ? WebForm : children}
     </FormContext.Provider>
   )
 }

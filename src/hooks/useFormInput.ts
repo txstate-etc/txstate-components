@@ -30,13 +30,12 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   const formEvent = useContext(FormContext)
   const inputId = useRef(nanoid(10))
   const inputIndex = useRef<number>()
-  const inputError = useRef<string>()
 
   const [value, _setValue] = useState(() => {
     if (initialValue || initialValue === null) return initialValue
     return ''
   })
-  const [, setError] = useState('')
+  const [_error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [focus, setFocus] = useState(false)
 
@@ -57,12 +56,12 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   const { error, errClass } = useMemo(() => {
     if (isDirty) {
       return {
-        error: inputError.current ?? '',
-        errClass: inputError.current ?? 'txst-form-error'
+        error: _error ?? '',
+        errClass: _error ?? 'txst-form-error'
       }
     }
     return { error: '' }
-  }, [inputError, isDirty])
+  }, [_error, isDirty])
 
   const _broadcastChange = useEvent(`${formEvent}-data`)
   const _broadcastIndexCheck = useEvent(`${formEvent}-index-check`)

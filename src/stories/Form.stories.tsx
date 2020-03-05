@@ -62,6 +62,22 @@ const FormExample = () => {
     <Form
       forwardRef={ref}
       setup={formSetup}
+      onSubmit={({ form, errors }) => {
+        console.log(form)
+      }}
+      onValidate={(form) => {
+        if (form?.person?.name?.first === 'Phillip') {
+          return {
+            errors: {
+              person: {
+                name: {
+                  first: 'Who is this?'
+                }
+              }
+            }
+          }
+        }
+      }}
       initialValues={initialValues}
     >
       <Stack spacing={8}>
