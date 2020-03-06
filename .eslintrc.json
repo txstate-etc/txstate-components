@@ -30,8 +30,10 @@
   "rules": {
       "no-var": "error",
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
-  },
+      "react-hooks/exhaustive-deps": "warn",
+      // don't force class properties to be double-spaced
+      "lines-between-class-members": [2, "always", { "exceptAfterSingleLine": true }]
+    },
   "overrides": [
       {
         "files": ["*.ts", "*.tsx"],
