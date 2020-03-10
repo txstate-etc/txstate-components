@@ -8,7 +8,7 @@ import isNil from 'lodash/isNil'
 
 interface UseFormInputArgs {
   path: string
-  extractor?: Function
+  extractor: (...args: any[]) => any
   transformer?: Function
   initialValue?: any
 }
@@ -143,11 +143,10 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   }, [formEvent])
 
   const notifyFormValueChange = useCallback((...args) => {
-    let value = get(args, '[1]')
-
-    if (extractor && typeof extractor === 'function') {
-      value = extractor(...args)
+    if (!extractor?.apply) {
+      throw new Error('An extractor function is required, it should retrieve the value from input')
     }
+    const value = extractor.apply(null, args)
 
     handleChange({ value, path, inputEvent, transformer })
   }, [extractor, handleChange, path, inputEvent, transformer])

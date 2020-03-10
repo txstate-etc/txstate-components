@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { StackComponent, StackItem } from './Stack.types'
 import { Dictionary } from '../../utils/helper.types'
 import { css, jsx } from '@emotion/core'
+import { classNames } from '../../utils/helpers'
 
 const alignmentMap: Dictionary<string> = {
   start: 'flex-start',
@@ -10,16 +11,11 @@ const alignmentMap: Dictionary<string> = {
 }
 
 const addClassName = (className: string) => (child: React.ReactNode) => {
-  console.log('Child', child)
   if (!React.isValidElement(child)) {
     return null
   }
 
-  if (child.props.className) {
-    return React.cloneElement(child, { className: `${child.props.className} ${className}` })
-  }
-
-  return React.cloneElement(child, { className })
+  return React.cloneElement(child, { className: classNames(child.props.className, className) })
 }
 
 export const Stack: StackComponent = ({

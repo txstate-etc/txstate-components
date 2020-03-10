@@ -1,22 +1,92 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
-import  { TextInput } from '../components' 
+import  { Input, Form } from '../components' 
 
-<Meta title="Components/TextInput" component={TextInput} />
+<Meta title="Components/Input" component={Input} />
 
-# TextInput
+# Input
 
 ```typescript
-import { TextInput } from '@txstate-mws/txstate-react/TextInput'
+import { Input } from '@txstate-mws/txstate-react/Input'
 ```
 
 ## Props
 
-<Props of={TextInput} />
+<Props of={Input} />
 
 ### Label
 ---
 <Preview>
   <Story name='label'>
-    <TextInput style={{maxWidth: 200}}label='My Input Label' description='This is a text description' placeholder="Enter your name" />
+    <Form>
+      <Input 
+        style={{maxWidth: 200}}
+        label='Name' 
+        path='name'
+        placeholder='put the name in...'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+
+### Error
+---
+<Preview>
+  <Story name='error'>
+    <Form
+      onValidate={(form) => {
+        return {
+          errors: {
+            name: 'Just put the name in the basket!'
+          }
+        }
+      }}
+    >
+      <Input 
+        style={{maxWidth: 200}}
+        label='Name' 
+        path='name'
+        placeholder='put the name in...'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+### Success
+---
+<Preview>
+  <Story name='success'>
+    <Form
+      onValidate={(form) => {
+        return {
+          success: {
+            name: 'Thank you.'
+          }
+        }
+      }}
+    >
+      <Input 
+        style={{maxWidth: 200}}
+        label='Name' 
+        path='name'
+        placeholder='put the name in...'
+      />
+    </Form>
+  </Story>
+</Preview>
+
+### Password
+---
+<Preview>
+  <Story name='password'>
+    <Form>
+      <Input
+        style={{maxWidth: 200}}
+        label='Password' 
+        path='password'
+        type='password'
+        placeholder='enter password...'
+      />
+    </Form>
   </Story>
 </Preview>

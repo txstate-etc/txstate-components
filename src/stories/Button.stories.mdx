@@ -1,6 +1,6 @@
-import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks';
-import  { Button, Toast } from '../components' 
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
 import { action } from '@storybook/addon-actions'
+import  { Button, Toast } from '../components' 
 import './Button.css'
 
 <Meta title="Components/Button" component={Button} />
@@ -47,7 +47,7 @@ It's a <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticE
 
 <Preview>
   <Story name="onClick">
-    <Button label='Click Me!' ariaLabel='primary button' onClick={() => toast.makeText({ message: "We'll cover this component later" })} />
+    <Button label='Click Me!' ariaLabel='primary button' onClick={action('button-click')} />
   </Story>
 </Preview>
 

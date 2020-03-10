@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { storiesOf } from '@storybook/react'
 import { FormRef } from '../components/Form/Form.types'
 import { useFormInput } from '../hooks/useFormInput'
 import nanoid from 'nanoid'
@@ -54,7 +53,7 @@ interface FormStructure {
   age: number
 }
 
-const FormExample = () => {
+export const SimpleForm = () => {
   const ref = useRef<FormRef>(null)
   const formSetup = {} as FormStructure
 
@@ -88,15 +87,19 @@ const FormExample = () => {
           <TextInput path='person.name.last' label='Last Name' />
         </Stack.Item>
         <Stack horizontal spacing={8}>
-          <Button type='button' variant='outline' label='Cancel' />
-          <Button type='submit' label='Submit' />
+          <Button type='button' variant='outline' label='Cancel' size='sm' />
+          <Button type='submit' label='Submit' size='sm' />
         </Stack>
       </Stack>
     </Form>
   )
 }
 
-storiesOf('Form', module)
-  .add('Simple', () => {
-    return <FormExample />
-  })
+SimpleForm.story = {
+  name: 'Simple Form'
+}
+
+export default {
+  title: 'Form',
+  component: Form
+}

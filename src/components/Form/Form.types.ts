@@ -1,6 +1,3 @@
-export type Optional<T> = T | undefined
-export type Maybe<T> = T | null
-
 export type ActionType = 'set' | 'remove' | 'errors' | 'success'
 export type Action<T = any> = { payload: T, path?: string, type: ActionType }
 

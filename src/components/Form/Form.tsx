@@ -49,7 +49,22 @@ interface FormProps<T> {
   children?: React.ReactNode
 }
 
-type Form = <T = any>(props: FormProps<T>) => JSX.Element
+interface WebFormProps {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+  webForm?: boolean
+}
+
+const WebForm: React.FunctionComponent<WebFormProps> = (props) => {
+  const { onSubmit, webForm, children } = props
+  if (webForm) {
+    return <form onSubmit={onSubmit}>{children}</form>
+  }
+  return (
+    <>
+      {children}
+    </>
+  )
+}
 
 export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
   const {
@@ -110,10 +125,6 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
   useEvent(`${formId.current}-data`, handleChildData)
   useEvent(`${formId.current}-error-report`, handleErrorReport)
 
-  useEffect(() => {
-    notifyChildrenReady(initialValues ?? {})
-  }, [notifyChildrenReady, initialValues])
-
   const validateOnChange = useCallback(async (form, submit = false) => {
     try {
       if (!onValidate) {
@@ -171,6 +182,10 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, onValidate])
 
   useEffect(() => {
+    notifyChildrenReady(initialValues ?? {})
+  }, [notifyChildrenReady, initialValues])
+
+  useEffect(() => {
     if (onChange && typeof onChange === 'function') {
       onChange({ form, errors, success })
     }
@@ -190,11 +205,11 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
     submitForm && submitForm()
   }, [submitForm])
 
-  const WebForm = useCallback(() => <form onSubmit={handleSubmit}>{children}</form>, [handleSubmit, children])
-
   return (
     <FormContext.Provider value={formId.current}>
-      {webForm ? WebForm : children}
+      <WebForm onSubmit={handleSubmit} webForm={webForm}>
+        {children}
+      </WebForm>
     </FormContext.Provider>
   )
 }
