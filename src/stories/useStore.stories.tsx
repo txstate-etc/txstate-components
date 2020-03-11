@@ -15,15 +15,6 @@ const StoreExample = () => {
   </div>)
 }
 
-storiesOf('Hooks|useStore', module)
-  .add('simple', () => {
-    return <React.Fragment>
-      <StoreExample />
-      <StoreExample />
-      <div>Clicking either button should increment both.</div>
-    </React.Fragment>
-  })
-
 const ExampleContext = React.createContext(counterSubject)
 const ContextExample = () => {
   const counterValue = useStoreFromContext(ExampleContext)
@@ -32,15 +23,6 @@ const ContextExample = () => {
     <Button label={String(counterValue)} onClick={increment} />
   </div>)
 }
-
-storiesOf('Hooks|useStore', module)
-  .add('context', () => {
-    return <ExampleContext.Provider value={counterSubject}>
-      <ContextExample />
-      <ContextExample />
-      <div>Clicking either button should increment both.</div>
-    </ExampleContext.Provider>
-  })
 
 const parentStore = new Store({ first: 0, second: 0 }, { immutable: true })
 const DerivedExample = (props: { which:'first'|'second' }) => {
@@ -54,7 +36,29 @@ const DerivedExample = (props: { which:'first'|'second' }) => {
   </div>)
 }
 
-storiesOf('Hooks|useStore', module)
+const AccessorExample = (props: { which:'first'|'second' }) => {
+  const [counterValue, setCounter] = useAndUpdateDerivedStore(parentStore, props.which)
+  console.log('rendering', props.which)
+  return (<div style={{ marginBottom: '10px' }}>
+    <Button label={String(counterValue)} onClick={() => setCounter(counterValue + 1)} />
+  </div>)
+}
+
+storiesOf('Hooks/useStore', module)
+  .add('simple', () => {
+    return <React.Fragment>
+      <StoreExample />
+      <StoreExample />
+      <div>Clicking either button should increment both.</div>
+    </React.Fragment>
+  })
+  .add('context', () => {
+    return <ExampleContext.Provider value={counterSubject}>
+      <ContextExample />
+      <ContextExample />
+      <div>Clicking either button should increment both.</div>
+    </ExampleContext.Provider>
+  })
   .add('derivation', () => {
     return <React.Fragment>
       <DerivedExample which='first' />
@@ -64,16 +68,6 @@ storiesOf('Hooks|useStore', module)
       <div>Top two buttons and bottom two buttons should be linked.</div>
     </React.Fragment>
   })
-
-const AccessorExample = (props: { which:'first'|'second' }) => {
-  const [counterValue, setCounter] = useAndUpdateDerivedStore(parentStore, props.which)
-  console.log('rendering', props.which)
-  return (<div style={{ marginBottom: '10px' }}>
-    <Button label={String(counterValue)} onClick={() => setCounter(counterValue + 1)} />
-  </div>)
-}
-
-storiesOf('Hooks|useStore', module)
   .add('selector', () => {
     return <React.Fragment>
       <AccessorExample which='first' />

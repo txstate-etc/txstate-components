@@ -96,10 +96,10 @@ export const SimpleForm = () => {
 }
 
 SimpleForm.story = {
-  name: 'Simple Form'
+  name: 'text inputs'
 }
 
 export default {
-  title: 'Form',
+  title: 'Form/Simple',
   component: Form
 }

@@ -1,7 +1,7 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
 import { Checkbox } from '../components'
 
-<Meta title='Checkbox' component={Checkbox} />
+<Meta title='Components/Checkbox' component={Checkbox} />
 
 ```typescript
   import { Checkbox } from '@txstate-mws/txstate-react/lib/Checkbox'
@@ -9,6 +9,12 @@ import { Checkbox } from '../components'
 
 <Preview>
   <Story name='basic'>
-    <Checkbox />
+    <Checkbox label='Lotion is in the basket.'/>
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name='disabled'>
+    <Checkbox disabled label='Just put the f$#*ing lotion in the basket!' />
   </Story>
 </Preview>
