@@ -1,12 +1,11 @@
 import React from 'react'
-
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+import { ComponentSize } from '../../utils/helper.types'
 
 export interface ButtonProps {
   label: string
   onClick?: (event?: React.MouseEvent<any>) => void
   variant?: 'primary' | 'outline' | 'transparent'
-  size?: ButtonSize
+  size?: ComponentSize
   ariaLabel?: string
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'

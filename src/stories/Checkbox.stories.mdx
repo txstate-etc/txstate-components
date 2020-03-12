@@ -1,20 +1,59 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
-import { Checkbox } from '../components'
+import { Checkbox, Stack } from '../components'
 
 <Meta title='Components/Checkbox' component={Checkbox} />
+
+# Checkbox
 
 ```typescript
   import { Checkbox } from '@txstate-mws/txstate-react/lib/Checkbox'
 ```
 
+## Props
+<Props of={Checkbox} />
+
+### Unchecked
+---
 <Preview>
-  <Story name='basic'>
+  <Story name='unchecked'>
+    <Checkbox label='Oh wait... was she a great big fat person?' />
+  </Story>
+</Preview>
+
+### Checked
+---
+<Preview>
+  <Story name='checked'>
     <Checkbox label='Lotion is in the basket.'/>
   </Story>
 </Preview>
 
+### Disabled
+---
 <Preview>
   <Story name='disabled'>
     <Checkbox disabled label='Just put the f$#*ing lotion in the basket!' />
+  </Story>
+</Preview>
+
+### No Checkmark
+---
+<Preview>
+  <Story name='no-check'>
+    <Checkbox showCheck={false} label="I'm having an old friend for dinner." />
+  </Story>
+</Preview>
+
+### Sizes
+---
+<Preview>
+  <Story name='sizes'>
+    <Stack vertical spacing={12} style={{ padding: 12 }}>
+      <Checkbox size='xs' label='Extra Small' />
+      <Checkbox size='sm' label='Small' />
+      <Checkbox size='md' label='Medium' />
+      <Checkbox size='lg' label='Large' />
+      <Checkbox size='xl' label='Extra Large' />
+    </Stack>
   </Story>
 </Preview>

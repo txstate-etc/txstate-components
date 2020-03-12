@@ -28,16 +28,6 @@ export const Stack: StackComponent = ({
   wrap,
   children
 }) => {
-  const classNames = []
-
-  if (horizontal) {
-    classNames.push('horizontal')
-  } else {
-    classNames.push('vertical')
-  }
-
-  if (className) { classNames.push(className) }
-
   const stackStyle = useMemo(() => {
     const hAlign = alignmentMap[horizontalAlign] ?? horizontalAlign
     const vAlign = alignmentMap[verticalAlign] ?? verticalAlign
@@ -78,7 +68,7 @@ export const Stack: StackComponent = ({
   return (
     <div
       style={style}
-      className={classNames.join(' ')}
+      className={classNames({ horizontal: !!horizontal, vertical: !horizontal }, className)}
       css={stackStyle}
     >
       {stackChildren}

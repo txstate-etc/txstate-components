@@ -5,3 +5,5 @@ export type Dictionary<T> = {
   [key: string]: T
   [key: number]: T
 }
+
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
