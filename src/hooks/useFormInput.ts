@@ -14,7 +14,7 @@ interface UseFormInputArgs {
 }
 
 interface UseFormReturn {
-  onChange: (event: React.ChangeEvent) => void,
+  onChange: (event: any) => void,
   onBlur: Function,
   isDirty: boolean,
   value: any,

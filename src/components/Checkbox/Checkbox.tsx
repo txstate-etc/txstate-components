@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useRef, useState, useMemo, useCallback } from 'react'
+import { useRef, useMemo } from 'react'
 import { css, jsx } from '@emotion/core'
 import nanoid from 'nanoid'
 import { Stack } from '../Stack/Stack'
@@ -7,8 +7,10 @@ import { Theme } from '../../utils/Theme'
 import { Checkmark } from '../Icons/Checkmark'
 import { ComponentSize } from '../../utils/helper.types'
 import { classNames } from '../../utils'
+import { useFormInput } from '../../hooks'
 
 interface CheckboxProps {
+  path: string
   label: string
   size?: ComponentSize
   showCheck?: boolean
@@ -82,16 +84,19 @@ export const Checkbox: Checkbox = props => {
     className,
     size = 'md',
     disabled,
-    showCheck = true
+    showCheck = true,
+    path
   } = props
 
-  const [checked, setChecked] = useState(true)
-  const _id = useRef(id ?? nanoid(10))
+  const {
+    value: checked,
+    onChange
+  } = useFormInput({
+    path,
+    extractor: (isChecked: boolean) => isChecked
+  })
 
-  const toggleChecked = useCallback((e: React.SyntheticEvent) => {
-    e.preventDefault()
-    setChecked(checked => !checked)
-  }, [])
+  const _id = useRef(id ?? nanoid(10))
 
   const backgroundColor = useMemo(() => {
     if (disabled) return '#E2E2E2'
@@ -102,7 +107,7 @@ export const Checkbox: Checkbox = props => {
   const shouldShowCheck = useMemo(() => {
     return showCheck && !disabled && (size !== 'xs' && size !== 'sm') && checked
   }, [disabled, showCheck, size, checked])
-
+  const inputRef = useRef<HTMLInputElement>(null)
   return (
     <Stack
       className={className}
@@ -117,14 +122,15 @@ export const Checkbox: Checkbox = props => {
       `}
       spacing={spacing[size]}
     >
-      <input hidden disabled={disabled} type='checkbox' checked={checked} />
+      {/* TODO: Figure out if this is actually needed */}
+      <input ref={inputRef} hidden disabled={disabled} type='checkbox' defaultChecked={checked} />
       <button
         role='checkbox'
         aria-checked={checked}
         aria-label={label}
         disabled={disabled}
         id={_id.current}
-        onClick={toggleChecked}
+        onClick={() => onChange(!checked)}
         className={classNames(`${size}-button`)}
         css={css`
           padding: 0;
@@ -162,5 +168,6 @@ export const Checkbox: Checkbox = props => {
 }
 
 Checkbox.defaultProps = {
-  showCheck: true
+  showCheck: true,
+  size: 'md'
 }

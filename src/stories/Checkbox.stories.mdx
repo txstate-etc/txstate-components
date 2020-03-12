@@ -1,5 +1,5 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
-import { Checkbox, Stack } from '../components'
+import { Checkbox, Stack, Form, Button } from '../components'
 
 <Meta title='Components/Checkbox' component={Checkbox} />
 
@@ -16,7 +16,9 @@ import { Checkbox, Stack } from '../components'
 ---
 <Preview>
   <Story name='unchecked'>
-    <Checkbox label='Oh wait... was she a great big fat person?' />
+    <Form>
+      <Checkbox label='Oh wait... was she a great big fat person?' path='checkbox' />
+    </Form>
   </Story>
 </Preview>
 
@@ -24,7 +26,11 @@ import { Checkbox, Stack } from '../components'
 ---
 <Preview>
   <Story name='checked'>
-    <Checkbox label='Lotion is in the basket.'/>
+    <Form
+      initialValues={{ checkbox: true }}
+    >
+      <Checkbox label='Lotion is in the basket.' path='checkbox' />
+    </Form>
   </Story>
 </Preview>
 
@@ -32,7 +38,9 @@ import { Checkbox, Stack } from '../components'
 ---
 <Preview>
   <Story name='disabled'>
-    <Checkbox disabled label='Just put the f$#*ing lotion in the basket!' />
+    <Form>
+      <Checkbox disabled label='Just put the f$#*ing lotion in the basket!' path='checkbox' />
+    </Form>
   </Story>
 </Preview>
 
@@ -40,7 +48,9 @@ import { Checkbox, Stack } from '../components'
 ---
 <Preview>
   <Story name='no-check'>
-    <Checkbox showCheck={false} label="I'm having an old friend for dinner." />
+    <Form>
+      <Checkbox showCheck={false} label="I'm having an old friend for dinner." path='checkbox' />
+    </Form>
   </Story>
 </Preview>
 
@@ -48,12 +58,23 @@ import { Checkbox, Stack } from '../components'
 ---
 <Preview>
   <Story name='sizes'>
-    <Stack vertical spacing={12} style={{ padding: 12 }}>
-      <Checkbox size='xs' label='Extra Small' />
-      <Checkbox size='sm' label='Small' />
-      <Checkbox size='md' label='Medium' />
-      <Checkbox size='lg' label='Large' />
-      <Checkbox size='xl' label='Extra Large' />
-    </Stack>
+    <Form
+      initialValues={{
+        xs: true,
+        sm: true,
+        md: true,
+        lg: true,
+        xl: true
+      }}
+    >
+      <Stack vertical spacing={12} style={{ padding: 12 }}>
+        <Checkbox size='xs' label='Extra Small' path='xs' />
+        <Checkbox size='sm' label='Small' path='sm' />
+        <Checkbox size='md' label='Medium' path='md' />
+        <Checkbox size='lg' label='Large' path='lg' />
+        <Checkbox size='xl' label='Extra Large' path='xl' />
+      </Stack>
+      <Button type='submit' label='Submit' />
+    </Form>
   </Story>
 </Preview>
