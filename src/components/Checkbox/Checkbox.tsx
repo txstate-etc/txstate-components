@@ -1,13 +1,13 @@
 /** @jsx jsx */
-import { useRef, useMemo } from 'react'
+import { useMemo } from 'react'
 import { css, jsx } from '@emotion/core'
-import nanoid from 'nanoid'
 import { Stack } from '../Stack/Stack'
 import { Theme } from '../../utils/Theme'
 import { Checkmark } from '../Icons/Checkmark'
 import { ComponentSize } from '../../utils/helper.types'
 import { classNames } from '../../utils'
 import { useFormInput } from '../../hooks'
+import { useOptionalId } from '../../hooks/useOptionalId'
 
 interface CheckboxProps {
   path: string
@@ -79,7 +79,6 @@ const spacing = {
 
 export const Checkbox: Checkbox = props => {
   const {
-    id,
     label,
     className,
     size = 'md',
@@ -97,7 +96,7 @@ export const Checkbox: Checkbox = props => {
     extractor: (isChecked: boolean) => isChecked
   })
 
-  const _id = useRef(id ?? nanoid(10))
+  const id = useOptionalId(props.id)
 
   const backgroundColor = useMemo(() => {
     if (disabled) return '#E2E2E2'
@@ -130,7 +129,7 @@ export const Checkbox: Checkbox = props => {
         aria-checked={checked}
         aria-label={label}
         disabled={disabled}
-        id={_id.current}
+        id={id}
         onClick={() => onChange(!checked)}
         className={classNames(`${size}-button`)}
         css={css`
@@ -160,7 +159,7 @@ export const Checkbox: Checkbox = props => {
       <label
         className={classNames(`${size}-label`)}
         css={sizes}
-        htmlFor={_id.current}
+        htmlFor={id}
       >
         {label}
       </label>

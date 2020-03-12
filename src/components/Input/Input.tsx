@@ -1,8 +1,7 @@
 /** @jsx jsx */
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { css, jsx } from '@emotion/core'
 import { Theme } from '../../utils/Theme'
-import nanoid from 'nanoid'
 import { useFormInput } from '../../hooks/useFormInput'
 import { classNames } from '../../utils/helpers'
 import { Stack } from '../Stack/Stack'
@@ -10,6 +9,7 @@ import { Exclamation } from '../Icons/Exclamation'
 import { PasswordShow } from '../Icons/PasswordShow'
 import { Maybe } from '../../utils/helper.types'
 import { PasswordHide } from '../Icons/PasswordHide'
+import { useOptionalId } from '../../hooks/useOptionalId'
 
 const Description = (props: { text?: string, className?: string }) => {
   if (!props.text) {
@@ -170,7 +170,6 @@ const containerStyle = css`
 
 export const Input: React.FunctionComponent<InputProps> = props => {
   const {
-    id,
     path,
     style,
     label,
@@ -182,7 +181,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
 
   const [overrideType, setOverrideType] = useState<Maybe<string>>(null)
 
-  const _id = useRef(id ?? nanoid(10))
+  const id = useOptionalId(props.id)
 
   const {
     value,
@@ -212,7 +211,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
       <label
         className={classNames({ error: Boolean(error) })}
         css={labelStyle}
-        htmlFor={_id.current}
+        htmlFor={id}
       >
         {label}
       </label>
@@ -223,7 +222,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
           size={1}
           css={inputStyle}
           className={classNames({ error: Boolean(error), password: type === 'password' })}
-          id={_id.current}
+          id={id}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
