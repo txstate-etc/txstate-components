@@ -94,6 +94,7 @@ const PasswordBox: React.FunctionComponent<{ type?: string, passwordVisible: boo
 
   return (
     <button
+      aria-label={passwordVisible ? 'hide password' : 'show password'}
       css={css`
         display: flex;
         align-items: center;
@@ -119,6 +120,7 @@ export interface InputProps {
   type?: string
   description?: string
   placeholder?: string
+  className?: string
   style?: React.CSSProperties
   id?: string
 }
@@ -161,7 +163,7 @@ const labelStyle = css`
 `
 
 const containerStyle = css`
-
+  align-self: stretch;
   color: #434343;
   font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
@@ -174,6 +176,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
     label,
     type,
     description,
+    className,
     placeholder
   } = props
 
@@ -203,6 +206,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
     <Stack
       style={style}
       css={containerStyle}
+      className={className}
       spacing={8}
     >
       <label

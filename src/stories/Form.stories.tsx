@@ -1,35 +1,6 @@
 import React, { useRef } from 'react'
 import { FormRef } from '../components/Form/Form.types'
-import { useFormInput } from '../hooks/useFormInput'
-import nanoid from 'nanoid'
-import { Button, Stack, Form } from '../components'
-
-interface TextProps {
-  path: string
-  label: string
-  id?: string
-}
-
-const TextInput = (props: TextProps) => {
-  const { path, label, id = nanoid(10) } = props
-
-  const {
-    error,
-    onChange,
-    value
-  } = useFormInput({
-    path,
-    extractor: (e: any) => e.target.value
-  })
-
-  return (
-    <div>
-      <label style={{ display: 'block' }}>{label}</label>
-      <input id={id} value={value} onChange={onChange} type='text' />
-      {error && <span style={{ color: 'red' }}>{error}</span>}
-    </div>
-  )
-}
+import { Button, Stack, Form, Input } from '../components'
 
 const initialValues = {
   person: {
@@ -75,17 +46,17 @@ export const SimpleForm = () => {
               }
             }
           }
+        } else {
+          return {
+            errors: {}
+          }
         }
       }}
       initialValues={initialValues}
     >
-      <Stack spacing={8}>
-        <Stack.Item>
-          <TextInput path='person.name.first' label='First Name' />
-        </Stack.Item>
-        <Stack.Item>
-          <TextInput path='person.name.last' label='Last Name' />
-        </Stack.Item>
+      <Stack style={{ width: 400 }} spacing={12}>
+        <Input path='person.name.first' label='First Name' />
+        <Input path='person.name.last' label='Last Name' />
         <Stack horizontal spacing={8}>
           <Button type='button' variant='outline' label='Cancel' size='sm' />
           <Button type='submit' label='Submit' size='sm' />
