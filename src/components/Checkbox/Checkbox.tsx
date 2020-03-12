@@ -43,7 +43,7 @@ export const Checkbox: Checkbox = props => {
       `}
       spacing={11}
     >
-      <input hidden disabled={disabled} type='checkbox' checked={checked}/>
+      <input hidden disabled={disabled} type='checkbox' checked={checked} />
       <button
         role='checkbox'
         aria-checked={checked}
@@ -60,7 +60,7 @@ export const Checkbox: Checkbox = props => {
           background-color: ${backgroundColor};
 
           &:focus {
-            /* TODO: Put some sweet focus style here? Maybe. */
+            box-shadow: 0 0 0 2px white, 0 0 2px 4px ${Theme.deepBlue.hex()};
           }
         `}
       />
