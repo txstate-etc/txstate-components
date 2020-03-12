@@ -32,7 +32,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   const inputIndex = useRef<number>()
 
   const [value, _setValue] = useState(() => {
-    if (initialValue || initialValue === null) return initialValue
+    if (initialValue !== undefined) return initialValue
     return ''
   })
   const [_error, setError] = useState('')

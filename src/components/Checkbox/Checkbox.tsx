@@ -93,6 +93,7 @@ export const Checkbox: Checkbox = props => {
     onChange
   } = useFormInput({
     path,
+    initialValue: false,
     extractor: (isChecked: boolean) => isChecked
   })
 
@@ -107,7 +108,7 @@ export const Checkbox: Checkbox = props => {
   const shouldShowCheck = useMemo(() => {
     return showCheck && !disabled && (size !== 'xs' && size !== 'sm') && checked
   }, [disabled, showCheck, size, checked])
-  const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <Stack
       className={className}
@@ -123,7 +124,7 @@ export const Checkbox: Checkbox = props => {
       spacing={spacing[size]}
     >
       {/* TODO: Figure out if this is actually needed */}
-      <input ref={inputRef} hidden disabled={disabled} type='checkbox' defaultChecked={checked} />
+      <input hidden disabled={disabled} type='checkbox' defaultChecked={checked} />
       <button
         role='checkbox'
         aria-checked={checked}
