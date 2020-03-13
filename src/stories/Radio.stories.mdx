@@ -20,12 +20,50 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
       }}
       onChange={({form}) => console.log('Form', form)}
     >
-      <RadioGroup group='sides' label='Sides for guest'>
+      <RadioGroup group='sides' label='Side with guest'>
         <Stack spacing={12} style={{ padding: '12px 0' }}>
           <Radio label='Fava Beans' id='fava-beans' />
           <Radio label='Chianti' id='chianti' />
         </Stack>
       </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name='disabled'>
+    <Form>
+      <RadioGroup group='disabled' label='Disabled'>
+        <Stack spacing={12} style={{ padding: '12px 0 ' }}>
+          <Radio id='it-rubs' label='It rubs the lotion on its skin.' />
+          <Radio disabled id='it-does' label='It does this whenever it is told.' />
+        </Stack>
+      </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
+### Sizes
+<Preview>
+  <Story name='sizes'>
+    <Form>
+      <Stack style={{padding: '12px 0'}} spacing={12}>
+        <RadioGroup group='xs' size='xs'>
+          <Radio label='Extra Small' id='xs' />
+        </RadioGroup>
+        <RadioGroup group='sm' size='sm'>
+          <Radio label='Small' id='sm' />
+        </RadioGroup>
+        <RadioGroup group='md' size='md'>
+          <Radio label='Medium' id='md' />
+        </RadioGroup>
+        <RadioGroup group='lg' size='lg'>
+          <Radio label='Large' id='lg' />
+        </RadioGroup>
+        <RadioGroup group='xl' size='xl'>
+          <Radio label='Extra Large' id='xl' />
+        </RadioGroup>
+      </Stack>
     </Form>
   </Story>
 </Preview>

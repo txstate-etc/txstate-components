@@ -5,11 +5,13 @@ import { useOptionalId } from '../../hooks/useOptionalId'
 import { RadioGroupContext } from './RadioGroup'
 import { Theme } from '../../utils/Theme'
 import { useFormInput } from '../../hooks'
-import isNil from 'lodash/isNil'
+import { Dictionary } from '../../utils/helper.types'
+import { classNames } from '../../utils'
 
 interface RadioProps {
   label: string
   path: string
+  disabled?: boolean
   id?: string
   className?: string
 }
@@ -24,9 +26,19 @@ const radioSizes = {
   xl: 28
 }
 
+const fontSizes = {
+  xs: 0.7,
+  sm: 0.8,
+  md: 1.0,
+  lg: 1.1,
+  xl: 1.2
+}
+
+// TODO: Fix padding as the span grows
+
 export const Radio: Radio = props => {
   const id = useOptionalId(props.id)
-  const { label, className } = props
+  const { label, className, disabled } = props
 
   const { group, size } = useContext(RadioGroupContext)
 
@@ -50,17 +62,23 @@ export const Radio: Radio = props => {
     return radioSize + 12
   }, [radioSize])
 
-  return isNil(value) ? null : (
-    <div className={className}>
+  const defaultCheckedHacks: Dictionary<boolean> = {}
+  if (value) {
+    defaultCheckedHacks.defaultChecked = value === id
+  }
+
+  return (
+    <div className={className} style={{ height: radioSize + 4 }}>
       <input
+        disabled={disabled}
         type='radio' id={id} name={group}
         value={id}
-        defaultChecked={value === id}
         onChange={onChange}
         css={css`
           position: absolute;
           opacity: 0;
           user-select: none;
+          
 
           &:focus + label span::after {
             box-shadow: 0 0 1px 2px ${Theme.white.hex()},
@@ -69,6 +87,7 @@ export const Radio: Radio = props => {
           }
 
           & + label span::after {
+            box-sizing: border-box;
             left: 0;
             background-color: ${Theme.white.hex()};
             border: solid 2px ${Theme.maroon.hex()};
@@ -80,14 +99,17 @@ export const Radio: Radio = props => {
             background-color: ${Theme.maroon.hex()};
           }
         `}
+        {...defaultCheckedHacks}
       />
       <label htmlFor={id} css={css`
           position: relative;
           padding-left: ${radioPadding}px;
-          font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+          font-size: ${fontSizes[size ?? 'md']}rem;
+          font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         `}
       >
         <span
+          className={classNames({ disabled })}
           css={css`
             &:hover {
               cursor: pointer;  
