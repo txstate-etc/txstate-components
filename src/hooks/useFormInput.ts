@@ -33,7 +33,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
 
   const [value, _setValue] = useState(() => {
     if (initialValue !== undefined) return initialValue
-    return ''
+    return null
   })
   const [_error, setError] = useState('')
   const [success, setSuccess] = useState('')

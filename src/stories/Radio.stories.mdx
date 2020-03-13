@@ -1,5 +1,5 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
-import { Radio } from '../components'
+import { Radio, Stack, Button, RadioGroup, Form } from '../components'
 
 <Meta title='Components/Radio' component={Radio} />
 
@@ -14,7 +14,19 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 ### Selected
 <Preview>
   <Story name='selected'>
-    <Radio />
+    <Form
+      initialValues={{
+        sides: 'chianti'
+      }}
+      onChange={({form}) => console.log('Form', form)}
+    >
+      <RadioGroup group='sides' label='Sides for guest'>
+        <Stack spacing={12} style={{ padding: '12px 0' }}>
+          <Radio label='Fava Beans' id='fava-beans' />
+          <Radio label='Chianti' id='chianti' />
+        </Stack>
+      </RadioGroup>
+    </Form>
   </Story>
 </Preview>
 
