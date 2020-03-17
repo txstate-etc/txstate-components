@@ -34,8 +34,6 @@ const fontSizes = {
   xl: 1.2
 }
 
-// TODO: Fix padding as the span grows
-
 export const Radio: Radio = props => {
   const id = useOptionalId(props.id)
   const { label, className, disabled } = props
@@ -74,7 +72,7 @@ export const Radio: Radio = props => {
     <div className={className} style={{ height: radioSize + 4 }}>
       <input
         disabled={disabled}
-        className={classNames(size)}
+        className={classNames(size, { disabled })}
         type='radio' id={id} name={group}
         value={id}
         onChange={onChange}
@@ -82,7 +80,6 @@ export const Radio: Radio = props => {
           position: absolute;
           opacity: 0;
           user-select: none;
-          
 
           &:focus + label span::after {
             box-shadow: 0 0 1px 2px ${Theme.white.hex()},
@@ -100,6 +97,16 @@ export const Radio: Radio = props => {
             background-color: ${Theme.white.hex()};
             border: solid 2px ${Theme.maroon.hex()};
             box-shadow: inset 0 0 0 2.5px ${Theme.white.hex()};
+          }
+
+          &.disabled + label span::after {
+            background-color: #E2E2E2;
+            box-shadow: none;
+            border-color: #C4C4C4;
+          }
+
+          &.disabled + label span {
+            color: #606060;
           }
 
           &.xs + label span::after {
