@@ -63,92 +63,100 @@ export const Radio: Radio = props => {
   const inputProps: Dictionary<boolean> = useMemo(() => {
     const inputProps: Dictionary<boolean> = {}
     if (value) {
-      inputProps.defaultChecked = value === id
+      inputProps.defaultChecked = !disabled && value === id
     }
     return inputProps
-  }, [value, id])
+  }, [value, id, disabled])
 
   return (
-    <div className={className} style={{ height: radioSize + 4 }}>
+    <label
+      htmlFor={id}
+      className={classNames(className, { disabled })}
+      css={css`
+        height: ${radioSize + 4}px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-left: ${radioPadding}px;
+        cursor: pointer;
+        font-size: ${fontSizes[size ?? 'md']}rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        user-select: none;
+        color: #363534;
+
+        &.disabled, .disabled > input {
+          color: #606060;
+          cursor: not-allowed;
+        }
+
+        & input:checked ~ span {
+          background-color: ${Theme.white.hex()};
+          border-color: ${Theme.maroon.hex()};
+        }
+
+        & input:checked ~ span:after {
+          display: block;
+        }
+
+        & input:focus ~ span {
+          box-shadow: 0 0 1px 2px ${Theme.white.hex()},
+              0 0 2px 4px ${Theme.deepBlue.hex()}
+        }
+
+        & span:after {
+          width: 75%;
+          height: 75%;
+          border-radius: 50%;
+          background: ${Theme.maroon.hex()};
+        }
+      `}
+    >
+      {label}
       <input
         disabled={disabled}
-        className={classNames(size, { disabled })}
         type='radio' id={id} name={group}
         value={id}
         onChange={onChange}
+        className={classNames({ disabled })}
         css={css`
           position: absolute;
           opacity: 0;
-          user-select: none;
-
-          &:focus + label span::after {
-            box-shadow: 0 0 1px 2px ${Theme.white.hex()},
-              0 0 2px 4px ${Theme.deepBlue.hex()},
-              inset 0 0 0 2.5px ${Theme.white.hex()};
-          }
-
-          &.xs:focus + label span::after {
-            box-shadow: 0 0 1px 2px ${Theme.white.hex()}, 0 0 2px 4px ${Theme.deepBlue.hex()};
-          }
-
-          & + label span::after {
-            box-sizing: border-box;
-            left: 0;
-            background-color: ${Theme.white.hex()};
-            border: solid 2px ${Theme.maroon.hex()};
-            box-shadow: inset 0 0 0 2.5px ${Theme.white.hex()};
-          }
-
-          &.disabled + label span::after {
-            background-color: #E2E2E2;
-            box-shadow: none;
-            border-color: #C4C4C4;
-          }
-
-          &.disabled + label span {
-            color: #606060;
-          }
-
-          &.xs + label span::after {
-            box-shadow: none;
-          }
-
-          &:checked + label span::after {
-            left: 0;
-            background-color: ${Theme.maroon.hex()};
+          cursor: pointer;
+          
+          &.disabled {
+            cursor: not-allowed;
           }
         `}
         {...inputProps}
       />
-      <label htmlFor={id} css={css`
-          position: relative;
-          padding-left: ${radioPadding}px;
-          font-size: ${fontSizes[size ?? 'md']}rem;
-          font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        `}
-      >
-        <span
-          className={classNames({ disabled })}
-          css={css`
-            &:hover {
-              cursor: pointer;  
-            }
+      <span
+        className={classNames({ disabled })}
+        css={css`
+          position: absolute;
+          left: 0;
+          height: ${radioSize}px;
+          width: ${radioSize}px;
 
-            &::before, &::after {
-              content: '';
-              position: absolute;
-              top: 0;
-              bottom: 0;
-              margin: auto; 
-              width: ${radioSize}px;
-              height: ${radioSize}px;
-              border-radius: 100%;
-            }
-          `}
-        >
-          {label}
-        </span>
-      </label>
-    </div>
+          background-color: ${Theme.white.hex()};
+          border: solid #606060 2px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::after {
+            content: "";
+            position: absolute;
+            display: none;
+          }
+
+          &.disabled {
+            background-color: #E2E2E2;
+            border-color: #C4C4C4;
+          }
+        `}
+      />
+    </label>
+
   )
 }
