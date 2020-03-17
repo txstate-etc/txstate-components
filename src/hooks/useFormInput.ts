@@ -144,7 +144,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
 
   const notifyFormValueChange = useCallback((...args) => {
     if (!extractor?.apply) {
-      throw new Error('An extractor function is required, it should retrieve the value from input')
+      throw new Error('An extractor function is required, it should retrieve the value from the input')
     }
     const value = extractor.apply(null, args)
 

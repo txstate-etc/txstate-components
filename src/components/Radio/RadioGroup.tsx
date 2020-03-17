@@ -3,12 +3,14 @@ import { createContext } from 'react'
 import { css, jsx } from '@emotion/core'
 import { useOptionalId } from '../../hooks/useOptionalId'
 import { Maybe, ComponentSize } from '../../utils/helper.types'
+import { Form } from '../Form/Form'
 
 interface RadioGroupProps {
   label?: string
   group?: string
   size?: ComponentSize
   className?: string
+  checked?: string
 }
 
 const fontSizes = {
@@ -41,7 +43,7 @@ interface RadioGroupContext {
 export const RadioGroupContext = createContext<RadioGroupContext>({ group: null, size: null })
 
 export const RadioGroup: RadioGroup = props => {
-  const { label, children, className, size = 'md' } = props
+  const { label, children, className, size = 'md', checked } = props
   const group = useOptionalId(props.group)
 
   return (
@@ -54,9 +56,19 @@ export const RadioGroup: RadioGroup = props => {
       `}
     >
       <Legend text={label} size={size} />
-      <RadioGroupContext.Provider value={{ group, size }}>
-        {children}
-      </RadioGroupContext.Provider>
+      <Form
+        webForm={false}
+        initialValues={{
+          [group]: checked
+        }}
+        onChange={({ form }) => {
+          console.log('Radio Group', form)
+        }}
+      >
+        <RadioGroupContext.Provider value={{ group, size }}>
+          {children}
+        </RadioGroupContext.Provider>
+      </Form>
     </fieldset>
   )
 }

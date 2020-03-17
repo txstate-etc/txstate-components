@@ -11,6 +11,8 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 ## Props
 <Props of={Radio} />
 
+
+## Regular 
 ### Selected
 <Preview>
   <Story name='selected'>
@@ -30,6 +32,8 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
   </Story>
 </Preview>
 
+
+### Disabled
 <Preview>
   <Story name='disabled'>
     <Form>
@@ -68,3 +72,14 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
   </Story>
 </Preview>
 
+## Rectangle
+
+### Selected
+<Preview>
+  <Story name='selected (rectangle)'>
+    <RadioGroup group='rectangle' size='md' checked='clarice'>
+      <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
+      <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+    </RadioGroup>
+  </Story>
+</Preview>

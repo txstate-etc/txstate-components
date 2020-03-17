@@ -5,7 +5,6 @@ import { useOptionalId } from '../../hooks/useOptionalId'
 import { RadioGroupContext } from './RadioGroup'
 import { Theme } from '../../utils/Theme'
 import { useFormInput } from '../../hooks'
-import { Dictionary } from '../../utils/helper.types'
 import { classNames } from '../../utils'
 
 interface RadioProps {
@@ -14,6 +13,7 @@ interface RadioProps {
   disabled?: boolean
   id?: string
   className?: string
+  variant?: 'rectangle' | 'regular'
 }
 
 type Radio = React.FunctionComponent<RadioProps>
@@ -36,7 +36,7 @@ const fontSizes = {
 
 export const Radio: Radio = props => {
   const id = useOptionalId(props.id)
-  const { label, className, disabled } = props
+  const { label, className, disabled, variant = 'regular' } = props
 
   const { group, size } = useContext(RadioGroupContext)
 
@@ -49,7 +49,7 @@ export const Radio: Radio = props => {
     onChange
   } = useFormInput({
     path: group,
-    extractor: e => id
+    extractor: e => e.target.value
   })
 
   const radioSize = useMemo(() => {
@@ -60,29 +60,30 @@ export const Radio: Radio = props => {
     return radioSize + 12
   }, [radioSize])
 
-  const inputProps: Dictionary<boolean> = useMemo(() => {
-    const inputProps: Dictionary<boolean> = {}
-    if (value) {
-      inputProps.defaultChecked = !disabled && value === id
-    }
-    return inputProps
-  }, [value, id, disabled])
+  const checked = value === id
 
   return (
     <label
       htmlFor={id}
-      className={classNames(className, { disabled })}
+      className={classNames(className, { disabled }, variant, { checked })}
       css={css`
         height: ${radioSize + 4}px;
         display: flex;
         align-items: center;
         position: relative;
+        width: fit-content;
         padding-left: ${radioPadding}px;
         cursor: pointer;
         font-size: ${fontSizes[size ?? 'md']}rem;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         user-select: none;
         color: #363534;
+
+        &.rectangle {
+          padding: 12px 12px 12px ${radioPadding + 12}px;
+          border: solid 2px #606060;
+          border-radius: 4px;
+        }
 
         &.disabled, .disabled > input {
           color: #606060;
@@ -92,6 +93,10 @@ export const Radio: Radio = props => {
         & input:checked ~ span {
           background-color: ${Theme.white.hex()};
           border-color: ${Theme.maroon.hex()};
+        }
+
+        &.rectangle.checked input:checked ~span {
+
         }
 
         & input:checked ~ span:after {
@@ -114,9 +119,12 @@ export const Radio: Radio = props => {
       {label}
       <input
         disabled={disabled}
-        type='radio' id={id} name={group}
+        type='radio'
+        name={group}
         value={id}
+        id={id}
         onChange={onChange}
+        checked={checked}
         className={classNames({ disabled })}
         css={css`
           position: absolute;
@@ -127,7 +135,6 @@ export const Radio: Radio = props => {
             cursor: not-allowed;
           }
         `}
-        {...inputProps}
       />
       <span
         className={classNames({ disabled })}
@@ -159,4 +166,8 @@ export const Radio: Radio = props => {
     </label>
 
   )
+}
+
+Radio.defaultProps = {
+  variant: 'regular'
 }
