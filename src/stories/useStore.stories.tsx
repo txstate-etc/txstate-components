@@ -1,6 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Button, Store, useStore, useStoreFromContext, useAndUpdateDerivedStore } from '..'
+import { useStore, useStoreFromContext, useAndUpdateDerivedStore } from '../hooks'
+import { Button } from '../components'
+import { Store } from '../utils'
 
 const counterSubject = new Store(0)
 function increment () {
