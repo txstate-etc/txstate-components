@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useMemo, useCallback } from 'react'
 import { skip } from 'rxjs/operators'
 import { OperatorFunction, Observable, Subscription } from 'rxjs'
-import { DerivedStore } from '..'
+import { DerivedStore } from '../utils'
 
 export interface UsableStore<StateType> {
   value:StateType

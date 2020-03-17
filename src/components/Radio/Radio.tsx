@@ -62,15 +62,19 @@ export const Radio: Radio = props => {
     return radioSize + 12
   }, [radioSize])
 
-  const defaultCheckedHacks: Dictionary<boolean> = {}
-  if (value) {
-    defaultCheckedHacks.defaultChecked = value === id
-  }
+  const inputProps: Dictionary<boolean> = useMemo(() => {
+    const inputProps: Dictionary<boolean> = {}
+    if (value) {
+      inputProps.defaultChecked = value === id
+    }
+    return inputProps
+  }, [value, id])
 
   return (
     <div className={className} style={{ height: radioSize + 4 }}>
       <input
         disabled={disabled}
+        className={classNames(size)}
         type='radio' id={id} name={group}
         value={id}
         onChange={onChange}
@@ -86,20 +90,28 @@ export const Radio: Radio = props => {
               inset 0 0 0 2.5px ${Theme.white.hex()};
           }
 
+          &.xs:focus + label span::after {
+            box-shadow: 0 0 1px 2px ${Theme.white.hex()}, 0 0 2px 4px ${Theme.deepBlue.hex()};
+          }
+
           & + label span::after {
             box-sizing: border-box;
             left: 0;
             background-color: ${Theme.white.hex()};
             border: solid 2px ${Theme.maroon.hex()};
             box-shadow: inset 0 0 0 2.5px ${Theme.white.hex()};
-          } 
+          }
+
+          &.xs + label span::after {
+            box-shadow: none;
+          }
 
           &:checked + label span::after {
             left: 0;
             background-color: ${Theme.maroon.hex()};
           }
         `}
-        {...defaultCheckedHacks}
+        {...inputProps}
       />
       <label htmlFor={id} css={css`
           position: relative;
