@@ -45,7 +45,7 @@ export const Radio: Radio = props => {
   const {
     onChange
   } = useFormInput({
-    path: group,
+    path: `${group}_selected`,
     extractor: e => e.target.value
   })
 
@@ -120,8 +120,8 @@ export const Radio: Radio = props => {
         }
 
         & span:after {
-          width: 75%;
-          height: 75%;
+          width: 70%;
+          height: 70%;
           border-radius: 50%;
           background-color: ${Theme.maroon.hex()};
         }

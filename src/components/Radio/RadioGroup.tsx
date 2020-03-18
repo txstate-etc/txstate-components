@@ -1,16 +1,15 @@
 /** @jsx jsx */
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useCallback } from 'react'
 import { css, jsx } from '@emotion/core'
-import { useOptionalId } from '../../hooks/useOptionalId'
 import { Maybe, ComponentSize } from '../../utils/helper.types'
 import { Form } from '../Form/Form'
+import { useFormInput } from '../../hooks'
 
 interface RadioGroupProps {
+  group: string
   label?: string
-  group?: string
   size?: ComponentSize
   className?: string
-  checked?: string
 }
 
 const fontSizes = {
@@ -44,13 +43,22 @@ interface RadioGroupContext {
 export const RadioGroupContext = createContext<RadioGroupContext>({ group: null, size: null, selected: null })
 
 export const RadioGroup: RadioGroup = props => {
-  const { label, children, className, size = 'md', checked } = props
-  const [selected, setSelected] = useState<Maybe<string>>(checked ?? null)
-  const group = useOptionalId(props.group)
+  const { label, children, className, size = 'md', group } = props
+
+  const {
+    value,
+    onChange
+  } = useFormInput({
+    path: group,
+    extractor: e => e
+  })
 
   const handleChange = useCallback(({ form }) => {
-    if (selected !== form[group]) setSelected(form[group])
-  }, [group, selected])
+    const selected = form[`${group}_selected`]
+    if (value !== selected && selected !== undefined) {
+      onChange(selected)
+    }
+  }, [onChange, group, value])
 
   return (
     <fieldset
@@ -64,12 +72,13 @@ export const RadioGroup: RadioGroup = props => {
       <Legend text={label} size={size} />
       <Form
         webForm={false}
-        initialValues={{
-          [group]: checked
-        }}
         onChange={handleChange}
       >
-        <RadioGroupContext.Provider value={{ group, size, selected }}>
+        <RadioGroupContext.Provider value={{
+          group,
+          size,
+          selected: value
+        }}>
           {children}
         </RadioGroupContext.Provider>
       </Form>
