@@ -20,7 +20,6 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
       initialValues={{
         sides: 'chianti'
       }}
-      onChange={({form}) => console.log('Form', form)}
     >
       <RadioGroup group='sides' label='Side with guest'>
         <Stack spacing={12} style={{ padding: '12px 0' }}>
@@ -78,8 +77,10 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 <Preview>
   <Story name='selected (rectangle)'>
     <RadioGroup group='rectangle' size='md' checked='clarice'>
-      <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
-      <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+      <Stack spacing={12}>
+        <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
+        <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+      </Stack>
     </RadioGroup>
   </Story>
 </Preview>

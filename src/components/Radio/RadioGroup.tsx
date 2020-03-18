@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { createContext } from 'react'
+import { createContext, useCallback, useState } from 'react'
 import { css, jsx } from '@emotion/core'
 import { useOptionalId } from '../../hooks/useOptionalId'
 import { Maybe, ComponentSize } from '../../utils/helper.types'
@@ -39,12 +39,18 @@ const Legend: React.FunctionComponent<{ text?: string, size: ComponentSize }> = 
 interface RadioGroupContext {
   group: Maybe<string>
   size: Maybe<ComponentSize>
+  selected: Maybe<string>
 }
-export const RadioGroupContext = createContext<RadioGroupContext>({ group: null, size: null })
+export const RadioGroupContext = createContext<RadioGroupContext>({ group: null, size: null, selected: null })
 
 export const RadioGroup: RadioGroup = props => {
   const { label, children, className, size = 'md', checked } = props
+  const [selected, setSelected] = useState<Maybe<string>>(checked ?? null)
   const group = useOptionalId(props.group)
+
+  const handleChange = useCallback(({ form }) => {
+    if (selected !== form[group]) setSelected(form[group])
+  }, [group, selected])
 
   return (
     <fieldset
@@ -61,11 +67,9 @@ export const RadioGroup: RadioGroup = props => {
         initialValues={{
           [group]: checked
         }}
-        onChange={({ form }) => {
-          console.log('Radio Group', form)
-        }}
+        onChange={handleChange}
       >
-        <RadioGroupContext.Provider value={{ group, size }}>
+        <RadioGroupContext.Provider value={{ group, size, selected }}>
           {children}
         </RadioGroupContext.Provider>
       </Form>

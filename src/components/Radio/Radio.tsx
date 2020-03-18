@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { useContext, useMemo } from 'react'
 import { css, jsx } from '@emotion/core'
-import { useOptionalId } from '../../hooks/useOptionalId'
 import { RadioGroupContext } from './RadioGroup'
 import { Theme } from '../../utils/Theme'
 import { useFormInput } from '../../hooks'
@@ -11,7 +10,7 @@ interface RadioProps {
   label: string
   path: string
   disabled?: boolean
-  id?: string
+  id: string
   className?: string
   variant?: 'rectangle' | 'regular'
 }
@@ -35,17 +34,15 @@ const fontSizes = {
 }
 
 export const Radio: Radio = props => {
-  const id = useOptionalId(props.id)
-  const { label, className, disabled, variant = 'regular' } = props
+  const { label, className, disabled, variant = 'regular', id } = props
 
-  const { group, size } = useContext(RadioGroupContext)
+  const { group, size, selected } = useContext(RadioGroupContext)
 
   if (!group) {
     throw new Error('Radio buttons must be in a radio group.')
   }
 
   const {
-    value,
     onChange
   } = useFormInput({
     path: group,
@@ -60,12 +57,10 @@ export const Radio: Radio = props => {
     return radioSize + 12
   }, [radioSize])
 
-  const checked = value === id
-
   return (
     <label
       htmlFor={id}
-      className={classNames(className, { disabled }, variant, { checked })}
+      className={classNames(className, { disabled }, variant, { checked: id === selected })}
       css={css`
         height: ${radioSize + 4}px;
         display: flex;
@@ -85,6 +80,12 @@ export const Radio: Radio = props => {
           border-radius: 4px;
         }
 
+        &.rectangle.checked {
+          background-color: ${Theme.maroon.hex()};
+          border-color: ${Theme.maroon.hex()};
+          color: ${Theme.white.hex()};
+        }
+
         &.disabled, .disabled > input {
           color: #606060;
           cursor: not-allowed;
@@ -95,8 +96,9 @@ export const Radio: Radio = props => {
           border-color: ${Theme.maroon.hex()};
         }
 
-        &.rectangle.checked input:checked ~span {
-
+        &.rectangle.checked input:checked ~ span {
+          background-color: ${Theme.maroon.hex()};
+          border-color: ${Theme.white.hex()};
         }
 
         & input:checked ~ span:after {
@@ -105,14 +107,30 @@ export const Radio: Radio = props => {
 
         & input:focus ~ span {
           box-shadow: 0 0 1px 2px ${Theme.white.hex()},
-              0 0 2px 4px ${Theme.deepBlue.hex()}
+              0 0 2px 4px ${Theme.deepBlue.hex()};
+        }
+
+        &.rectangle:focus-within {
+          box-shadow: 0 0 1px 2px ${Theme.white.hex()},
+              0 0 2px 4px ${Theme.deepBlue.hex()};
+        }
+
+        &.rectangle input:focus ~ span {
+          box-shadow: none;
         }
 
         & span:after {
           width: 75%;
           height: 75%;
           border-radius: 50%;
-          background: ${Theme.maroon.hex()};
+          background-color: ${Theme.maroon.hex()};
+        }
+
+        &.rectangle.checked span:after {
+          width: 70%;
+          height: 70%;
+          border-radius: 50%;
+          background-color: ${Theme.white.hex()};
         }
       `}
     >
@@ -124,7 +142,7 @@ export const Radio: Radio = props => {
         value={id}
         id={id}
         onChange={onChange}
-        checked={checked}
+        checked={id === selected}
         className={classNames({ disabled })}
         css={css`
           position: absolute;
@@ -137,7 +155,7 @@ export const Radio: Radio = props => {
         `}
       />
       <span
-        className={classNames({ disabled })}
+        className={classNames({ disabled }, variant)}
         css={css`
           position: absolute;
           left: 0;
@@ -160,6 +178,10 @@ export const Radio: Radio = props => {
           &.disabled {
             background-color: #E2E2E2;
             border-color: #C4C4C4;
+          }
+
+          &.rectangle {
+            left: 12px;
           }
         `}
       />
