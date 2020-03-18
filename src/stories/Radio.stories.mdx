@@ -16,12 +16,8 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 ### Selected
 <Preview>
   <Story name='selected'>
-    <Form
-      initialValues={{
-        sides: 'chianti'
-      }}
-    >
-      <RadioGroup group='sides' label='Side with guest'>
+    <Form>
+      <RadioGroup group='sides' label='Side with guest' checked='chianti'>
         <Stack spacing={12} style={{ padding: '12px 0' }}>
           <Radio label='Fava Beans' id='fava-beans' />
           <Radio label='Chianti' id='chianti' />
