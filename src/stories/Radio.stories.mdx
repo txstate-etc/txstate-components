@@ -93,15 +93,77 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 <Preview>
   <Story 
     name='selected (rectangle)'
-    onChange={console.log}
   >
-    <Form>
-      <RadioGroup group='rectangle' size='md'>
+    <Form
+      onChange={console.log}
+      initialValues={{
+        choice: 'happened'
+      }}
+    >
+      <RadioGroup group='choice' size='md'>
         <Stack spacing={12}>
           <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
           <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
         </Stack>
       </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
+
+### No Selection
+<Preview>
+  <Story 
+    name='no selection (rectangle)'
+  >
+    <Form>
+      <RadioGroup group='choice' size='md'>
+        <Stack spacing={12}>
+          <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
+          <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+        </Stack>
+      </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
+### Disabled
+<Preview>
+  <Story 
+    name='disabled (rectangle)'
+  >
+    <Form>
+      <RadioGroup group='rectangle' size='md'>
+        <Stack spacing={12}>
+          <Radio disabled label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
+          <Radio disabled label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+        </Stack>
+      </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
+### Sizes
+<Preview>
+  <Story name='sizes (rectangle)'>
+    <Form>
+      <Stack style={{padding: '12px 0'}} spacing={12}>
+        <RadioGroup group='xs' size='xs'>
+          <Radio variant='rectangle' label='Extra Small' id='xs' />
+        </RadioGroup>
+        <RadioGroup group='sm' size='sm'>
+          <Radio variant='rectangle' label='Small' id='sm' />
+        </RadioGroup>
+        <RadioGroup group='md' size='md'>
+          <Radio variant='rectangle' label='Medium' id='md' />
+        </RadioGroup>
+        <RadioGroup group='lg' size='lg'>
+          <Radio variant='rectangle' label='Large' id='lg' />
+        </RadioGroup>
+        <RadioGroup group='xl' size='xl'>
+          <Radio variant='rectangle' label='Extra Large' id='xl' />
+        </RadioGroup>
+      </Stack>
     </Form>
   </Story>
 </Preview>

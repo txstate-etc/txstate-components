@@ -132,6 +132,11 @@ export const Radio: Radio = props => {
           border-radius: 50%;
           background-color: ${Theme.white.hex()};
         }
+
+        &.rectangle.disabled {
+          background-color: #E2E2E2;
+          border-color: #E2E2E2;
+        }
       `}
     >
       {label}
