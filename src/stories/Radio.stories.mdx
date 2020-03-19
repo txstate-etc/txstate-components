@@ -12,7 +12,22 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 <Props of={Radio} />
 
 
-## Regular 
+## Regular
+
+### No Selection
+<Preview>
+  <Story name='no selection'>
+    <Form>
+      <RadioGroup group='sides' label='Side with guest'>
+        <Stack spacing={12} style={{ padding: '12px 0' }}>
+          <Radio label='Fava Beans' id='fava-beans' />
+          <Radio label='Chianti' id='chianti' />
+        </Stack>
+      </RadioGroup>
+    </Form>
+  </Story>
+</Preview>
+
 ### Selected
 <Preview>
   <Story name='selected'>
@@ -76,12 +91,17 @@ import { Radio } from '@txstate-mws/txstate-react/Radio'
 
 ### Selected
 <Preview>
-  <Story name='selected (rectangle)'>
-    <RadioGroup group='rectangle' size='md' checked='clarice'>
-      <Stack spacing={12}>
-        <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
-        <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
-      </Stack>
-    </RadioGroup>
+  <Story 
+    name='selected (rectangle)'
+    onChange={console.log}
+  >
+    <Form>
+      <RadioGroup group='rectangle' size='md'>
+        <Stack spacing={12}>
+          <Radio label='I have no plans to call on you, Clarice.' variant='rectangle' id='clarice' />
+          <Radio label='Nothing made me happen. I happened.' variant='rectangle' id='happened' />
+        </Stack>
+      </RadioGroup>
+    </Form>
   </Story>
 </Preview>
