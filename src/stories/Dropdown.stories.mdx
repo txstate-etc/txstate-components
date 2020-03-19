@@ -1,0 +1,33 @@
+import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
+import { action } from '@storybook/addon-actions'
+import  { Dropdown, Stack, Input, Form } from '../components' 
+
+<Meta title='Components/Dropdown' component={Dropdown} />
+
+# Button
+
+```jsx
+import { Dropdown } from 'txstate-react/lib/components'
+```
+
+## Props
+<Props of={Dropdown} />
+
+### Simple
+<Preview>
+  <Story name='simple'>
+    <Form>
+      <Stack spacing={12}>
+        <Dropdown 
+          items={[
+            { key: 'volvo', text: 'Volvo' },
+            { key: 'ford', text: 'Ford' },
+            { key: 'subaru', text: 'Subaru' },
+            { key: 'saab', text: 'Saab' }
+          ]}
+        />
+        <Input label='Test Input' path='test' />
+      </Stack>
+    </Form>
+  </Story>
+</Preview>

@@ -20,5 +20,10 @@
       "typescriptreact"
     ],
     "eslint.alwaysShowStatus": true,
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "javascript.preferences.quoteStyle": "single",
+    "javascript.suggest.autoImports": false,
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.quoteStyle": "single",
   }
 }

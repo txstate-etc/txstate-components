@@ -189,7 +189,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
     error
   } = useFormInput({
     path,
-    extractor: (e) => e?.target?.value ?? null
+    extractor: (e) => e?.target?.value
   })
 
   const handlePasswordClick = useCallback(() => {
@@ -224,7 +224,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
           className={classNames({ error: Boolean(error), password: type === 'password' })}
           id={id}
           placeholder={placeholder}
-          value={value}
+          value={value ?? ''}
           onChange={onChange}
           type={overrideType ?? type}
         />

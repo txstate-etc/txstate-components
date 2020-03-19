@@ -141,7 +141,6 @@ export const Radio: Radio = props => {
     >
       {label}
       <input
-        disabled={disabled}
         type='radio'
         name={group}
         value={id}
@@ -149,6 +148,7 @@ export const Radio: Radio = props => {
         onChange={onChange}
         checked={id === selected}
         className={classNames({ disabled })}
+        disabled={disabled}
         css={css`
           position: absolute;
           opacity: 0;
@@ -156,6 +156,10 @@ export const Radio: Radio = props => {
           
           &.disabled {
             cursor: not-allowed;
+          }
+
+          &:focus {
+            outline: none;
           }
         `}
       />
