@@ -47,6 +47,12 @@ export const Dropdown: Dropdown = props => {
     }
   }, [showItems, resetFocus])
 
+  useEventListener('click', (event: any) => {
+    if (!selectRef.current?.contains?.(event.target)) {
+      hideDropdownList()
+    }
+  })
+
   useEventListener('keydown', (event: React.KeyboardEvent) => {
     switch (event.key) {
       case 'Tab':

@@ -4,7 +4,7 @@ import { Maybe } from '../utils/helper.types'
 export const useEventListener = (
   eventName: string,
   handler: Function,
-  _element?: Maybe<Element | typeof window>
+  _element?: Maybe<Element | typeof window | typeof document>
 ) => {
   const savedHandler = useRef<Function>()
   useEffect(() => {
