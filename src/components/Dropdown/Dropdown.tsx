@@ -20,19 +20,17 @@ export const Dropdown: Dropdown = props => {
   const { items, className } = props
   const [showItems, setShowItems] = useState(false)
   const [selectedState, dispatch] = useReducer(selectedReducer, { selected: null, index: null })
-
   const [focused, setFocused] = useState(0)
 
   const selectRef = useRef<HTMLDivElement>(null)
 
   const hideDropdownList = useCallback(() => {
-    if (!showItems) return
     setShowItems(false)
-  }, [showItems, setShowItems])
-
-  const handleToggleDropdownList = useCallback(() => {
-    setShowItems(current => !current)
   }, [])
+
+  const handleToggleDropdownList = () => {
+    setShowItems(current => !current)
+  }
 
   const handleSelect = useCallback((item: DropdownItemContent, index) => () => {
     dispatch({ payload: { selected: item, index } })
@@ -44,35 +42,31 @@ export const Dropdown: Dropdown = props => {
   }, [focused])
 
   useEffect(() => {
-    if (showItems) {
-      hideDropdownList()
-    }
-  }, [showItems, hideDropdownList])
-
-  useEffect(() => {
     if (!showItems) {
       resetFocus()
     }
   }, [showItems, resetFocus])
 
   useEventListener('keydown', (event: React.KeyboardEvent) => {
-    switch (event.keyCode) {
-      case 9: // Tab
-      case 27: // Escape
+    switch (event.key) {
+      case 'Tab':
+      case 'Escape':
         hideDropdownList()
         break
-      case 38: // Up arrow
+      case 'Up':
+      case 'ArrowUp':
         if (!showItems) {
           dispatch(moveSelection(selectedState, items).upOne())
         } else {
-          setFocused(current => moveFocus.upOne(current, items.length))
+          setFocused(current => moveFocus(current, items.length).upOne())
         }
         break
-      case 40: // Down Arrow
+      case 'Down':
+      case 'ArrowDown':
         if (!showItems) {
           dispatch(moveSelection(selectedState, items).downOne())
         } else {
-          setFocused(current => moveFocus.downOne(current, items.length))
+          setFocused(current => moveFocus(current, items.length).downOne())
         }
         break
       default:

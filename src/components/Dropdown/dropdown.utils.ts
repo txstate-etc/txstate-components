@@ -40,17 +40,17 @@ export const moveSelection = (selectedState: SelectedState, items: DropdownItemC
   }
 })
 
-export const moveFocus = {
-  upOne (current: number, total: number) {
+export const moveFocus = (current: number, total: number) => ({
+  upOne () {
     if (current - 1 < 0) {
       return total - 1
     }
     return current - 1
   },
-  downOne (current: number, total: number) {
+  downOne () {
     if (current + 1 >= total) {
       return 0
     }
     return current + 1
   }
-}
+})
