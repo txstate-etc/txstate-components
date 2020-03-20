@@ -1,5 +1,4 @@
 /** @jsx jsx */
-import { useEffect } from 'react'
 import { css, jsx } from '@emotion/core'
 import { Maybe } from '../../utils/helper.types'
 import { classNames } from '../../utils'

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect } from 'react'
 import { jsx, css } from '@emotion/core'
 import { Theme } from '../../utils/Theme'
 
