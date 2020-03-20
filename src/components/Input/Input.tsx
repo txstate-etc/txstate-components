@@ -32,6 +32,7 @@ interface ErrorProps {
   text?: string
   className?: string
 }
+
 const Error: React.FunctionComponent<ErrorProps> = ({ text, className }) => {
   if (!text) return null
   return (

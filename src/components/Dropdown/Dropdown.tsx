@@ -1,18 +1,17 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { useState, useRef, useCallback, useEffect } from 'react'
-import { classNames } from '../../utils'
+import { useState, useReducer, useRef, useCallback, useEffect } from 'react'
 import { Maybe } from '../../utils/helper.types'
 import { Theme } from '../../utils/Theme'
 import { useEventListener } from '../../hooks/useEventListener'
+import { DropdownList } from './DropdownList'
 
-interface DropdownItem {
+export interface DropdownItemContent {
   key: string
   text: string
 }
-
 interface DropdownProps {
-  items: DropdownItem[]
+  items: DropdownItemContent[]
   className?: string
 }
 
@@ -32,75 +31,49 @@ const selectMenu = css`
   &::-moz-focus-inner {
     border: 0;
   }
-`
-
-const selectItems = css`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: ${Theme.white.hex()};
-
-  padding: 4px;
-  border: solid 2px #606060;
-  
-  &.shut {
-    display: none;
-  }
-`
-
-const selectItem = css`
-  padding: 2px;
-  margin: 0;
-  background-color: transparent;
-  border: none;
-  display: inline-table;
-  width: 100%;
-  text-align: left;
-
-  cursor: pointer;
-
-  &::-moz-focus-inner {
-    border: none;
-  }
 
   &:focus {
-    outline: solid 2px ${Theme.maroon.hex()};
+    outline: solid ${Theme.maroon.hex()} 2px;
+    outline-offset: 2px;
   }
 `
+
+interface SelectedState {
+  selected: Maybe<DropdownItemContent>
+  index: Maybe<number>
+}
+
+interface SelectAction {
+  payload: SelectedState
+}
+
+const selectedReducer = (state: SelectedState, action: SelectAction) => {
+  return {
+    ...state,
+    ...action.payload
+  }
+}
 
 export const Dropdown: Dropdown = props => {
   const { items, className } = props
-  const [showItems, setShowItems] = useState(true)
-  const [selected, setSelected] = useState<Maybe<DropdownItem>>(null)
+  const [showItems, setShowItems] = useState(false)
+  const [selectedState, dispatch] = useReducer(selectedReducer, { selected: null, index: null })
+
   const [focused, setFocused] = useState(0)
   const selectMenuRef = useRef<HTMLButtonElement>(null)
   const selectRef = useRef<HTMLDivElement>(null)
 
-  const handleSelect = useCallback((item: DropdownItem) => () => {
+  const handleSelect = useCallback((item: DropdownItemContent, index) => () => {
+    const { selected } = selectedState
     if (!selected || selected?.key !== item.key) {
-      setSelected(item)
+      dispatch({ payload: { selected: item, index } })
       setShowItems(false)
     }
-  }, [selected])
+  }, [selectedState])
 
   useEffect(() => {
-    const selectItem = document.querySelector<HTMLButtonElement>(`.select-item:nth-child(${focused + 1})`)
-    if (selectItem) selectItem.focus()
-  }, [focused, items])
-
-  useEffect(() => {
-    if (showItems) {
-      const selectItem = document.querySelector<HTMLButtonElement>('.select-item:nth-child(1)')
-      if (selectItem) {
-        setFocused(0)
-        selectItem.focus()
-      }
-    } else if (selectMenuRef.current) {
+    if (!showItems && selectMenuRef.current) {
+      setFocused(0)
       selectMenuRef.current?.focus()
     }
   }, [showItems])
@@ -108,31 +81,46 @@ export const Dropdown: Dropdown = props => {
   useEventListener('keydown', (event: React.KeyboardEvent) => {
     switch (event.keyCode) {
       case 9: // Tab
-        setShowItems(false)
-        break
       case 27: // Escape
         setShowItems(false)
         break
       case 38: // Up arrow
-        setFocused(current => {
-          console.log(current)
-          if (current - 1 < 0) {
-            return items.length - 1
+        if (!showItems) {
+          let selectedIndex = selectedState.index
+          if ((selectedIndex !== null && selectedIndex - 1 < 0) || selectedIndex === null) {
+            selectedIndex = items.length - 1
+          } else {
+            selectedIndex -= 1
           }
-          return current - 1
-        })
+          const nextSelection = items[selectedIndex]
+          dispatch({ payload: { selected: nextSelection, index: selectedIndex } })
+        } else {
+          setFocused(current => {
+            if (current - 1 < 0) {
+              return items.length - 1
+            }
+            return current - 1
+          })
+        }
         break
       case 40: // Down Arrow
         if (!showItems) {
-          setShowItems(true)
-          break
-        }
-        setFocused(current => {
-          if (current + 1 >= items.length) {
-            return 0
+          let selectedIndex = selectedState.index
+          if ((selectedIndex !== null && selectedIndex + 1 >= items.length) || selectedIndex === null) {
+            selectedIndex = 0
+          } else {
+            selectedIndex += 1
           }
-          return current + 1
-        })
+          const nextSelection = items[selectedIndex]
+          dispatch({ payload: { selected: nextSelection, index: selectedIndex } })
+        } else {
+          setFocused(current => {
+            if (current + 1 >= items.length) {
+              return 0
+            }
+            return current + 1
+          })
+        }
         break
       default:
         break
@@ -147,7 +135,6 @@ export const Dropdown: Dropdown = props => {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         display: block;
         position: relative;
-        width: fit-content;
       `}
     >
       <button
@@ -155,11 +142,14 @@ export const Dropdown: Dropdown = props => {
         onClick={() => setShowItems(current => !current)}
         css={selectMenu}
       >
-        {selected?.text ?? 'Select Item'}
+        {selectedState.selected?.text ?? 'Select Make'}
       </button>
-      <div role='listbox' css={selectItems} className={classNames({ shut: !showItems }, 'select-list')} aria-label='options'>
-        {items.map((item) => <button className='select-item' onClick={handleSelect(item)} css={selectItem} role='option' aria-selected={false} key={item.key}>{item.text}</button>)}
-      </div>
+      <DropdownList
+        items={items}
+        focused={focused}
+        showItems={showItems}
+        handleSelect={handleSelect}
+      />
     </div>
   )
 }
