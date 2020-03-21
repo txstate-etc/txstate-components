@@ -3,7 +3,7 @@ import { useEventListener } from '../../hooks/useEventListener'
 import { DropdownList } from './DropdownList'
 import { DropdownControl } from './DropdownControl'
 import { DropdownContainer } from './DropdownContainer'
-import { selectedReducer, moveSelection, moveFocus } from './dropdown.utils'
+import { selectedReducer, moveSelection, moveFocus, nonPrintingKeys } from './dropdown.utils'
 
 export interface DropdownItemContent {
   key: string
@@ -21,6 +21,7 @@ export const Dropdown: Dropdown = props => {
   const [showItems, setShowItems] = useState(false)
   const [selectedState, dispatch] = useReducer(selectedReducer, { selected: null, index: null })
   const [focused, setFocused] = useState(0)
+  const [search, setSearch] = useState('')
 
   const selectRef = useRef<HTMLDivElement>(null)
 
@@ -46,6 +47,30 @@ export const Dropdown: Dropdown = props => {
       resetFocus()
     }
   }, [showItems, resetFocus])
+
+  useEffect(() => {
+    const clearSearchTimeout = setTimeout(() => {
+      setSearch('')
+    }, 1000)
+    return () => clearTimeout(clearSearchTimeout)
+  }, [search])
+
+  useEffect(() => {
+    if (search === '') return
+
+    const index = items.findIndex(item => item.text.toLowerCase().match(search.toLowerCase()))
+
+    if (index >= 0 && showItems) {
+      setFocused(index)
+    } else if (index >= 0) {
+      dispatch({ payload: { selected: items[index], index } })
+    }
+  }, [items, showItems, handleSelect, search])
+
+  useEventListener('keydown', (event: React.KeyboardEvent) => {
+    if (nonPrintingKeys[event.key]) return
+    setSearch(current => `${current}${event.key}`)
+  }, selectRef.current)
 
   useEventListener('click', (event: any) => {
     if (!selectRef.current?.contains?.(event.target)) {
