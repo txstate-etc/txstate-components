@@ -49,6 +49,10 @@ export const Dropdown: Dropdown = props => {
   }, [showItems, resetFocus])
 
   useEffect(() => {
+    setSearch('')
+  }, [showItems])
+
+  useEffect(() => {
     const clearSearchTimeout = setTimeout(() => {
       setSearch('')
     }, 1000)
