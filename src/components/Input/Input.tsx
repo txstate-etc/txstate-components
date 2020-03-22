@@ -5,11 +5,13 @@ import { Theme } from '../../utils/Theme'
 import { useFormInput } from '../../hooks/useFormInput'
 import { classNames } from '../../utils/helpers'
 import { Stack } from '../Stack/Stack'
-import { Exclamation } from '../Icons/Exclamation'
 import { PasswordShow } from '../Icons/PasswordShow'
 import { Maybe } from '../../utils/helper.types'
 import { PasswordHide } from '../Icons/PasswordHide'
 import { useOptionalId } from '../../hooks/useOptionalId'
+import { ErrorMessage } from '../Common/ErrorMessage'
+import { ErrorBox } from '../Common/ErrorBox'
+import { inputStyle, labelStyle } from '../Common/common.styles'
 
 const Description = (props: { text?: string, className?: string }) => {
   if (!props.text) {
@@ -25,51 +27,6 @@ const Description = (props: { text?: string, className?: string }) => {
     >
       {props.text}
     </span>
-  )
-}
-
-interface ErrorProps {
-  text?: string
-  className?: string
-}
-
-const Error: React.FunctionComponent<ErrorProps> = ({ text, className }) => {
-  if (!text) return null
-  return (
-    <span
-      className={className}
-      css={css`
-        font-size: 0.8rem;
-        color: ${Theme.input.error.hex()};
-      `}
-    >
-      {text}
-    </span>
-  )
-}
-
-const ErrorBox: React.FunctionComponent<{msg?: string}> = ({ msg }) => {
-  if (!msg) return null
-  return (
-    <div
-      css={css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        align-self: stretch;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        padding: 0 8px;
-        background-color: ${Theme.input.error.hex()};
-      `}
-    >
-      <Exclamation
-        fill={Theme.white.hex()}
-        stroke={Theme.white.hex()}
-        height={16}
-        width={16}
-      />
-    </div>
   )
 }
 
@@ -126,43 +83,6 @@ export interface InputProps {
   id?: string
 }
 
-const inputStyle = css`
-  background-color: white;
-  border: solid 2px #707070;
-  padding: 8px;
-  font-size: 15px;
-  border-radius: 3px;
-  caret-color: #707070;
-  color: #353533;
-  flex: 1;
-
-  &.error, &.password {
-    border-right: none;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-  }
-
-  &.error {
-    border-color: ${Theme.input.error.hex()};
-  }
-
-  &::placeholder {
-    color: #959595;
-  }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px -3px ${Theme.river.hex()};
-  }
-`
-
-const labelStyle = css`
-  font-size: 15px;
-
-  &.error {
-    color: ${Theme.input.error.hex()};
-  }
-`
-
 const containerStyle = css`
   align-self: stretch;
   color: #434343;
@@ -217,7 +137,7 @@ export const Input: React.FunctionComponent<InputProps> = props => {
         {label}
       </label>
       <Description text={description} />
-      <Error text={error} />
+      <ErrorMessage text={error} />
       <Stack horizontal style={{ alignSelf: 'stretch' }}>
         <input
           size={1}
