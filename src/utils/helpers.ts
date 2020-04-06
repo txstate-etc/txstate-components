@@ -80,3 +80,7 @@ export const classNames = (...args: any[]) => {
 
   return classes.join(' ')
 }
+
+export function isModifierKey (e:KeyboardEvent) {
+  return e.ctrlKey || e.altKey || e.metaKey || e.key === 'Insert'
+}

@@ -19,5 +19,6 @@ export const Theme = {
     focus: Color('#3F84BF'),
     success: Color('#176329'),
     successbg: Color('#F2F2F2')
-  }
+  },
+  focus: 'box-shadow: 0 0 2px 3px white, 0 0 2px 6px #3F84BF;'
 }

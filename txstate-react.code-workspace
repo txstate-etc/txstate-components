@@ -10,6 +10,11 @@
       "source.fixAll": true
     },
     "files.autoSave": "onFocusChange",
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/*/**": true
+    },
     "eslint.enable": true,
     "eslint.format.enable": true,
     "eslint.packageManager": "yarn",
