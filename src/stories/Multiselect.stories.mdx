@@ -1,34 +1,33 @@
 import { Meta, Story, Props, Preview } from '@storybook/addon-docs/blocks'
-import { action } from '@storybook/addon-actions'
-import  { Multiselect, Stack, Input, Form } from '../components'
+import { Multiselect, Form } from '../components'
 
-<Meta title='Components/Multiselect' component={Multiselect} />
+<Meta title='Components|Multiselect' component={Multiselect} />
 
-# Button
+# Multiselect
 
-```jsx
-import { Multiselect } from 'txstate-react/lib/components'
+```typescript
+import { Multiselect } from '@txstate-mws/txstate-react/lib/components'
 ```
 
 ## Props
+
 <Props of={Multiselect} />
 
-### Simple
+## Basic
+
 <Preview>
-  <Story name='simple'>
+  <Story name='basic'>
     <Form>
       <Multiselect
         id='msid1'
-        name='cars'
-        removeSelection={value => console.log('removing selection', value)}
-        addSelection={value => console.log('adding selection', value)}
+        path='cars'
         items={[
           { key: 'volvo', text: 'Volvo' },
           { key: 'ford', text: 'Ford' },
           { key: 'subaru', text: 'Subaru' },
           { key: 'saab', text: 'Saab' }
         ]}
-        selected={[
+        initialValue={[
           { key: 'ford', text: 'Ford' }
         ]}
       />

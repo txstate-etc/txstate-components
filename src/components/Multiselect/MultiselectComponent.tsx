@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { ScreenReaderOnly } from '../ScreenReaderOnly/ScreenReaderOnly'
 import { Theme } from '../../utils/Theme'
-import ReactDOM from 'react-dom'
 import { isModifierKey } from '../../utils'
 
-interface ItemPair {
+export interface ItemPair {
   key: string
   text?: string
 }
@@ -23,7 +23,7 @@ interface MultiselectProps {
   searchChanged?: (value: string) => void
 }
 
-type Multiselect = React.FunctionComponent<MultiselectProps>
+type MultiselectFC = React.FunctionComponent<MultiselectProps>
 
 const ulCSS = css`
   margin: 0;
@@ -51,13 +51,13 @@ const selectedUlCSS = css`
   border-radius: 5px;
   & li {
     flex-grow: 0;
-    margin-right: 5px;
     &.input {
       flex-grow: 1;
     }
     &.multiselect-pill {
       height: 28px;
       border-radius: 14px;
+      margin-right: 5px;
       background-color: var(--multiselect-pill-bg, transparent);
       border: 1px solid var(--multiselect-pill-border, gray);
       color: var(--multiselect-pill-text, black);
@@ -119,13 +119,13 @@ function itemFromElement (el:HTMLElement|null) {
   return { key: el.dataset.key, text: el.dataset.text } as ItemPair
 }
 
-export const Multiselect: Multiselect = props => {
+export const MultiselectComponent: MultiselectFC = props => {
   const { id, name, items, selected, label, placeholder, addSelection, removeSelection, searchChanged } = props
   const isSelected = useMemo(() => selected?.reduce((isSelected, item) => {
     isSelected[item.key] = true
     return isSelected
   }, {} as { [keys: string]: boolean }), [selected])
-  const availableItems = useMemo(() => items.filter(itm => !isSelected?.[itm.key]), [items, isSelected])
+  const availableItems = useMemo(() => items.filter(itm => itm.key && !isSelected?.[itm.key]), [items, isSelected])
   const availablemessage = useMemo(() => availableItems.filter(itm => itm.key).length + ' autocomplete choices available', [availableItems])
   const menuid = `menu-${id}`
   const descriptionid = `desc-${id}`
@@ -207,8 +207,8 @@ export const Multiselect: Multiselect = props => {
       else menuItemsRef.current[0]?.focus()
     } else if (e.key === 'ArrowLeft' && inputFarLeft) {
       if (selected?.length) selectedItemsRef.current[selected?.length - 1]?.focus()
-    } else if (['Backspace', 'Delete'].includes(e.key) && inputFarLeft) {
-      if (selected?.length) {
+    } else if (['Backspace'].includes(e.key) && inputFarLeft) {
+      if (selected?.length && !e.repeat) {
         removeSelection(selected[selected.length - 1])
       }
     } else if (e.key === 'Escape') {
@@ -218,6 +218,7 @@ export const Multiselect: Multiselect = props => {
   const onInputKeyup = useCallback(e => {
     if (inputRef.current?.value !== lastSearchValue.current) {
       lastSearchValue.current = inputRef.current?.value
+      setMenuShown(true)
       searchChanged?.(inputRef.current?.value ?? '')
     }
   }, [searchChanged])
@@ -248,6 +249,10 @@ export const Multiselect: Multiselect = props => {
       const item = itemFromElement(e.target)
       if (item) {
         addSelection(item)
+        if (inputRef.current) {
+          inputRef.current.value = ''
+          lastSearchValue.current = ''
+        }
         if ((availableItems?.length ?? 0) <= 1) inputRef.current?.focus()
         else {
           if (idx >= (availableItems?.length ?? 0) - 1) menuItemsRef.current[idx - 1]?.focus()
@@ -266,7 +271,11 @@ export const Multiselect: Multiselect = props => {
     const item = itemFromElement(e.target)
     if (item) {
       addSelection(item)
-      inputRef.current?.focus()
+      if (inputRef.current) {
+        inputRef.current.value = ''
+        lastSearchValue.current = ''
+      }
+    inputRef.current?.focus()
     }
   }, [addSelection])
   const onMenuItemFocus = useCallback(e => {
@@ -308,7 +317,7 @@ export const Multiselect: Multiselect = props => {
       </ul>
       <ScreenReaderOnly id={descriptionid} aria-live="assertive">
         <span>
-          {selected?.length ? selected.length + ' selected' : 'select multiple'}{', up down to choose, left right to select existing choices'}
+          {selected?.length ? selected.length + ' selected' : 'select multiple'}{', up down to browse choices, left right to hilite previous choices, backspace deletes choices'}
         </span>
         {menushown && <span>{availablemessage}{', touch users explore to find autocomplete menu'}</span>}
       </ScreenReaderOnly>
@@ -318,13 +327,16 @@ export const Multiselect: Multiselect = props => {
           css={css`${menuCSS} display: ${menushown ? 'block' : 'none'};`}>
           {availableItems.map((item, i) =>
             <li ref={el => { menuItemsRef.current[i] = el }} key={item.key} tabIndex={-1}
-              className={!item.key ? 'noresults' : ''} aria-selected="false" role="option"
+              aria-selected="false" role="option"
               data-index={i} data-key={item.key} data-text={item.text} onClick={onMenuItemClick} onKeyDown={onMenuItemKeydown}
               onFocus={onMenuItemFocus} onBlur={onMenuItemBlur}>
               {item.text ?? item.key}
               <ScreenReaderOnly>{', click to autocomplete'}</ScreenReaderOnly>
             </li>
           )}
+          {availableItems.length === 0 &&
+            <li tabIndex={-1} className="noresults">No Results</li>
+          }
         </ul>
         , document.body)}
     </fieldset>
