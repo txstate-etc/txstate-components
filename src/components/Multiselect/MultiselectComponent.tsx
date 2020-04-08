@@ -56,6 +56,7 @@ const selectedUlCSS = css`
     }
     &.multiselect-pill {
       height: 28px;
+      line-height: 1;
       border-radius: 14px;
       margin-right: 5px;
       background-color: var(--multiselect-pill-bg, transparent);
@@ -172,8 +173,13 @@ export const MultiselectComponent: MultiselectFC = props => {
       if (idx === (selected?.length ?? 1) - 1) inputRef.current?.focus()
       else selectedItemsRef.current?.[idx + 1]?.focus()
     } else if (['Backspace', 'Delete', 'Clear', ' ', 'Enter'].includes(e.key)) {
-      const nextidx = idx > 0 ? idx - 1 : (selected?.length ?? 0) > 1 ? 0 : -1
-      if (nextidx === -1) inputRef.current?.focus()
+      let nextidx:number
+      if (e.key === 'Backspace') {
+        nextidx = idx > 0 ? idx - 1 : (selected?.length ?? 0) > 1 ? 0 : -1
+      } else {
+        nextidx = idx < (selected?.length ?? 0) - 1 ? idx + 1 : idx - 1
+      }
+      if (nextidx <= -1) inputRef.current?.focus()
       else selectedItemsRef.current?.[nextidx]?.focus()
       const item = itemFromElement(e.target)
       if (item) removeSelection(item)
