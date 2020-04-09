@@ -21,7 +21,7 @@ import { Multiselect } from '@txstate-mws/txstate-react/lib/components'
       <Multiselect
         id='msid1'
         path='cars'
-        items={[
+        initialItems={[
           { key: 'volvo', text: 'Volvo' },
           { key: 'ford', text: 'Ford' },
           { key: 'subaru', text: 'Subaru' },
@@ -30,6 +30,60 @@ import { Multiselect } from '@txstate-mws/txstate-react/lib/components'
         initialValue={[
           { key: 'ford', text: 'Ford' }
         ]}
+      />
+    </Form>
+  </Story>
+</Preview>
+
+## Autocomplete
+
+<Preview>
+  <Story name='autocomplete'>
+    <Form>
+      <Multiselect
+        id='msid1'
+        path='numbers'
+        initialItems={[
+          { key: 'default', text: 'Default' }
+        ]}
+        search={async value => {
+          const time = 200 + Math.round(Math.random()*100)
+          await new Promise(resolve => setTimeout(resolve, time))
+          return [
+            { key: 'one', text: 'One' },
+            { key: 'two', text: 'Two' },
+            { key: 'three', text: 'Three' },
+            { key: 'four', text: 'Four' },
+            { key: 'five', text: 'Five' },
+            { key: 'six', text: 'Six' }
+          ].slice(0, value.length)
+        }}
+      />
+    </Form>
+  </Story>
+</Preview>
+
+## Free Entry
+
+<Preview>
+  <Story name='free entry'>
+    <Form>
+      <Multiselect
+        id='msid1'
+        path='numbers'
+        allowFreeText={true}
+        search={async value => {
+          const time = 200 + Math.round(Math.random()*100)
+          await new Promise(resolve => setTimeout(resolve, time))
+          return [
+            { key: 'one', text: 'One' },
+            { key: 'two', text: 'Two' },
+            { key: 'three', text: 'Three' },
+            { key: 'four', text: 'Four' },
+            { key: 'five', text: 'Five' },
+            { key: 'six', text: 'Six' }
+          ].slice(0, value.length)
+        }}
       />
     </Form>
   </Story>

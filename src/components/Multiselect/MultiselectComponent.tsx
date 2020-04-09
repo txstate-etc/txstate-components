@@ -14,13 +14,14 @@ export interface ItemPair {
 interface MultiselectProps {
   id: string
   name: string
+  label: string
   items: ItemPair[]
   addSelection: (item: ItemPair) => void
   removeSelection: (item: ItemPair) => void
   selected?: ItemPair[]
-  label?: string
   placeholder?: string
   searchChanged?: (value: string) => void
+  allowFreeText?: boolean
 }
 
 type MultiselectFC = React.FunctionComponent<MultiselectProps>
@@ -121,7 +122,7 @@ function itemFromElement (el:HTMLElement|null) {
 }
 
 export const MultiselectComponent: MultiselectFC = props => {
-  const { id, name, items, selected, label, placeholder, addSelection, removeSelection, searchChanged } = props
+  const { id, name, items, selected, label, placeholder, addSelection, removeSelection, searchChanged, allowFreeText } = props
   const isSelected = useMemo(() => selected?.reduce((isSelected, item) => {
     isSelected[item.key] = true
     return isSelected
@@ -219,8 +220,19 @@ export const MultiselectComponent: MultiselectFC = props => {
       }
     } else if (e.key === 'Escape') {
       setMenuShown(false)
+    } else if (e.key === 'Enter' && allowFreeText) {
+      const val = inputRef.current?.value
+      if (val?.length) {
+        addSelection({ key: val, text: val })
+        if (inputRef.current) {
+          inputRef.current.value = ''
+          lastSearchValue.current = ''
+          searchChanged?.('')
+        }
+        e.preventDefault()
+      }
     }
-  }, [menushown, removeSelection, selected])
+  }, [menushown, addSelection, removeSelection, selected, allowFreeText, searchChanged])
   const onInputKeyup = useCallback(e => {
     if (inputRef.current?.value !== lastSearchValue.current) {
       lastSearchValue.current = inputRef.current?.value
@@ -258,6 +270,7 @@ export const MultiselectComponent: MultiselectFC = props => {
         if (inputRef.current) {
           inputRef.current.value = ''
           lastSearchValue.current = ''
+          searchChanged?.('')
         }
         if ((availableItems?.length ?? 0) <= 1) inputRef.current?.focus()
         else {
@@ -272,7 +285,7 @@ export const MultiselectComponent: MultiselectFC = props => {
     } else {
       inputRef.current?.focus()
     }
-  }, [addSelection, availableItems, selected])
+  }, [addSelection, availableItems, selected, searchChanged])
   const onMenuItemClick = useCallback(e => {
     const item = itemFromElement(e.target)
     if (item) {
@@ -280,10 +293,11 @@ export const MultiselectComponent: MultiselectFC = props => {
       if (inputRef.current) {
         inputRef.current.value = ''
         lastSearchValue.current = ''
+        searchChanged?.('')
       }
     inputRef.current?.focus()
     }
-  }, [addSelection])
+  }, [addSelection, searchChanged])
   const onMenuItemFocus = useCallback(e => {
     setActiveArea(true)
   }, [])
@@ -296,7 +310,7 @@ export const MultiselectComponent: MultiselectFC = props => {
 
   return (
     <fieldset css={fieldsetCSS}>
-      {label && <legend id={legendid}>{label}</legend>}
+      <legend id={legendid}>{label}</legend>
       <ul
         css={css`
           ${selectedUlCSS}
