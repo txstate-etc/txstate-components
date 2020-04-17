@@ -145,6 +145,12 @@ export const MultiselectComponent: MultiselectFC = props => {
   const menuItemsRef = useRef<(HTMLLIElement|null)[]>([])
   useEffect(() => { menuItemsRef.current = menuItemsRef.current.slice(0, availableItems.length) }, [availableItems])
 
+  const portalRef = useRef<HTMLDivElement|null>(null)
+  useEffect(() => {
+    portalRef.current = document.createElement('div')
+    document.body.appendChild(portalRef.current)
+    return () => { document.body.removeChild(portalRef.current!) }
+  }, [])
   useLayoutEffect(() => {
     const { top, left } = offset(inputContainerRef.current)
     if (menuRef.current) {
@@ -341,7 +347,7 @@ export const MultiselectComponent: MultiselectFC = props => {
         </span>
         {menushown && <span>{availablemessage}{', touch users explore to find autocomplete menu'}</span>}
       </ScreenReaderOnly>
-      {ReactDOM.createPortal(
+      {portalRef.current && ReactDOM.createPortal(
         <ul id={menuid} ref={menuRef}
           role="listbox"
           css={css`${menuCSS} display: ${menushown ? 'block' : 'none'};`}>
@@ -358,7 +364,7 @@ export const MultiselectComponent: MultiselectFC = props => {
             <li tabIndex={-1} className="noresults">No Results</li>
           }
         </ul>
-        , document.body)}
+        , portalRef.current)}
     </fieldset>
   )
 }
