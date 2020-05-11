@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IChoiceGroupStyles } from 'office-ui-fabric-react/lib/ChoiceGroup'
+import { IChoiceGroupStyles, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup'
 import { IStyle } from 'office-ui-fabric-react'
 
 interface IExtendedStyle {
@@ -7,12 +7,6 @@ interface IExtendedStyle {
 }
 
 export type ChoiceGroupStyle = Partial<IExtendedStyle & IChoiceGroupStyles>
-
-export interface IChoiceGroupOption {
-  text?: string
-  key?: string
-  disabled?: boolean
-}
 
 export interface ChoiceGroupProps {
   ariaLabel: string;
