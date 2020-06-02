@@ -51,8 +51,28 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     }
   }, [_broadcastChange, isDirty, setDirty])
 
+  const handleDeliverValue = useCallback((formValue) => {
+    if (formValue && formValue !== value) {
+      _setValue(formValue)
+    }
+  }, [value])
+  useEvent(`${inputEvent}-deliver-value`, handleDeliverValue)
+
+  const requestValue = useEvent(`${formEvent}-request-value`)
+  const handleCheckFormReady = useCallback((isReady) => {
+    if (isReady) {
+      requestValue(path, inputEvent)
+    }
+  }, [requestValue, path, inputEvent])
+  useEvent(`${formEvent}-deliver-form-ready`, handleCheckFormReady)
+
   const registerSelf = useEvent(`${formEvent}-register-self`)
   const errorReport = useEvent(`${formEvent}-error-report`)
+  const checkFormReady = useEvent(`${formEvent}-check-form-ready`)
+
+  useEffect(() => {
+    checkFormReady()
+  }, [checkFormReady])
 
   const handleFormReady = useCallback((initialState) => {
     const initialValue = get(initialState, path)

@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, useCallback, useEffect, useReducer } from 'react'
+import React, { useRef, useImperativeHandle, useState, useCallback, useEffect, useReducer } from 'react'
 import { useEvent } from '../../hooks'
 import { Subject } from '../../utils'
 import set from 'lodash/set'
@@ -52,6 +52,7 @@ export const Form = React.forwardRef((props, ref) => {
   const [form, formDispatch] = useReducer(immutableReducer, _initialState.current)
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
   const [success, successDispatch] = useReducer(immutableReducer, {})
+  const [formReady, setFormReady] = useState(false)
 
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
@@ -68,6 +69,16 @@ export const Form = React.forwardRef((props, ref) => {
   const updateChildState = useEvent(`${formEvent.current}-update-state`)
   const broadcastIndexCheck = useEvent(`${formEvent.current}-index-check`)
   const broadcastSetAllDirty = useEvent(`${formEvent.current}-set-all-dirty`)
+  const broadcastFormReady = useEvent(`${formEvent.current}-deliver-form-ready`)
+
+  const handleRequestValue = useCallback((path, inputEvent) => {
+    const formValue = get(form, path)
+    Subject.next(`${inputEvent}-deliver-value`, formValue)
+  }, [])
+
+  const handleCheckReady = useCallback(() => {
+    broadcastFormReady(formReady)
+  }, [formReady])
 
   const handleChildRegister = useCallback((inputEvent) => {
     childCount.current += 1
@@ -84,13 +95,21 @@ export const Form = React.forwardRef((props, ref) => {
     }
   }, [_childErrReport, childCount])
 
+  useEvent(`${formEvent.current}-request-value`, handleRequestValue)
+  useEvent(`${formEvent.current}-check-form-ready`, handleCheckReady)
   useEvent(`${formEvent.current}-register-self`, handleChildRegister)
   useEvent(`${formEvent.current}-data`, handleChildData)
   useEvent(`${formEvent.current}-error-report`, handleErrorReport)
 
   useEffect(() => {
-    notifyChildrenReady(_initialState.current)
-  }, [notifyChildrenReady])
+    if (formReady) {
+      notifyChildrenReady(_initialState.current)
+    }
+  }, [formReady])
+
+  useEffect(() => {
+    setFormReady(true)
+  }, [])
 
   const submitForm = useCallback(async () => {
     if (runValidateOnSubmit) {

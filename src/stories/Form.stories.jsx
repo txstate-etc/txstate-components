@@ -1,15 +1,14 @@
-import React, { useRef, useState, useImperativeHandle, useCallback } from 'react'
 import { storiesOf } from '@storybook/react'
-import { Form, Stack, Button, BasePicker, Checkbox } from '../components'
-import { TextInput, RichText, Dropdown, RadioGroup, DatePicker } from '../components/Form/Inputs'
-import { useFormInput } from '../hooks'
-import styled from 'styled-components'
-import get from 'lodash/get'
-import { TagItem } from '../components/TagItem'
-import { TagPicker } from '../components/Form/TagPicker/TagPicker'
-import { Editor, Modifier, EditorState } from 'draft-js'
-import dayjs from 'dayjs'
 import axios from 'axios'
+import dayjs from 'dayjs'
+import { EditorState, Modifier } from 'draft-js'
+import get from 'lodash/get'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
+import styled from 'styled-components'
+import { Button, Checkbox, Form, Stack } from '../components'
+import { DatePicker, Dropdown, RadioGroup, RichText, TextInput } from '../components/Form/Inputs'
+import { TagPicker } from '../components/Form/TagPicker/TagPicker'
+import { TagItem } from '../components/TagItem'
 
 const MetaDataTagPicker = React.forwardRef((props, ref) => {
   const { ariaLabel, label, path, itemLimit, items, className, showSelectedItems, description } = props
@@ -52,6 +51,7 @@ const StyledRichText = styled(RichText)`
 `
 
 const FormExample = props => {
+  const [shouldMountFriendIcecream, setShouldMountFriendIcecream] = useState(true)
   const handleSubmit = useCallback(async ({ form, errors }) => {
     const res = await axios({
       method: 'get',
@@ -69,11 +69,13 @@ const FormExample = props => {
     <Stack spacing={12}>
       <Form
         id='ross-shitty-life-form'
-        onChange={({ form, errors, success }) => console.log(form, errors, success)}
         initialValues={{
           icecream: [
             { key: 'vanilla', name: 'Vanilla', data: { section: 'expired' } }
-          ]
+          ],
+          friend: {
+            icecreamFlavor: 'brownie triple chocolate chunk'
+          }
         }}
         onSubmit={handleSubmit}
         runValidateOnSubmit
@@ -122,6 +124,8 @@ const FormExample = props => {
               <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24').toDate()} />
             </div>
           </Stack>
+          {shouldMountFriendIcecream && <StyledInput label={'Friend\'s Icecream'} path='friend.icecreamFlavor' />}
+          <Button onClick={() => setShouldMountFriendIcecream(prev => !prev)} label={'Toggle Friend\'s Icecream'} />
           <div>
             <StyledPicker
               label='Favorite Ice Cream'
