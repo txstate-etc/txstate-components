@@ -88,3 +88,26 @@ import { Multiselect } from '@txstate-mws/txstate-react/lib/components'
     </Form>
   </Story>
 </Preview>
+
+## Single Entry
+
+<Preview>
+  <Story name='single entry'>
+    <Form>
+      <Multiselect
+        id='msid1'
+        path='cars'
+        maxItems={1}
+        initialItems={[
+          { key: 'volvo', text: 'Volvo' },
+          { key: 'ford', text: 'Ford' },
+          { key: 'subaru', text: 'Subaru' },
+          { key: 'saab', text: 'Saab' }
+        ]}
+        initialValue={[
+          { key: 'ford', text: 'Ford' }
+        ]}
+      />
+    </Form>
+  </Story>
+</Preview>

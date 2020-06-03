@@ -21,6 +21,7 @@ export interface MultiselectProps {
   search?: (value:string) => Promise<ItemPair[]>
   /** Set this to true to allow users to type in new values instead of being required to match a lookup. */
   allowFreeText?: boolean
+  maxItems?: number
 }
 
 export const Multiselect: React.FunctionComponent<MultiselectProps> = props => {
@@ -35,7 +36,8 @@ export const Multiselect: React.FunctionComponent<MultiselectProps> = props => {
     className,
     style,
     search,
-    allowFreeText
+    allowFreeText,
+    maxItems
   } = props
 
   const id = useOptionalId(props.id)
@@ -86,6 +88,7 @@ export const Multiselect: React.FunctionComponent<MultiselectProps> = props => {
         removeSelection={removeSelection}
         searchChanged={searchChanged}
         allowFreeText={allowFreeText}
+        maxItems={maxItems}
       />
     </FormElement>
   )

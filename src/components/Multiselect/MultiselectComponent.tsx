@@ -22,6 +22,7 @@ interface MultiselectProps {
   placeholder?: string
   searchChanged?: (value: string) => void
   allowFreeText?: boolean
+  maxItems?: number
 }
 
 type MultiselectFC = React.FunctionComponent<MultiselectProps>
@@ -122,7 +123,7 @@ function itemFromElement (el:HTMLElement|null) {
 }
 
 export const MultiselectComponent: MultiselectFC = props => {
-  const { id, name, items, selected, label, placeholder, addSelection, removeSelection, searchChanged, allowFreeText } = props
+  const { id, name, items, selected, label, placeholder, addSelection, removeSelection, searchChanged, allowFreeText, maxItems } = props
   const isSelected = useMemo(() => selected?.reduce((isSelected, item) => {
     isSelected[item.key] = true
     return isSelected
@@ -132,6 +133,7 @@ export const MultiselectComponent: MultiselectFC = props => {
   const menuid = `menu-${id}`
   const descriptionid = `desc-${id}`
   const legendid = `leg-${id}`
+  const atMaxItems = !!(maxItems && selected?.length && selected.length >= maxItems)
 
   const [activearea, setActiveArea] = useState(false)
   const [menushown, setMenuShown] = useState(false)
@@ -351,7 +353,7 @@ export const MultiselectComponent: MultiselectFC = props => {
         <ul id={menuid} ref={menuRef}
           role="listbox"
           css={css`${menuCSS} display: ${menushown ? 'block' : 'none'};`}>
-          {availableItems.map((item, i) =>
+          {!atMaxItems && availableItems.map((item, i) =>
             <li ref={el => { menuItemsRef.current[i] = el }} key={item.key} tabIndex={-1}
               aria-selected="false" role="option"
               data-index={i} data-key={item.key} data-text={item.text} onClick={onMenuItemClick} onKeyDown={onMenuItemKeydown}
@@ -360,8 +362,11 @@ export const MultiselectComponent: MultiselectFC = props => {
               <ScreenReaderOnly>{', click to autocomplete'}</ScreenReaderOnly>
             </li>
           )}
-          {availableItems.length === 0 &&
+          {!atMaxItems && availableItems.length === 0 &&
             <li tabIndex={-1} className="noresults">No Results</li>
+          }
+          {atMaxItems &&
+            <li tabIndex={-1} className="noresults">Maximum selections reached</li>
           }
         </ul>
         , portalRef.current)}
