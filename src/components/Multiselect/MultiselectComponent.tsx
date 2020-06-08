@@ -41,6 +41,11 @@ border: 0;
 & * {
   box-sizing: border-box;
 }
+padding: 0;
+`
+
+const legendCSS = css`
+padding: 5px 0px;
 `
 
 const selectedUlCSS = css`
@@ -49,27 +54,36 @@ const selectedUlCSS = css`
   flex-wrap: wrap;
   align-items: stretch;
   padding: 5px;
-  border: 1px solid #666666;
-  border-radius: 5px;
+  background-color: var(--multiselect-bg, ${Theme.lightSandstone.hex()});
   & li {
     flex-grow: 0;
     &.input {
       flex-grow: 1;
+      input {
+        background-color: var(--multiselect-bg, ${Theme.lightSandstone.hex()});
+      }
     }
     &.multiselect-pill {
       height: 28px;
       line-height: 1;
-      border-radius: 14px;
+      border-radius: 2px;
       margin-right: 5px;
-      background-color: var(--multiselect-pill-bg, transparent);
-      border: 1px solid var(--multiselect-pill-border, gray);
+      margin-bottom: 5px;
+      background-color: var(--multiselect-pill-bg, white);
       color: var(--multiselect-pill-text, black);
       padding: 4px 8px;
+      box-shadow: 0px 3px 6px var(--multiselect-pill-boxshadow, #00000019);
       &:focus {
         outline: 0;
         background-color: var(--multiselect-pill-selected, gray);
         border: 1px solid var(--multiselect-pill-selected-border, transparent);
         color: var(--multiselect-pill-selected-text, white);
+      }
+      .multiselect-pill-text {
+        margin-right: 20px;
+      }
+      .multiselect-pill-remove {
+        font-size: 18px;
       }
     }
   }
@@ -165,7 +179,10 @@ export const MultiselectComponent: MultiselectFC = props => {
   const onContainerKeydown = useCallback(() => {}, [])
 
   const onSelectedClick = useCallback(e => {
-    const item = itemFromElement(e.target)
+    let item = itemFromElement(e.target)
+    if (e.target.tagName.toLowerCase() === "span") {
+      item = itemFromElement(e.target.parentElement)
+    }
     if (item) removeSelection(item)
     inputRef.current?.focus()
   }, [removeSelection])
@@ -318,7 +335,7 @@ export const MultiselectComponent: MultiselectFC = props => {
 
   return (
     <fieldset css={fieldsetCSS}>
-      <legend id={legendid}>{label}</legend>
+      <legend css={legendCSS} id={legendid}>{label}</legend>
       <ul
         css={css`
           ${selectedUlCSS}
@@ -330,8 +347,9 @@ export const MultiselectComponent: MultiselectFC = props => {
             onKeyDown={onSelectedKeydown} onClick={onSelectedClick} onFocus={onSelectedFocus} onBlur={onSelectedBlur}
             data-key={item.key} data-text={item.text} data-index={i}
             aria-selected="true" aria-labelledby={legendid}>
-            {item.text ?? item.key}
+            <span className="multiselect-pill-text">{item.text ?? item.key}</span>
             <ScreenReaderOnly>{', click to remove'}</ScreenReaderOnly>
+            <span className="multiselect-pill-remove" aria-hidden="true">&times;</span>
           </li>
         )}
         <li className="input">

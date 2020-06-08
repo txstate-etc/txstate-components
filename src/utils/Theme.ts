@@ -7,6 +7,7 @@ export const Theme = {
   deepBlue: Color('#005481'),
   lightDeepBlue: Color('#0075B4'),
   sandstone: Color('#e8e3db'),
+  lightSandstone: Color('#f4f1ed'),
   river: Color('#a1c1b5'),
   background: Color('#F5F3F0'),
   placeholder: Color('#dedede'),
