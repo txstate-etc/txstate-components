@@ -1,5 +1,5 @@
 export type ActionType = 'set' | 'remove' | 'errors' | 'success'
-export type Action<T = any> = { payload: T, path?: string, type: ActionType }
+export type Action<T = any> = { payload?: T, path?: string, type: ActionType }
 
 export type FormObject<T> = {
   form: T
@@ -23,7 +23,7 @@ export type RecursivePartial<T> = {
 
 export interface FormRef {
   submit: () => Promise<void>
-  updatePath: (path: string, value: any) => void
+  updatePath: (path: string, value?: any, action?: 'add' | 'remove') => void
 }
 
 export type ErrorReport = {

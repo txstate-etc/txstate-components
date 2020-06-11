@@ -1,7 +1,7 @@
 import { useContext, useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { FormContext } from '../components/Form/Form'
 import { useEvent } from './useEvent'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 import isNil from 'lodash/isNil'
@@ -53,7 +53,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
     if (updatedValue !== value) _setValue(updatedValue)
   }, [_setValue, value])
 
-  const { error, errClass } = useMemo(() => {
+  const errorInfo = useMemo(() => {
     if (isDirty) {
       return {
         error: _error ?? '',
@@ -98,10 +98,16 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
 
   const handleUpdateState = useCallback(state => {
     const updatedValue = get(state, path)
-    if (updatedValue && updatedValue !== value) {
+    if (updatedValue !== undefined && updatedValue !== value) {
       handleChange({ value: updatedValue, path, inputEvent, transformer })
     }
   }, [handleChange, inputEvent, path, transformer, value])
+
+  const handleDeleteState = useCallback((state, providedPath) => {
+    if (path === providedPath) {
+      handleChange({ value: undefined, path, inputEvent, transformer })
+    }
+  }, [path, inputEvent, transformer, handleChange])
 
   const handleUpdateIndex = useCallback((index: number) => {
     inputIndex.current = index
@@ -131,6 +137,7 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
   useEvent(`${formEvent}-index-check`, handleIndexCheck)
   useEvent(`${formEvent}-set-all-dirty`, handleSetAllDirty)
   useEvent(`${inputEvent}-go-focus-yourself`, handleFocus)
+  useEvent(`${formEvent}-delete-state`, handleDeleteState)
 
   const updateFormValue = useCallback((updatedValue) => {
     setValue(updatedValue)
@@ -155,14 +162,16 @@ export const useFormInput: UseFormInput = ({ path, extractor, transformer, initi
     setDirty(true)
   }, [setDirty])
 
-  return {
+  const results = useMemo(() => ({
     onChange: notifyFormValueChange,
     onBlur,
     isDirty,
     value,
-    error,
+    error: errorInfo.error,
     success,
-    errClass,
+    errClass: errorInfo.errClass,
     focus
-  }
+  }), [notifyFormValueChange, onBlur, isDirty, value, errorInfo, success, focus])
+
+  return results
 }

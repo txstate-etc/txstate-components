@@ -5,7 +5,7 @@ import set from 'lodash/set'
 import unset from 'lodash/unset'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import produce from 'immer'
 import { minBy, filter } from '../../utils/helpers'
 import { ErrorReport, Action, RecursivePartial, OnSubmit, OnChange, OnValidate, FormRef } from './Form.types'
@@ -35,7 +35,7 @@ const validationReducer = produce((draft, action: Action) => {
   }
 })
 
-interface FormProps<T> {
+interface FormProps<T = {}> {
   setup?: T
   webForm?: boolean
   initialValues?: RecursivePartial<T>
@@ -44,6 +44,7 @@ interface FormProps<T> {
   onValidate?: OnValidate<T>
   validationDelay?: number
   forwardRef?: React.Ref<FormRef>
+  ref?: React.Ref<FormRef>
   id?: string
   runValidateOnSubmit?: boolean
   children?: React.ReactNode
@@ -66,13 +67,12 @@ const WebForm: React.FunctionComponent<WebFormProps> = (props) => {
   )
 }
 
-export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
+const _Form: <T = any>(props: FormProps<T>, ref: React.Ref<FormRef | null>) => JSX.Element = (props, ref) => {
   const {
     children,
     onSubmit,
     onChange,
     onValidate,
-    forwardRef,
     validationDelay = 300,
     initialValues,
     webForm = true,
@@ -91,6 +91,7 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
   const broadcastValidateResults = useEvent(`${formId.current}-validate-result`)
   const notifyChildrenReady = useEvent(`${formId.current}-form-ready`)
   const updateChildState = useEvent(`${formId.current}-update-state`)
+  const deleteChildState = useEvent(`${formId.current}-delete-state`)
   const broadcastIndexCheck = useEvent(`${formId.current}-index-check`)
   const broadcastSetAllDirty = useEvent(`${formId.current}-set-all-dirty`)
 
@@ -169,12 +170,17 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
     }
   }, [runValidateOnSubmit, onSubmit, broadcastSetAllDirty, validateOnChange, form, errors, broadcastValidateResults, broadcastIndexCheck])
 
-  const updatePath = useCallback((path, value) => {
-    const updatedState = set({}, path, value)
-    updateChildState(updatedState)
-  }, [updateChildState])
+  const updatePath = useCallback((path: string, value?: any, action?: 'add' | 'remove') => {
+    if (action === 'add' || action === undefined) {
+      const updatedState = set(form, path, value)
+      updateChildState(updatedState)
+    } else if (action === 'remove') {
+      // const updatedState = unset(form, path)
+      // deleteChildState(updatedState, path)
+    }
+  }, [updateChildState, deleteChildState, form])
 
-  useImperativeHandle(forwardRef, () => ({
+  useImperativeHandle(ref, () => ({
     submit: submitForm,
     updatePath
   }))
@@ -213,3 +219,5 @@ export const Form: <T = any>(props: FormProps<T>) => JSX.Element = (props) => {
     </FormContext.Provider>
   )
 }
+
+export const Form = React.forwardRef<FormRef | null, FormProps>(_Form)
