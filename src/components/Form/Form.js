@@ -138,7 +138,7 @@ export const Form = React.forwardRef((props, ref) => {
   const updatePath = useCallback((path, value) => {
     const updatedState = set({}, path, value)
     updateChildState(updatedState)
-  })
+  }, [])
 
   useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
 
