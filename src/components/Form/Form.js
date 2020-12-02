@@ -6,7 +6,7 @@ import unset from 'lodash/unset'
 import clone from 'lodash/clone'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
-import uuid from 'uuid/v4'
+import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import minBy from 'lodash/minBy'
@@ -15,10 +15,11 @@ export const FormContext = React.createContext({})
 
 const immutableReducer = (state, action) => {
   let localState = null
+  let localValue;
   switch (action.type) {
     case 'set':
       localState = clone(state)
-      const localValue = clone(action.payload)
+      localValue = clone(action.payload)
       return set(localState, action.path, localValue)
     case 'remove':
       localState = clone(state)
@@ -43,7 +44,7 @@ export const Form = React.forwardRef((props, ref) => {
     id,
     runValidateOnSubmit
   } = props
-  const formEvent = useRef(id || uuid())
+  const formEvent = useRef(id || shortid.generate())
   const _initialState = useRef(initialValues || {})
   const firstValidationSkipped = useRef(false)
   const childCount = useRef(0)
