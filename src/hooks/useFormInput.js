@@ -49,7 +49,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
       setDirty(true)
       _broadcastIndexCheck(_index.current)
     }
-  }, [_broadcastChange, isDirty, setDirty])
+  }, [_broadcastChange, isDirty, setDirty, _broadcastIndexCheck])
 
   const handleDeliverValue = useCallback((formValue) => {
     if (formValue && formValue !== value) {
@@ -80,7 +80,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
       setValue(initialValue)
     }
     registerSelf(inputEvent)
-  }, [setValue, inputEvent, registerSelf])
+  }, [setValue, inputEvent, registerSelf, path])
 
   const handleValidation = useCallback(result => {
     setError('') // reset error / success so that aria-live re-read the error if it still exists
@@ -92,14 +92,14 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     setError(errorMessage || '')
     setSuccess(successMessage || '')
     submit && errorReport({ inputEvent, _index, error: !!errorMessage })
-  }, [setError, setSuccess])
+  }, [setError, setSuccess, errorReport, inputEvent, path])
 
   const handleUpdateState = useCallback(state => {
     const updatedValue = get(state, path)
     if (updatedValue && updatedValue !== value) {
       handleChange({ value: updatedValue, path, inputEvent, transformer })
     }
-  }, [])
+  }, [path, inputEvent, transformer, handleChange, value])
 
   const handleUpdateIndex = useCallback((index) => {
     _index.current = index
@@ -109,7 +109,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     if (_index.current !== null && _index.current <= index && !isDirty) {
       setDirty(true)
     }
-  }, [setDirty])
+  }, [setDirty, isDirty])
 
   const handleSetAllDirty = useCallback(() => {
     setDirty(true)
@@ -129,7 +129,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
 
   const updateFormValue = useCallback((updatedValue) => {
     setValue(updatedValue)
-  }, [value, setValue])
+  }, [setValue])
 
   useEvent(inputEvent, updateFormValue)
 
@@ -146,7 +146,7 @@ export const useFormInput = ({ path, extractor, transformer, initialValue }) => 
     }
 
     handleChange({ value, path, inputEvent, transformer })
-  }, [handleChange, extractor])
+  }, [handleChange, extractor, inputEvent, path, transformer])
 
   const onBlur = useCallback(() => {
     setDirty(true)

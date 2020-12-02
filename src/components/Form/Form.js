@@ -15,7 +15,7 @@ export const FormContext = React.createContext({})
 
 const immutableReducer = (state, action) => {
   let localState = null
-  let localValue;
+  let localValue
   switch (action.type) {
     case 'set':
       localState = clone(state)
@@ -75,11 +75,11 @@ export const Form = React.forwardRef((props, ref) => {
   const handleRequestValue = useCallback((path, inputEvent) => {
     const formValue = get(form, path)
     Subject.next(`${inputEvent}-deliver-value`, formValue)
-  }, [])
+  }, [form])
 
   const handleCheckReady = useCallback(() => {
     broadcastFormReady(formReady)
-  }, [formReady])
+  }, [formReady, broadcastFormReady])
 
   const handleChildRegister = useCallback((inputEvent) => {
     childCount.current += 1
@@ -106,11 +106,28 @@ export const Form = React.forwardRef((props, ref) => {
     if (formReady) {
       notifyChildrenReady(_initialState.current)
     }
-  }, [formReady])
+  }, [formReady, notifyChildrenReady])
 
   useEffect(() => {
     setFormReady(true)
   }, [])
+
+  const validateOnChange = useCallback(async (form, submit = false) => {
+    try {
+      if (typeof validate !== 'function') return
+      const results = await validate(form)
+      const errors = get(results, 'errors')
+      const success = get(results, 'success')
+      errorDispatch({ type: 'validation', payload: errors })
+      successDispatch({ type: 'validation', payload: success })
+      if (errors || success) {
+        broadcastValidateResults({ errors, success, submit: !!submit })
+      }
+      return { errors, success }
+    } catch (err) {
+      console.log(err)
+    }
+  }, [broadcastValidateResults, validate])
 
   const submitForm = useCallback(async () => {
     if (runValidateOnSubmit) {
@@ -134,31 +151,14 @@ export const Form = React.forwardRef((props, ref) => {
         broadcastIndexCheck(childCount.current)
       }
     }
-  }, [onSubmit, broadcastValidateResults, form, errors])
+  }, [onSubmit, broadcastValidateResults, form, errors, broadcastIndexCheck, broadcastSetAllDirty, runValidateOnSubmit, validateOnChange])
 
   const updatePath = useCallback((path, value) => {
     const updatedState = set({}, path, value)
     updateChildState(updatedState)
-  }, [])
+  }, [updateChildState])
 
   useImperativeHandle(ref, () => ({ submit: submitForm, updatePath }))
-
-  const validateOnChange = useCallback(async (form, submit = false) => {
-    try {
-      if (typeof validate !== 'function') return
-      const results = await validate(form)
-      const errors = get(results, 'errors')
-      const success = get(results, 'success')
-      errorDispatch({ type: 'validation', payload: errors })
-      successDispatch({ type: 'validation', payload: success })
-      if (errors || success) {
-        broadcastValidateResults({ errors, success, submit: !!submit })
-      }
-      return { errors, success }
-    } catch (err) {
-      console.log(err)
-    }
-  }, [broadcastValidateResults, validate])
 
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
