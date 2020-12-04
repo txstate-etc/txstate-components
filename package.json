@@ -1,6 +1,6 @@
 {
   "name": "@txstate-mws/txstate-react",
-  "version": "1.2.6",
+  "version": "1.2.5",
   "homepage": "https://txstate-etc.github.io/txstate-components/",
   "repository": {
     "url": "https://github.com/txstate-etc/txstate-components"
@@ -23,7 +23,8 @@
     "react-table": "6.10.3",
     "rxjs": "^6.5.2",
     "shortid": "^2.2.14",
-    "styled-components": "4.3.2"
+    "styled-components": "4.3.2",
+    "use-deep-compare-effect": "1.4.0"
   },
   "peerDependencies": {
     "react": "16.13.1",

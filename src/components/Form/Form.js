@@ -10,6 +10,8 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import minBy from 'lodash/minBy'
+import { useDeepCompareEffect } from 'use-deep-compare-effect'
+import { isEqual } from 'lodash'
 
 export const FormContext = React.createContext({})
 
@@ -63,6 +65,7 @@ export const Form = React.forwardRef((props, ref) => {
   const [success, successDispatch] = useReducer(immutableReducer, {})
   const [formReady, setFormReady] = useState(false)
   const prevFormId = usePrevious(formId)
+  const prevForm = usePrevious(form)
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
     let transformedValue = value
@@ -170,13 +173,15 @@ export const Form = React.forwardRef((props, ref) => {
 
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (prevFormId === formId) {
-      if (onChange && typeof onChange === 'function') {
-        onChange({ form, errors, success })
+      if (prevForm && !isEqual(prevForm, form)) {
+        if (onChange && typeof onChange === 'function') {
+          onChange({ form, errors, success })
+        }
       }
     }
-  }, [form, onChange, errors, success])
+  }, [form, onChange, errors, success, prevFormId, formId])
 
   useEffect(() => {
     debouncedValidate.cancel()
