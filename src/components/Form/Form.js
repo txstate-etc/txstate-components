@@ -10,7 +10,7 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import minBy from 'lodash/minBy'
-import { useDeepCompareEffect } from 'use-deep-compare-effect'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import { isEqual } from 'lodash'
 
 export const FormContext = React.createContext({})
