@@ -10,9 +10,16 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import minBy from 'lodash/minBy'
-import useDeepCompareEffect from 'use-deep-compare-effect'
 
 export const FormContext = React.createContext({})
+
+const usePrevious = (value) => {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
 
 const immutableReducer = (state, action) => {
   let localState = null
@@ -45,7 +52,7 @@ export const Form = React.forwardRef((props, ref) => {
     id,
     runValidateOnSubmit
   } = props
-  const formEvent = useRef(id || shortid.generate())
+  const formId = useRef(id || shortid.generate())
   const _initialState = useRef(initialValues || {})
   const firstValidationSkipped = useRef(false)
   const childCount = useRef(0)
@@ -55,7 +62,7 @@ export const Form = React.forwardRef((props, ref) => {
   const [errors, errorDispatch] = useReducer(immutableReducer, {})
   const [success, successDispatch] = useReducer(immutableReducer, {})
   const [formReady, setFormReady] = useState(false)
-
+  const prevFormId = usePrevious(formId)
   const handleChildData = useCallback(({ path, value, inputEvent, transformer }) => {
     if (!path) return
     let transformedValue = value
@@ -66,12 +73,12 @@ export const Form = React.forwardRef((props, ref) => {
     Subject.next(inputEvent, value)
   }, [formDispatch])
 
-  const broadcastValidateResults = useEvent(`${formEvent.current}-validate-result`)
-  const notifyChildrenReady = useEvent(`${formEvent.current}-form-ready`)
-  const updateChildState = useEvent(`${formEvent.current}-update-state`)
-  const broadcastIndexCheck = useEvent(`${formEvent.current}-index-check`)
-  const broadcastSetAllDirty = useEvent(`${formEvent.current}-set-all-dirty`)
-  const broadcastFormReady = useEvent(`${formEvent.current}-deliver-form-ready`)
+  const broadcastValidateResults = useEvent(`${formId.current}-validate-result`)
+  const notifyChildrenReady = useEvent(`${formId.current}-form-ready`)
+  const updateChildState = useEvent(`${formId.current}-update-state`)
+  const broadcastIndexCheck = useEvent(`${formId.current}-index-check`)
+  const broadcastSetAllDirty = useEvent(`${formId.current}-set-all-dirty`)
+  const broadcastFormReady = useEvent(`${formId.current}-deliver-form-ready`)
 
   const handleRequestValue = useCallback((path, inputEvent) => {
     const formValue = get(form, path)
@@ -97,11 +104,11 @@ export const Form = React.forwardRef((props, ref) => {
     }
   }, [_childErrReport, childCount])
 
-  useEvent(`${formEvent.current}-request-value`, handleRequestValue)
-  useEvent(`${formEvent.current}-check-form-ready`, handleCheckReady)
-  useEvent(`${formEvent.current}-register-self`, handleChildRegister)
-  useEvent(`${formEvent.current}-data`, handleChildData)
-  useEvent(`${formEvent.current}-error-report`, handleErrorReport)
+  useEvent(`${formId.current}-request-value`, handleRequestValue)
+  useEvent(`${formId.current}-check-form-ready`, handleCheckReady)
+  useEvent(`${formId.current}-register-self`, handleChildRegister)
+  useEvent(`${formId.current}-data`, handleChildData)
+  useEvent(`${formId.current}-error-report`, handleErrorReport)
 
   useEffect(() => {
     if (formReady) {
@@ -163,9 +170,11 @@ export const Form = React.forwardRef((props, ref) => {
 
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
-  useDeepCompareEffect(() => {
-    if (onChange && typeof onChange === 'function') {
-      onChange({ form, errors, success })
+  useEffect(() => {
+    if (prevFormId === formId) {
+      if (onChange && typeof onChange === 'function') {
+        onChange({ form, errors, success })
+      }
     }
   }, [form, onChange, errors, success])
 
@@ -179,7 +188,7 @@ export const Form = React.forwardRef((props, ref) => {
   }, [debouncedValidate, form])
 
   return (
-    <FormContext.Provider value={formEvent.current}>
+    <FormContext.Provider value={formId.current}>
       <form onSubmit={e => {
         e.preventDefault()
         submitForm && submitForm()
