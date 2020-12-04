@@ -10,6 +10,7 @@ import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import filter from 'lodash/filter'
 import minBy from 'lodash/minBy'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 
 export const FormContext = React.createContext({})
 
@@ -162,7 +163,7 @@ export const Form = React.forwardRef((props, ref) => {
 
   const debouncedValidate = useCallback(debounce(validateOnChange, validationDelay), [broadcastValidateResults, validate])
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     if (onChange && typeof onChange === 'function') {
       onChange({ form, errors, success })
     }
