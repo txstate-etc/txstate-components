@@ -27,7 +27,7 @@ const Loading = props => {
 }
 
 export const Table = props => {
-  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, selectableRowsDisabledField, title, keyField, WithSelectedArea } = props
+  const { initialPageSize, dataSource, columns, onRowSelected, selectableRows, selectableRowDisabled, title, keyField, WithSelectedArea } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
   const {
@@ -64,7 +64,7 @@ export const Table = props => {
         keyField={keyField}
         onSort={onSort}
         selectableRows={selectableRows}
-        selectableRowsDisabledField={selectableRowsDisabledField}
+        selectableRowDisabled={selectableRowDisabled}
         clearSelectedRows={clearSelectedRows}
         onRowSelected={onRowSelected}
         paginationTotalRows={paginationTotalRows}
@@ -100,7 +100,7 @@ Table.propTypes = {
   })),
   title: PropTypes.string,
   selectableRows: PropTypes.bool,
-  selectableRowsDisabledField: PropTypes.string,
+  selectableRowDisabled: PropTypes.func,
   onRowSelected: PropTypes.func,
   dataSource: PropTypes.func,
   initialPageSize: PropTypes.number,
