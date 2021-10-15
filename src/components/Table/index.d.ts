@@ -42,7 +42,7 @@ export interface TableProps {
   selectableRows?: boolean;
   selectableRowDisabled?: (...args: any[]) => any;
   dataSource?: TableDataSourceFunction
-  onRowSelected?: (...args: any[]) => any | any;
+  onSelectedRowsChange?: (...args: any[]) => any | any;
   initialPageSize?: number;
   title?: string;
   keyField?: string;

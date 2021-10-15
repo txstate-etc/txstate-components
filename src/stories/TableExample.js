@@ -83,6 +83,7 @@ export const TableSelectable = props => {
       dataSource={api.getPeople}
       initialPageSize={10}
       selectableRows
+      onSelectedRowsChange={() => console.log('go brr')}
       WithSelectedArea={(props) => {
         return (<Button label='Refresh' onClick={props.refreshData} />)
       }}

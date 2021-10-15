@@ -7,7 +7,7 @@ import DataTable from 'react-data-table-component'
 // TODO: Filtering of all columns
 
 export const BaseTable = props => {
-  const { initialLoad, columns, paginationPerPage, data, noDataComponent, keyField, onSort, sortServer, sortFunction, title, loading, onChangePage, paginationTotalRows, onChangeRowsPerPage, selectableRows, selectableRowDisabled, clearSelectedRows, onRowSelected, WithSelectedArea } = props
+  const { initialLoad, columns, paginationPerPage, data, noDataComponent, keyField, onSort, sortServer, sortFunction, title, loading, onChangePage, paginationTotalRows, onChangeRowsPerPage, selectableRows, selectableRowDisabled, clearSelectedRows, onSelectedRowsChange, WithSelectedArea } = props
 
   return initialLoad ? null : (
     <DataTable
@@ -29,7 +29,7 @@ export const BaseTable = props => {
       selectableRows={selectableRows}
       selectableRowDisabled={selectableRowDisabled}
       clearSelectedRows={clearSelectedRows}
-      onRowSelected={onRowSelected}
+      onSelectedRowsChange={onSelectedRowsChange}
       contextActions={WithSelectedArea}
     />
   )
