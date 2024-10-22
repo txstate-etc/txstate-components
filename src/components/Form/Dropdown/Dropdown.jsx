@@ -1,9 +1,9 @@
 import React from 'react'
 import { useFormInput } from '../../../hooks'
-import { ComboBox } from 'office-ui-fabric-react/lib/ComboBox'
+import { ComboBox } from '@fluentui/react/lib/ComboBox'
 import PropTypes from 'prop-types'
 
-import { initializeIcons } from 'office-ui-fabric-react/lib/Icons'
+import { initializeIcons } from '@fluentui/react/lib/Icons'
 initializeIcons()
 
 export const Dropdown = React.forwardRef((props, ref) => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react'
-import { TagPicker } from 'office-ui-fabric-react/lib/Pickers'
+import { TagPicker } from '@fluentui/react/lib/Pickers'
 import { Label } from '../Label'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'

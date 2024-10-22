@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { ChoiceGroup as OfficeChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup'
-import { Label } from 'office-ui-fabric-react/lib/Label'
+import { ChoiceGroup as OfficeChoiceGroup } from '@fluentui/react/lib/ChoiceGroup'
+import { Label } from '@fluentui/react/lib/Label'
 import shortid from 'shortid'
 
 export const ChoiceGroup = props => {

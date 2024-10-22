@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useFormInput } from '../../../hooks'
-import { Checkbox as OfficeCheckbox } from 'office-ui-fabric-react/lib/Checkbox'
+import { Checkbox as OfficeCheckbox } from '@fluentui/react/lib/Checkbox'
 import shortid from 'shortid'
 import PropTypes from 'prop-types'
 import { ErrorMessage } from '../ErrorMessage'

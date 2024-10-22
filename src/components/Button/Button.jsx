@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components'
-import { PrimaryButton } from 'office-ui-fabric-react'
+import { PrimaryButton  } from '@fluentui/react'
 import PropTypes from 'prop-types'
 import { Text } from '../Text'
 import { Theme } from '../Theme'
@@ -32,6 +32,8 @@ const ButtonBase = styled(PrimaryButton)`
     ${outline}
     background-color: transparent;
   }
+
+
 `
 
 const ButtonLabel = styled(Text)`
@@ -52,6 +54,16 @@ const ButtonLabel = styled(Text)`
 export const Button = props => {
   const { label, variant, onClick, ariaLabel, className, disabled, type } = props
 
+
+  const classNames = useCallback((name) => {
+    const className = [name]
+
+    if (variant) className.push(variant)
+    if (className) className.push(className)
+
+    return className.join(' ')
+  }, [variant, className])
+
   return (
     <ButtonBase
       role='button'
@@ -59,10 +71,10 @@ export const Button = props => {
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={[variant, className, 'button-container']}
+      className={classNames('buttonContainer')}
     >
       <ButtonLabel
-        className={[variant, className, 'button-label']}
+        className={classNames('button-label')}
         variant={variant}
       >
         {label}

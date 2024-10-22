@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { IChoiceGroupStyles, IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup'
-import { IStyle } from 'office-ui-fabric-react'
+import { IChoiceGroupStyles, IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup'
+import { IStyle } from '@fluentui/react'
 
 interface IExtendedStyle {
   errorMessage: IStyle

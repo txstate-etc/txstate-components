@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ICheckboxStyles } from 'office-ui-fabric-react/lib/Checkbox'
+import { ICheckboxStyles } from '@fluentui/react/lib/Checkbox'
 
 export interface CheckboxProps {
   path: string;

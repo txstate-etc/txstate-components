@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IBasePickerStyles } from 'office-ui-fabric-react/lib/Pickers'
+import { IBasePickerStyles } from '@fluentui/react/lib/Pickers'
 
 export interface BasePickerItems {
   key: string;
