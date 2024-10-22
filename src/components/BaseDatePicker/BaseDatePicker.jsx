@@ -1,19 +1,13 @@
 import React from 'react'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
-import { createMuiTheme } from '@material-ui/core'
-import { ThemeProvider } from '@material-ui/styles'
-import { Label } from 'office-ui-fabric-react/lib/Label'
-import DayjsUtils from '@date-io/dayjs'
+import { DatePicker } from '@mui/x-date-pickers'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Label } from '@fluentui/react/lib/Label'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 
-// This is the available style options for the date picker
-// import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
-
-const datePickerTheme = createMuiTheme({
+const datePickerTheme = createTheme({
   overrides: {
     MuiFormControl: {
       root: {
@@ -59,9 +53,9 @@ export const BaseDatePicker = props => {
 
   return (
     <ThemeProvider theme={datePickerTheme}>
-      <MuiPickersUtilsProvider utils={DayjsUtils}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Label>{label}</Label>
-        <KeyboardDatePicker
+        <DatePicker
           autoOk
           mask={mask}
           format={format}
@@ -77,15 +71,15 @@ export const BaseDatePicker = props => {
           maxDateMessage={maxDateMessage || `Date should not be after ${dayjs(maxDate).format(format)}`}
           onChange={onChange}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   )
 }
 
 BaseDatePicker.defaultProps = {
-  variant: 'dialog',
-  minDate: dayjs('1900-01-01').toDate(),
-  maxDate: dayjs('2100-01-01').toDate(),
+  variant: 'filled',
+  minDate: dayjs('1900-01-01'),
+  maxDate: dayjs('2100-01-01'),
   format: 'MM/DD/YYYY',
   mask: '__/__/____',
   placeholder: '10/31/2019'
