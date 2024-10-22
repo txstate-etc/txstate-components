@@ -1,0 +1,132 @@
+🔎 checking possible migrations..
+Unable to find .eslintrc config file, skipping
+
+⚠️  failed to check fix mdx-to-csf
+
+Error: ❌ Unable to determine Storybook stories globs in [object Object], skipping mdx-to-csf fix.
+
+In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
+
+Now, since Storybook 8.0, we have removed support for .stories.mdx files.
+
+We were unable to automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
+We suggest you make this change manually.
+To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files
+    at Object.check (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/cli/dist/bin/index.cjs:235:1382)
+    at runFixes (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/cli/dist/bin/index.cjs:527:2924)
+    at async automigrate (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/cli/dist/bin/index.cjs:527:1620)
+    at async doUpgrade (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/cli/dist/bin/index.cjs:596:1607)
+    at async withTelemetry (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/core/dist/core-server/index.cjs:47080:12)
+    at async upgrade (/Users/kep85/.npm/_npx/b838d487a1dbe6d1/node_modules/@storybook/cli/dist/bin/index.cjs:596:2073)
+
+🔎 found a 'autodocsTrue' migration:
+╭ Automigration detected ─────────────────────────────────────────────────────────────────────────╮
+│                                                                                                 │
+│   We've changed the configuration of autodocs (previous docsPage), so now the value:            │
+│   - docs.autodocs: true -- means automatically create docs for every CSF file                   │
+│   - docs.autodocs: 'tag' -- means only create autodocs for CSF files with the 'autodocs' tag    │
+│   - docs.autodocs: false -- means never create autodocs                                         │
+│                                                                                                 │
+│   Based on your prior configuration,  we can set the `docs.autodocs` to keep your old           │
+│   behaviour:                                                                                    │
+│                                                                                                 │
+│   docs: { autodocs: true }                                                                      │
+│                                                                                                 │
+│   More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes   │
+│                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'autodocsTrue' migration on your project? › (Y/n)✔ Do you want to run the 'autodocsTrue' migration on your project? … yes
+✅ Setting 'docs.autodocs' to true in main.js
+✅ ran autodocsTrue migration
+
+🔎 found a 'mdx1to3' migration:
+╭ Automigration detected ─────────────────────────────────────────────────────────────────────────╮
+│                                                                                                 │
+│   We've found 14 '.stories.mdx' files in your project.                                          │
+│                                                                                                 │
+│   Storybook has upgraded to MDX3 (https://mdxjs.com/blog/v3/). MDX3 itself doesn't contain      │
+│   disruptive breaking changes, whereas the transition from MDX1 to MDX2 was a significant       │
+│   change.                                                                                       │
+│   We can try to automatically upgrade your MDX files to MDX3 format using some common           │
+│   patterns.                                                                                     │
+│                                                                                                 │
+│   After this install completes, and before you start Storybook, we strongly recommend reading   │
+│   the MDX2 section                                                                              │
+│   of the 7.0 migration guide. It contains useful tools for detecting and fixing any remaining   │
+│   issues.                                                                                       │
+│                                                                                                 │
+│   https://storybook.js.org/migration-guides/7.0                                                 │
+│                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'mdx1to3' migration on your project? › (Y/n)✔ Do you want to run the 'mdx1to3' migration on your project? … yes
+🆗 Unmodified FormInputs.stories.mdx
+🆗 Unmodified Button.stories.mdx
+🆗 Unmodified DateTimePicker.stories.mdx
+🆗 Unmodified Icons.stories.mdx
+🆗 Unmodified Layout.stories.mdx
+🆗 Unmodified Loader.stories.mdx
+🆗 Unmodified FormUsing.stories.mdx
+🆗 Unmodified Modal.stories.mdx
+🆗 Unmodified LoadingOverlay.stories.mdx
+🆗 Unmodified SidePanel.stories.mdx
+🆗 Unmodified Table.stories.mdx
+🆗 Unmodified Toast.stories.mdx
+🆗 Unmodified Picker.stories.mdx
+🆗 Unmodified Stack.stories.mdx
+✅ ran mdx1to3 migration
+
+🔎 found a 'autodocs-tags' migration:
+╭ Automigration detected ─────────────────────────────────────────────────────────────────────────╮
+│                                                                                                 │
+│   The docs.autodocs setting in .storybook/main.js is deprecated.                                │
+│                                                                                                 │
+│   Learn more: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-docsauto   │
+│   docs-is-deprecated                                                                            │
+│                                                                                                 │
+│   Remove docs.autodocs and update .storybook/preview.js?                                        │
+│                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'autodocs-tags' migration on your project? › (Y/n)✔ Do you want to run the 'autodocs-tags' migration on your project? … yes
+✅ Adding "autodocs" tag to .storybook/preview.js
+✅ Removing "docs.autodocs" from .storybook/main.js
+✅ ran autodocs-tags migration
+
+╭ Migration check ran with failures ──────────────────────────────────────────────────────────────╮
+│                                                                                                 │
+│   Successful migrations:                                                                        │
+│                                                                                                 │
+│   autodocsTrue, mdx1to3, autodocs-tags                                                          │
+│                                                                                                 │
+│   Failed migrations:                                                                            │
+│                                                                                                 │
+│   mdx-to-csf:                                                                                   │
+│   ❌ Unable to determine Storybook stories globs in [object Object], skipping mdx-to-csf fix.   │
+│                                                                                                 │
+│   In Storybook 7, we have deprecated defining stories in MDX files, and consequently have       │
+│   changed the suffix to simply .mdx.                                                            │
+│                                                                                                 │
+│   Now, since Storybook 8.0, we have removed support for .stories.mdx files.                     │
+│                                                                                                 │
+│   We were unable to automatically migrate your 'stories' config to include any .mdx file        │
+│   instead of just .stories.mdx.                                                                 │
+│   We suggest you make this change manually.                                                     │
+│   To learn more about this change, see:                                                         │
+│   https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files                │
+│                                                                                                 │
+│   You can find the full logs in                                                                 │
+│   /Users/kep85/Documents/work/txstate-components/migration-storybook.log                        │
+│                                                                                                 │
+│   ─────────────────────────────────────────────────                                             │
+│                                                                                                 │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook            │
+│   automigrate'                                                                                  │
+│                                                                                                 │
+│   The automigrations try to migrate common patterns in your project, but might not contain      │
+│   everything needed to migrate to the latest version of Storybook.                              │
+│                                                                                                 │
+│   Please check the changelog and migration guide for manual migrations and more information:    │
+│   https://storybook.js.org/docs/8.0/migration-guide                                             │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                       │
+│                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+
