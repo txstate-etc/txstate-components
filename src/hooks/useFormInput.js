@@ -1,13 +1,13 @@
 import { useContext, useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { FormContext } from '../components/Form'
 import { useEvent } from './useEvent'
-import uuid from 'uuid/v4'
+import { v4 as uuidv4 } from 'uuid'
 import get from 'lodash/get'
 import debounce from 'lodash/debounce'
 
 export const useFormInput = ({ path, extractor, transformer, initialValue }) => {
   const formEvent = useContext(FormContext)
-  const _id = useRef(uuid())
+  const _id = useRef(uuidv4())
   const _index = useRef(null)
   const componentRef = useRef()
 
