@@ -1,5 +1,5 @@
 import React from 'react'
-import { Label as OfficeLabel } from 'office-ui-fabric-react/lib/Label'
+import { Label as OfficeLabel } from '@fluentui/react/lib/Label'
 
 export const Label = props => {
   const { children } = props

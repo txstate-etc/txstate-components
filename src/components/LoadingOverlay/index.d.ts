@@ -2,7 +2,7 @@ import * as React from 'react'
 
 export interface LoadingOverlayProps {
   ariaDescription: string
-  isLoading: bool
+  isLoading: boolean
   variant: 'primary' | 'secondary'
 }
 

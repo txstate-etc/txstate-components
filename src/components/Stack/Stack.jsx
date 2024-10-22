@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack as OfficeStack } from 'office-ui-fabric-react/lib/Stack'
+import { Stack as OfficeStack } from '@fluentui/react/lib/Stack'
 import PropTypes from 'prop-types'
 
 export const Stack = props => {

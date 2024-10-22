@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
-import { ShimmeredDetailsList } from 'office-ui-fabric-react/lib/ShimmeredDetailsList'
-import { setIconOptions } from 'office-ui-fabric-react/lib/Styling'
+import { ShimmeredDetailsList } from '@fluentui/react/lib/ShimmeredDetailsList'
+import { setIconOptions } from '@fluentui/react/lib/Styling'
 
 setIconOptions({
   disableWarnings: true

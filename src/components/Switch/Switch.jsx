@@ -1,6 +1,6 @@
 import React, { useReducer, useCallback, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Label } from 'office-ui-fabric-react/lib/Label'
+import { Label } from '@fluentui/react/lib/Label'
 import { Theme } from '../Theme'
 import PropTypes from 'prop-types'
 

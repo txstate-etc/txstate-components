@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { IIconProps } from 'office-ui-fabric-react'
-import { ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField'
+import { IIconProps } from '@fluentui/react'
+import { ITextFieldStyles } from '@fluentui/react/lib/TextField'
 
 export interface TextInputProps {
   label: string;

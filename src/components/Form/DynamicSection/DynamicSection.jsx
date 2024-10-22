@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
 import shortid from 'shortid'
 import { Button } from '../../Button'
-import { Form } from '../../Form'
+import { Form } from '../'
 import { useFormInput } from '../../../hooks'
 
 const handleRefUpdate = (ref, form, errors) => {

@@ -1,8 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
-const Wrapper = styled.div`
+interface LayoutProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
+  /**
+   * Setting to false will disable the footer
+   */
+  hasFooter?: boolean;
+  /**
+   * Controls the size of the sidebar.
+   */
+  sidebarSize?: number;
+  /**
+   * Disables the presence of the side bar
+   */
+  hasSidebar?: boolean;
+}
+
+const Wrapper = styled.div<{ sidebarSize: number }>`
   display: grid;
   background-color: #ffffff;
 
@@ -45,15 +59,12 @@ const HeaderContainer = styled.header`
   }
 `
 
-const Header = props => {
-  const { children, className, style } = props
-  return (
-    <HeaderContainer className={`txst-header-container ${className}`} style={style}>{children}</HeaderContainer>
-  )
-}
+interface HeaderProps extends React.HTMLAttributes<HTMLElement> {}
 
-Header.propTypes = {
-  className: PropTypes.string
+const Header = ({ children, className, ...props }: HeaderProps) => {
+  return (
+    <HeaderContainer className={`txst-header-container ${className}`} {...props}>{children}</HeaderContainer>
+  )
 }
 
 const SidebarContainer = styled.div`
@@ -62,13 +73,10 @@ const SidebarContainer = styled.div`
   }
 `
 
-const Sidebar = props => {
-  const { children, className, style } = props
-  return <SidebarContainer className={`txst-sidebar-container ${className}`} style={style}>{children}</SidebarContainer>
-}
+interface SidebarProps extends React.HTMLAttributes<HTMLElement> {}
 
-Sidebar.propTypes = {
-  className: PropTypes.string
+const Sidebar = ({ className, children, ...props }: SidebarProps) => {
+  return <SidebarContainer className={`txst-sidebar-container ${className}`} {...props}>{children}</SidebarContainer>
 }
 
 const ContentContainer = styled.main`
@@ -78,15 +86,12 @@ const ContentContainer = styled.main`
   }
 `
 
-const Content = props => {
-  const { children, className, style } = props
-  return (
-    <ContentContainer className={`txst-content-container ${className}`} style={style}>{children}</ContentContainer>
-  )
-}
+interface ContentProps extends React.HTMLAttributes<HTMLElement> {}
 
-Content.propTypes = {
-  className: PropTypes.string
+const Content = ({ children, className, ...props }: ContentProps) => {
+  return (
+    <ContentContainer className={`txst-content-container ${className}`} {...props}>{children}</ContentContainer>
+  )
 }
 
 const FooterContainer = styled.footer`
@@ -94,22 +99,24 @@ const FooterContainer = styled.footer`
     grid-area: footer;
   }
 `
+interface FooterProps extends React.HTMLAttributes<HTMLElement> {}
 
-const Footer = props => {
-  const { children, className, style } = props
+const Footer = ({ children, className, ...props }: FooterProps) => {
   return (
-    <FooterContainer className={`txst-footer-container ${className}`} style={style}>{children}</FooterContainer>
+    <FooterContainer className={`txst-footer-container ${className}`} {...props}>{children}</FooterContainer>
   )
 }
 
-Footer.propTypes = {
-  className: PropTypes.string
-}
-
-export const Layout = props => {
-  const { children, hasFooter, sidebarSize, hasSidebar, className, style } = props
+export const Layout = ({
+  children,
+  hasFooter = true,
+  sidebarSize = 200,
+  hasSidebar = true,
+  className,
+  ...props
+}: LayoutProps) => {
   let wrapperClassNames = ['txst-wrapper-no-sidebar']
-  if (hasSidebar && sidebarSize > 0) {
+  if (hasSidebar && (sidebarSize ?? 0) > 0) {
     wrapperClassNames = ['txst-wrapper']
   }
 
@@ -124,28 +131,12 @@ export const Layout = props => {
   return (
     <Wrapper
       className={`${className} ${wrapperClassNames.join(' ')}`}
-      sidebarSize={sidebarSize}
-      style={style}
+      sidebarSize={sidebarSize ?? 0}
+      {...props}
     >
       {children}
     </Wrapper>
   )
-}
-
-Layout.defaultProps = {
-  hasFooter: true,
-  hasSidebar: true,
-  sidebarSize: 200
-}
-
-Layout.propTypes = {
-  /** Setting to false will disable the footer */
-  hasFooter: PropTypes.bool,
-  /** Controls the size of the sidebar. */
-  sidebarSize: PropTypes.number,
-  /** Disables the presence of the side bar */
-  hasSidebar: PropTypes.bool,
-  className: PropTypes.string
 }
 
 Layout.Header = Header

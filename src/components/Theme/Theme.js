@@ -1,3 +1,4 @@
+import { createTheme, loadTheme } from '@fluentui/react';
 import Color from 'color'
 
 export const Theme = {
@@ -21,3 +22,31 @@ export const Theme = {
     successbg: Color('#F2F2F2')
   }
 }
+
+const fluentMaroonTheme = createTheme({
+  palette: {
+    themePrimary: '#501213',
+    themeLighterAlt: '#ead4d4',
+    themeLighter: '#d7b0b1',
+    themeLight: '#c38f90',
+    themeTertiary: '#b07273',
+    themeSecondary: '#9c5859',
+    themeDarkAlt: '#894143',
+    themeDark: '#762e2f',
+    themeDarker: '#621e1f',
+    neutralLighterAlt: '#faf9f8',
+    neutralLighter: '#f3f2f1',
+    neutralLight: '#edebe9',
+    neutralQuaternaryAlt: '#e1dfdd',
+    neutralQuaternary: '#d0d0d0',
+    neutralTertiaryAlt: '#c8c6c4',
+    neutralTertiary: '#a19f9d',
+    neutralSecondary: '#605e5c',
+    neutralPrimaryAlt: '#3b3a39',
+    neutralPrimary: '#323130',
+    neutralDark: '#201f1e',
+    black: '#000000',
+    white: '#ffffff',
+  }});
+
+  loadTheme(fluentMaroonTheme)

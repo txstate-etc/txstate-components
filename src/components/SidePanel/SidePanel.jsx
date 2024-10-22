@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel'
+import { Panel, PanelType } from '@fluentui/react/lib/Panel'
 
 const panelTypeMap = ({ size, side }) => {
   switch (size) {

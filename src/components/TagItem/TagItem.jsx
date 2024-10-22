@@ -1,5 +1,5 @@
 import React from 'react'
-import { TagItem as OfficeTagItem } from 'office-ui-fabric-react/lib/Pickers'
+import { TagItem as OfficeTagItem } from '@fluentui/react/lib/Pickers'
 
 export const TagItem = props => {
   return (

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField'
+import { ITextFieldStyles } from '@fluentui/react/lib/TextField'
 
 export interface TextAreaProps {
   label: string;

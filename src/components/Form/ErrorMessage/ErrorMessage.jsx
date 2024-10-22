@@ -1,10 +1,10 @@
 import React from 'react'
-import { Text } from 'office-ui-fabric-react/lib/Text'
+import { Text } from '@fluentui/react/lib/Text'
 import { Theme } from '../../Theme'
 import styled from 'styled-components'
 import { Stack } from '../../Stack'
 import { SvgExclamation, SvgCheckmarkIcon } from '../../Svg'
-import { Announced } from 'office-ui-fabric-react/lib/Announced'
+import { Announced } from '@fluentui/react/lib/Announced'
 
 const ErrorContainer = styled(Stack)`
   border-radius: 3px;
