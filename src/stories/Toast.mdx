@@ -1,7 +1,8 @@
-import { Meta, Story, Source, Props, Preview } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Source, Stories } from '@storybook/addon-docs/blocks';
 import { Button, Stack, Toast } from '../components'
+import * as ToastStory from './Toast.stories'
 
-<Meta title="Components|Toast" />
+<Meta of={ToastStory} />
 
 # Toast
 ---
@@ -20,10 +21,4 @@ The gravity positions listed below are available when importing the `Toast` comp
 | duration | **Length to display the toast, in ms** <br /> number | 3000 |
 | gravity  | **Position of the toast** <br /> GRAVITY.TOP_LEFT \| GRAVITY.TOP_CENTER \| GRAVITY.TOP_RIGHT \| GRAVITY.BOTTOM_LEFT \| GRAVITY.BOTTOM_CENTER \| GRAVITY.BOTTOM_RIGHT | TOP_CENTER |
 
-<Preview>
-  <Story name='toast example'>
-    <Stack horizontal horizontalAlign='center'>
-      <Button label='Show Toast' onClick={() => Toast.makeText({ message: 'Greetings!', gravity: Toast.GRAVITY.TOP_LEFT })} />
-    </Stack>
-  </Story>
-</Preview>
+<Stories />

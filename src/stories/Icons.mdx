@@ -1,0 +1,85 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/blocks';
+import { Stack } from '../components/Stack'
+import {
+  SvgAcademicIcon,
+  SvgApplyNowIcon,
+  SvgAthleticsIconSelected,
+  SvgAthleticsIconUnselected,
+  SvgBillsIconSelected,
+  SvgBillsIconUnselected,
+  SvgBobcatmail,
+  SvgBuildingMarkerIcon,
+  SvgBuildingsIcon,
+  SvgCalendarIcon,
+  SvgCheckmarkIcon,
+  SvgChevronIcon,
+  SvgClearAllIcon,
+  SvgContactsIcon,
+  SvgCourseCatalogIcon,
+  SvgCoursesIconSelected,
+  SvgCoursesIconUnselected,
+  SvgCustomizeIcon,
+  SvgDataIcon,
+  SvgDiningIcon,
+  SvgEmailIcon,
+  SvgEventsIconSelected,
+  SvgEventsIconUnselected,
+  SvgExit,
+  SvgFeedback,
+  SvgFilterIcon,
+  SvgGradCapIcon,
+  SvgHamburgerIcon,
+  SvgHelpIcon,
+  SvgHoldsIconSelected,
+  SvgHoldsIconUnselected,
+  SvgHomeIcon,
+  SvgInfo,
+  SvgListIcon,
+  SvgMinusIcon,
+  SvgMoveIcon,
+  SvgMytxstIcon,
+  SvgNewsEventsIcon,
+  SvgNewsIconSelected,
+  SvgNewsIconUnselected,
+  SvgNoBus,
+  SvgNotificationsIcon,
+  SvgPhoneIcon,
+  SvgPlusIcon,
+  SvgRoutesIcon,
+  SvgSapIcon,
+  SvgSettingsIcon,
+  SvgShuttleIcon,
+  SvgShuttleMapMarkerDark,
+  SvgSurveyIcon,
+  SvgSmallWhiteTxstLogo,
+  SvgStopsIconSelected,
+  SvgStopsIconUnselected,
+  SvgToggleOffIcon,
+  SvgToggleOnIcon,
+  SvgTracsLogo,
+  SvgTxstMobileLogoSplash,
+  SvgTxstMobileLogo,
+  SvgVisitCampus,
+  SvgWhiteTxstHeaderLogo,
+  SvgLittleArrow,
+  SvgColumnLine,
+  SvgExclamation
+} from '../components/Svg'
+import * as IconsStories from './Icons.stories';
+
+<Meta of={IconsStories} />
+
+# Icons
+
+```js
+import { SvgHomeIcon } from '@txstate-mws/txstate-react/lib/components/Svg/SvgSomeIcon'
+```
+
+## Props
+
+Fill and stroke colors may do different things for icons, depending on how they're drawn. Setting fill
+to a specific color will *usually* color the entire icon. In some cases stroke will need to be set as well.
+
+<ArgTypes of={SvgHomeIcon} />
+
+<Canvas of={IconsStories.IconStory} />

@@ -30,6 +30,8 @@ export const Table = props => {
   const { initialPageSize, dataSource, columns, onSelectedRowsChange, selectableRows, selectableRowDisabled, title, keyField, WithSelectedArea } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
+  console.log(dataSource)
+
   const {
     onChangePage,
     onChangeRowsPerPage,

@@ -9,18 +9,18 @@ export const DatePicker = props => {
   const {
     path,
     initialValue,
-    mask,
-    minDate,
-    maxDate,
     minDateMessage,
     maxDateMessage,
-    displayFormat,
-    placeholder,
     label,
-    format,
     emptyLabel,
-    disabled,
-    variant
+    disabled = false,
+    variant = 'dialog',
+    mask = '__/__/____',
+    format = 'MM/DD/YYYY',
+    placeholder = '10/31/2019',
+    displayFormat = 'MM/DD/YYYY',
+    minDate = dayjs('1900-01-01'),
+    maxDate = dayjs('2099-01-01')
   } = props
 
   const initialDate = useMemo(() => {
@@ -54,17 +54,6 @@ export const DatePicker = props => {
     />
     <ErrorMessage error={error} success={success} />
   </React.Fragment>
-}
-
-DatePicker.defaultProps = {
-  variant: 'dialog',
-  minDate: new Date('1900-01-01'),
-  maxDate: new Date('2100-01-01'),
-  displayFormat: 'MM/DD/YYYY',
-  format: 'MM/DD/YYYY',
-  mask: '__/__/____',
-  placeholder: '10/31/2019',
-  disabled: false
 }
 
 DatePicker.propTypes = {

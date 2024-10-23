@@ -1,0 +1,53 @@
+import { Meta, Source, ArgTypes, Canvas } from '@storybook/blocks';
+import { Layout } from '../components'
+import styled from 'styled-components'
+import * as LayoutStories from './Layout.stories';
+
+<Meta of={LayoutStories} />
+
+# Layout Components
+
+```jsx
+import { Layout } from '@txstate-mws/txstate-react/lib/components'
+const { Header, Footer, Content, Sidebar } = Layout
+```
+
+## Layout
+
+<Canvas of={LayoutStories.LayoutStory} />
+
+### Props
+
+<ArgTypes of={Layout} />
+
+## Header
+
+<Canvas of={LayoutStories.HeaderStory} />
+
+### Props
+
+<ArgTypes of={Layout.Header} />
+
+## Footer
+
+<Canvas of={LayoutStories.FooterStory} />
+
+### Props
+
+<ArgTypes of={Layout.Footer} />
+
+## Sidebar
+
+<Canvas of={LayoutStories.SidebarStory} />
+
+### Props
+
+<ArgTypes of={Layout.Sidebar} />
+
+## Content
+
+<Canvas of={LayoutStories.ContentStory} />
+
+### Props
+
+<ArgTypes of={Layout.Content} />

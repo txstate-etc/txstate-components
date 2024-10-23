@@ -40,3 +40,13 @@ export const PanelExamples = props => {
     </>
   )
 }
+
+export default {
+  title: 'Components | Panel',
+  component: PanelExamples
+}
+
+export const Panel = {
+  title: 'Panel',
+  component: PanelExamples
+}

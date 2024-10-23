@@ -31,4 +31,12 @@ class ModalExamples extends React.Component {
   }
 }
 
-export default ModalExamples
+export default {
+  title: 'Component | Modal',
+  component: ModalExamples
+}
+
+export const ModalEx = {
+  name: 'Modal',
+  component: ModalExamples
+}

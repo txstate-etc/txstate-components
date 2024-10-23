@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { LoadingOverlay, Button } from '../components'
 
 class LoadingOverlayExamples extends React.Component {
@@ -34,4 +34,12 @@ class LoadingOverlayExamples extends React.Component {
   }
 }
 
-export default LoadingOverlayExamples
+export const LoadingOverlayExample = {
+  name: 'Loading Overlay',
+  component: LoadingOverlayExamples
+}
+
+export default {
+  title: 'Components | Loading Overlay',
+  component: LoadingOverlayExamples
+}

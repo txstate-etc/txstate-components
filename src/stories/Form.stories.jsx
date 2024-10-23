@@ -1,5 +1,3 @@
-import { storiesOf } from '@storybook/react'
-import axios from 'axios'
 import dayjs from 'dayjs'
 import { EditorState, Modifier } from 'draft-js'
 import get from 'lodash/get'
@@ -53,10 +51,11 @@ const StyledRichText = styled(RichText)`
 const FormExample = props => {
   const [shouldMountFriendIcecream, setShouldMountFriendIcecream] = useState(true)
   const handleSubmit = useCallback(async ({ form, errors }) => {
-    const res = await axios({
+    const res = await fetch({
       method: 'get',
       url: 'https://swapi.co/api/people/21'
     })
+    
     const lastName = get(form, 'name.last')
     console.log(res.data.name)
     if (lastName !== get(res.data, 'name')) {
@@ -121,7 +120,7 @@ const FormExample = props => {
               <DatePicker label='Delivery Date' path='date.delivery' variant='inline' initialValue={null} minDateMessage='Too soon!' />
             </div>
             <div style={{ flex: 1 }}>
-              <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24').toDate()} />
+              <DatePicker label='Pickup Date' path='date.pickup' variant='inline' initialValue={dayjs('2017-01-24')} />
             </div>
           </Stack>
           {shouldMountFriendIcecream && <StyledInput label={'Friend\'s Icecream'} path='friend.icecreamFlavor' />}
@@ -291,16 +290,26 @@ const EmailTokenInsert = () => {
   )
 }
 
-storiesOf('Form|Simple', module)
-  .add('basic', () => {
-    return <FormExample />
-  })
-  .add('path updates', () => {
-    return <PathUpdateForm />
-  })
-  .add('indexed error tracking', () => {
-    return <IndexedErrorForm />
-  })
-  .add('email token insertion', () => {
-    return <EmailTokenInsert />
-  })
+export default {
+  title: 'Components | Form',
+  component: FormExample
+}
+
+export const FormStory = {
+  name: 'Form',
+  component: FormExample
+}
+
+// storiesOf('Form|Simple', module)
+//   .add('basic', () => {
+//     return <FormExample />
+//   })
+//   .add('path updates', () => {
+//     return <PathUpdateForm />
+//   })
+//   .add('indexed error tracking', () => {
+//     return <IndexedErrorForm />
+//   })
+//   .add('email token insertion', () => {
+//     return <EmailTokenInsert />
+//   })

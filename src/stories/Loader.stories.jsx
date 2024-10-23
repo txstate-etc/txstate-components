@@ -1,7 +1,11 @@
 import React from 'react'
 import { Loader, Stack, Text, Button } from '../components'
-import axios from 'axios'
 import styled from 'styled-components'
+
+export default {
+  title: 'Component | Loader',
+  component: Loader
+}
 
 const Title = styled(Text)`
   font-size: 1.2rem;
@@ -51,13 +55,14 @@ const StoriesView = props => {
 }
 
 const getStory = async (id) => {
-  const result = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-  return result.data
+  const result = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+  return result.json()
 }
 
 const getStories = async (count = 8) => {
-  const results = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json')
-  const topStoryIds = results.data.slice(0, count)
+  const results = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+  const json = await results.json()
+  const topStoryIds = json.slice(0, count)
 
   const storyResults = await Promise.all(topStoryIds.map(getStory))
   return storyResults

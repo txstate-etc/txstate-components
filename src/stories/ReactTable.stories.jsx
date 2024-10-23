@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import '../components/Table/ReactTable.css'
 import { ReactTable, Button, Stack } from '../components'
-import axios from 'axios'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { useEvent } from '../hooks'
 import styled from 'styled-components'
 
@@ -13,10 +12,6 @@ const Buttons = styled(Stack)`
     background-color: tomato;
   }
 `
-
-const randomUser = axios.create({
-  baseURL: 'https://randomuser.me/api'
-})
 
 const api = {
   async getPeople (page, pageSize = 10, sort = { order: 'none', column: '' }, filter = {}) {
@@ -40,39 +35,45 @@ const api = {
     }
 
     switch (sort.order) {
-      case 'asc':
-        const ascendingResults = await randomUser.get(`?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
-        ascendingResults.data.results.sort((a, b) => {
+      case 'asc': {
+        const res = await fetch(`https://randomuser.me/api?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
+        const ascendingResults = await res.json()
+        ascendingResults.results.sort((a, b) => {
           if (get(a, sort.column) > get(b, sort.column)) return 1
           if (get(a, sort.column) < get(b, sort.column)) return -1
           return 0
         })
-        ascendingResults.data.results = ascendingResults.data.results.slice(start, end)
+        ascendingResults.results = ascendingResults.results.slice(start, end)
         return {
-          list: ascendingResults.data.results,
+          list: ascendingResults.results,
           lastPage: Math.ceil(totalResults / pageSize)
         }
-      case 'desc':
-        const descendingResults = await randomUser.get(`?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
-        descendingResults.data.results.sort((a, b) => {
+      }
+      case 'desc': {
+        const res = await fetch(`https://randomuser.me/api?gender=${gender}&results=${totalResults}${gender ? '' : '&seed=potluck'}`)
+        const descendingResults = await res.json()
+        descendingResults.results.sort((a, b) => {
           if (get(a, sort.column) > get(b, sort.column)) return -1
           if (get(a, sort.column) < get(b, sort.column)) return 1
           return 0
         })
-        descendingResults.data.results = descendingResults.data.results.slice(start, end)
+        descendingResults.results = descendingResults.results.slice(start, end)
         return {
-          list: descendingResults.data.results,
+          list: descendingResults.results,
           lastPage: Math.ceil(totalResults / pageSize)
         }
-      default:
-        const unsortedResults = await randomUser.get(`?gender=${gender}&page=${page + 1}&results=${pageSize}${gender ? '' : '&seed=potluck'}`)
+      }
+      default: {
+        const res = await fetch(`https://randomuser.me/api?gender=${gender}&page=${page + 1}&results=${pageSize}${gender ? '' : '&seed=potluck'}`)
+        const unsortedResults = await res.json()
         if (isLastPage) {
-          unsortedResults.data.results = unsortedResults.data.results.slice(0, totalResults % pageSize)
+          unsortedResults.results = unsortedResults.results.slice(0, totalResults % pageSize)
         }
         return {
-          list: unsortedResults.data.results,
+          list: unsortedResults.results,
           lastPage: Math.ceil(totalResults / pageSize)
         }
+      }
     }
   }
 }
@@ -183,4 +184,14 @@ export const ReactTableExample = props => {
       />
     </>
   )
+}
+
+export const ReactTableStory = {
+  name: 'React Table',
+  component: ReactTableExample
+}
+
+export default {
+  title: 'Components | React Table',
+  component: ReactTableExample
 }

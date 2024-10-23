@@ -1,23 +1,17 @@
-import { Meta, Story, Props, Preview } from "@storybook/addon-docs/blocks"
+import { Meta, Story, ArgTypes, Canvas } from "@storybook/blocks"
 import { BasePicker } from "../components"
+import * as BasePickerStory from './Picker.stories'
 
-<Meta title="Components|Picker" component={BasePicker} />
+<Meta title="Components|Picker" of={BasePickerStory} />
 
 # Picker
 
 ```js
-import { BasePicker } from "txstate-react/lib/components"
+import { BasePicker } from "@txstate-mws/txstate-react/lib/components"
 ```
 
-## Props
 
----
-
-If either `value` or `onChange` are provided, both must be provided. These props turn the picker into a controlled component.
-
-<Props of={BasePicker} />
-
-<Preview>
+<Canvas>
   <Story name="picker">
     <BasePicker
       items={[
@@ -32,4 +26,12 @@ If either `value` or `onChange` are provided, both must be provided. These props
       itemLimit={3}
     />
   </Story>
-</Preview>
+</Canvas>
+
+
+## Props
+
+If either `value` or `onChange` are provided, both must be provided. These props turn the picker into a controlled component.
+
+<ArgTypes of={BasePicker} />
+

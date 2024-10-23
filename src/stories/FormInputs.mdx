@@ -1,0 +1,132 @@
+import { Meta, Story, Source, ArgTypes, Canvas } from '@storybook/blocks';
+import { Form, Button, Label, Stack } from '../components' 
+import { 
+  TextInput,
+  Checkbox,
+  RadioGroup,
+  RichText,
+  DatePicker,
+  DateTimePicker,
+  TimePicker,
+  TagPicker,
+  TextArea,
+  Dropdown,
+  Toggle
+} from '../components/Form/Inputs'
+import * as FormInputsStories from './FormInputs.stories';
+
+<Meta of={FormInputsStories} />
+
+# TextInput
+
+```js
+import { TextInput } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={TextInput} />
+
+<Canvas of={FormInputsStories.TextInputStory} />
+
+# TextArea
+
+```js
+import { TextArea } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={TextArea} />
+
+<Canvas of={FormInputsStories.TextAreaStory} />
+
+# Dropdown
+
+```js
+import { Dropdown } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={Dropdown} />
+
+<Canvas of={FormInputsStories.DropdownStory} />
+
+# Tag Picker
+
+```js
+import { TagPicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={TagPicker} />
+
+<Canvas of={FormInputsStories.PickerStory} />
+
+# Toggle
+
+```js
+import { Toggle } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={Toggle} />
+
+<Canvas of={FormInputsStories.ToggleStory} />
+
+# Checkbox
+
+```js
+import { Checkbox } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={Checkbox} />
+
+<Canvas of={FormInputsStories.CheckboxStory} />
+
+# RadioGroup
+
+```js
+import { RadioGroup } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={RadioGroup} />
+
+<Canvas of={FormInputsStories.RadiogroupStory} />
+
+# Date/Time Pickers
+
+***
+
+## Date Picker
+
+```js
+import { DatePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={DatePicker} />
+
+<Canvas of={FormInputsStories.DatePickerStory} />
+
+## DateTime Picker
+
+```js
+import { DateTimePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={DateTimePicker} />
+
+<Canvas of={FormInputsStories.DateTimePickerStory} />
+
+## Time Picker
+
+```js
+import { TimePicker } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={TimePicker} />
+
+<Canvas of={FormInputsStories.TimePickerStory} />
+
+# Rich Text Editor
+
+```js
+import { RichText } from 'txstate-react/lib/components/Form/Inputs'
+```
+
+<ArgTypes of={RichText} />
+
+<Canvas of={FormInputsStories.RichTextStory} />
