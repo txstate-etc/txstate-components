@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Column, ComponentDecoratorProps } from 'react-table'
+import { Column } from 'react-table'
 
 export interface TableColumns {
   name?: string;
@@ -41,7 +41,7 @@ export interface TableProps {
   columns?: TableColumns[];
   selectableRows?: boolean;
   selectableRowDisabled?: (...args: any[]) => any;
-  dataSource?: TableDataSourceFunction
+  dataSource?: () => any
   onSelectedRowsChange?: (...args: any[]) => any | any;
   initialPageSize?: number;
   title?: string;

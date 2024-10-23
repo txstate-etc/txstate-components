@@ -30,8 +30,6 @@ export const Table = props => {
   const { initialPageSize, dataSource, columns, onSelectedRowsChange, selectableRows, selectableRowDisabled, title, keyField, WithSelectedArea } = props
   const [initialLoad, setInitialLoad] = useState(true)
 
-  console.log(dataSource)
-
   const {
     onChangePage,
     onChangeRowsPerPage,
@@ -58,9 +56,9 @@ export const Table = props => {
     <div style={{ position: 'relative' }}>
       <Loading initialLoad={initialLoad} switchingPage={fetchingPage} />
       <BaseTable
-        initialLoad={initialLoad}
         columns={columns}
         data={data}
+        initialLoad={initialLoad}
         noDataComponent={Array.isArray(data) && data.length === 0 && fetchingPage ? <div /> : <div>No Records Found</div>}
         title={title}
         keyField={keyField}

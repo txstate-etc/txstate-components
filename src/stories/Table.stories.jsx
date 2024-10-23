@@ -6,8 +6,6 @@ async function getPeople (page = 1, pageSize = 10, sort = { order: 'none', selec
   const totalResults = 48
   await new Promise(resolve => setTimeout(resolve, 1000))
   const res = await fetch(`https://randomuser.me/api?page=${page}&results=${pageSize}&seed=potluck`)
-  console.log(res)
-  console.log(await res.json())
   const { results } = await res.json()
   switch (sort.order) {
     case 'asc':
@@ -41,7 +39,7 @@ async function getPeople (page = 1, pageSize = 10, sort = { order: 'none', selec
 const buildColumn = (name, selector, format) => {
   return {
     name,
-    selector,
+    selector: row => row[selector],
     sortable: true,
     format
   }
@@ -58,43 +56,34 @@ const columns = [
   buildColumn('Phone', 'phone')
 ]
 
-const TableExample = props => {
-  return (<React.Fragment>
-    <Table
-      title='People'
-      columns={columns}
-      keyField='login.uuid'
-      dataSource={api.getPeople}
-      initialPageSize={10}
-    />
-  </React.Fragment>)
-}
-
-const TableSelectable = props => {
-  return (<React.Fragment>
-    <Table
-      title='People'
-      columns={columns}
-      keyField='login.uuid'
-      dataSource={getPeople}
-      initialPageSize={10}
-      selectableRows
-      onSelectedRowsChange={() => console.log('go brr')}
-      WithSelectedArea={(props) => {
-        return (<Button label='Refresh' onClick={props.refreshData} />)
-      }}
-    />
-  </React.Fragment>)
-}
 
 export const TableStory = {
   name: 'Table',
-  component: TableExample
+  component: Table,
+  args: {
+    title: 'People',
+    columns: columns,
+    keyField: 'login.uuid',
+    dataSource: getPeople,
+    initialPageSize: 10
+  }
 }
 
 export const SelectableTableStory = {
   name: 'Selectable Table',
-  component: TableSelectable
+  component: Table,
+  args: {
+    title: 'People',
+    columns: columns,
+    keyField: 'login.uuid',
+    dataSource: getPeople,
+    initialPageSize: 10,
+    selectableRows: true,
+    onSelectedRowsChange: () => console.log('go brr'),
+    WithSelectedArea: (props) => {
+      return (<Button label='Refresh' onClick={props.refreshData} />)
+    }
+  }
 }
 
 export default {

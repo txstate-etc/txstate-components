@@ -167,47 +167,10 @@ export const ReactTable = props => {
     }
   }, [getTheadThProps])
 
+
   return (
     <Table
-      manual
-      className={className}
-      showPageSizeOptions={showPageSizeOptions}
-      showPageJump={showPageJump}
-      page={state.data.page}
-      pages={state.data.lastPage}
-      pageSize={state.data.pageSize}
-      pageSizeOptions={pageSizeOptions}
-      onPageSizeChange={onPageSizeChange}
-      loading={state.loading}
-      data={state.data.list}
-      onPageChange={onPageChange}
-      onSortedChange={onSortedChange}
-      columns={extendedColumns}
-      getProps={getProps}
-      getTableProps={getTableProps}
-      getTheadGroupProps={getTheadGroupProps}
-      getTheadGroupTrProps={getTheadGroupTrProps}
-      getTheadGroupThProps={getTheadGroupThProps}
-      getTheadProps={getTheadProps}
-      getTheadTrProps={getTheadTrProps}
-      ThComponent={Header}
-      getTheadThProps={handleGetTheadThProps}
-      getTheadFilterProps={getTheadFilterProps}
-      getTheadFilterTrProps={getTheadFilterTrProps}
-      getTheadFilterThProps={getTheadFilterThProps}
-      getTbodyProps={getTbodyProps}
-      getTrGroupProps={getTrGroupProps}
-      getTrProps={getTrProps}
-      getTdProps={getTdProps}
-      getPaginationProps={getPaginationProps}
-      getLoadingProps={getLoadingProps}
-      getNoDataProps={getNoDataProps}
-      getResizerProps={getResizerProps}
-      PaginationComponent={(props) => <Pagination {...props} ButtonRow={ButtonRow} />}
-      minRows={minRows || 0}
-      noDataText={state.loading ? '' : noDataText}
-      showPaginationTop
-      showPaginationBottom
+      
     />
   )
 }
