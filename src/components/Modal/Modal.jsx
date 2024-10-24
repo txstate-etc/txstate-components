@@ -1,6 +1,6 @@
-import BaseModal from '@material-ui/core/Modal'
-import Fade from '@material-ui/core/Fade'
-import Backdrop from '@material-ui/core/Backdrop'
+import BaseModal from '@mui/material/Modal'
+import Fade from '@mui/material/Fade'
+import Backdrop from '@mui/material/Backdrop'
 import PropTypes from 'prop-types'
 import React from 'react'
 
