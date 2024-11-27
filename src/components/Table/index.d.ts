@@ -3,7 +3,7 @@ import { Column } from 'react-table'
 
 export interface TableColumns {
   name?: string;
-  selector?: string;
+  selector?: (row: any) => string;
   sortable?: boolean;
   format?: (...args: any[]) => any;
   cell?: any;
