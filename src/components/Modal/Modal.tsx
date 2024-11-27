@@ -3,7 +3,7 @@ import Fade from '@mui/material/Fade'
 import Backdrop from '@mui/material/Backdrop'
 import React from 'react'
 
-interface ModalProps {
+export interface ModalProps {
   ariaLabel: string
   isOpen: boolean
   onClose: () => void
