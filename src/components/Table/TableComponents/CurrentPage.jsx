@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { useEvent } from '../../../hooks/useEvent'
 import { Theme } from '../../Theme'
 

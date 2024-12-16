@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { Stack, Button, SidePanel, Form, DatePicker } from '../components'
 
 const Title = styled.h1``

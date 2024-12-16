@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from '@fluentui/react/lib/Text'
 import { Theme } from '../../Theme'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { Stack } from '../../Stack'
 import { SvgExclamation, SvgCheckmarkIcon } from '../../Svg'
 import { Announced } from '@fluentui/react/lib/Announced'

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { Stack } from '../../Stack'
 import { Theme } from '../../Theme'
 import { CurrentPage } from './CurrentPage'

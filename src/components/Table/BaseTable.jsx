@@ -1,5 +1,5 @@
 import React from 'react'
-import DataTable from 'react-data-table-component'
+import DataTable from '../DataTable/DataTable'
 
 // TODO: Custom rows
 // TODO: Selectable rows

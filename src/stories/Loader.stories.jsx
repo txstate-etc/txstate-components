@@ -1,6 +1,6 @@
 import React from 'react'
 import { Loader, Stack, Text, Button } from '../components'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 export default {
   title: 'Component | Loader',

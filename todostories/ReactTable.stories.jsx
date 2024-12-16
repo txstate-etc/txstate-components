@@ -3,7 +3,7 @@ import '../components/Table/ReactTable.css'
 import { ReactTable, Button, Stack } from '../components'
 import { get } from 'lodash'
 import { useEvent } from '../hooks'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const Buttons = styled(Stack)`
   width: fit-content;

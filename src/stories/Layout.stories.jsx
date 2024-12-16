@@ -1,5 +1,5 @@
 import { Layout } from "../components";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 export default {
   title: "Components|Layout",

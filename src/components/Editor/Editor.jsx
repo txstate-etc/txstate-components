@@ -2,7 +2,7 @@ import React from 'react'
 import { Editor as Wysiwyg } from 'react-draft-wysiwyg'
 import { EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 const TOOLBAR_OPTIONS = {
   options: [

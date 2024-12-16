@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BaseTable } from './BaseTable'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { useTable } from '../../hooks'
 import PropTypes from 'prop-types'
 
