@@ -148,12 +148,10 @@ const FormExample = props => {
             path='email.html'
           />
         </FormInputs>
-        <Stack.Item>
-          <Stack spacing={12} horizontal>
-            <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
-            <Button label='Submit' ariaLabel='submit example form' type='submit' />
-          </Stack>
-        </Stack.Item>
+        <Stack spacing={12} horizontal>
+          <Button variant='outline' label='Cancel' ariaLabel='cancel form' />
+          <Button label='Submit' ariaLabel='submit example form' type='submit' />
+        </Stack>
       </Form>
     </Stack>
   )
@@ -167,15 +165,17 @@ const PathUpdateForm = () => {
         onChange={({ form }) => console.log(form.name)}
         onSubmit={({ form }) => console.log(form)}
         initialValues={{
-          age: 32
+          age: 32,
+          check: true
         }}
         ref={form}
       >
         <StyledInput label='Name' path='name' />
         <StyledInput label='Age' path='age' />
+        <Checkbox path='check' label='Human?' />
         <Button type='submit' label='Submit' />
       </Form>
-      <Button label='Update Name' onClick={() => form.current.updatePath('name', 'Andrew')} />
+      <Button label='Clear checkbox' onClick={() => form.current.updatePath('check', '')} />
     </Stack>
   )
 }
